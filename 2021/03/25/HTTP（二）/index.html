@@ -1,0 +1,534 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon1.png">
+  <link rel="icon" href="/img/favicon1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="HTTP协议结构解析、四次挥手、状态码等。">
+  <meta name="author" content="Hy">
+  <meta name="keywords" content="">
+  
+  <title>HTTP（二） - Hy&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Hy</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="HTTP（二）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-25 10:26" pubdate>
+        2021年3月25日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">HTTP（二）</h1>
+            
+            <div class="markdown-body">
+              <h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h1><h2 id="1-1-请求报文"><a href="#1-1-请求报文" class="headerlink" title="1.1 请求报文"></a>1.1 请求报文</h2><p><img src="/pics/HTTP/2-1.2-1.png" alt="请求报文结构"></p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs http">GET https://www.baidu.com/s?wd=http<br><span class="hljs-attribute">User-Agent</span><span class="hljs-punctuation">: </span>PostmanRuntime/7.26.8<br><span class="hljs-attribute">Accept</span><span class="hljs-punctuation">: </span>*/*<br><span class="hljs-attribute">Cache-Control</span><span class="hljs-punctuation">: </span>no-cache<br><span class="hljs-attribute">Postman-Token</span><span class="hljs-punctuation">: </span>e1e15e53-d0bf-4e18-addb-41cade1568f7<br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>www.baidu.com<br><span class="hljs-attribute">Accept-Encoding</span><span class="hljs-punctuation">: </span>gzip, deflate, br<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><span class="hljs-attribute">Cookie</span><span class="hljs-punctuation">: </span>BD_NOT_HTTPS=1; BIDUPSID=BFBD3C478E38EF126BCD302DA30EE5DB; PSTM=1616657765; BAIDUID=BFBD3C478E38EF120897C0D3EAD08169:FG=1<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="1-2-响应报文"><a href="#1-2-响应报文" class="headerlink" title="1.2 响应报文"></a>1.2 响应报文</h2><p><img src="/pics/HTTP/2-1.2-2.png" alt="响应报文结构"></p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-meta">HTTP/1.1</span> <span class="hljs-number">200</span> OK<br><span class="hljs-attribute">Accept-Ranges</span><span class="hljs-punctuation">: </span>bytes<br><span class="hljs-attribute">Cache-Control</span><span class="hljs-punctuation">: </span>no-cache<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>227<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>text/html<br><span class="hljs-attribute">Date</span><span class="hljs-punctuation">: </span>Thu, 25 Mar 2021 07:39:11 GMT<br><span class="hljs-attribute">Pragma</span><span class="hljs-punctuation">: </span>no-cache<br><span class="hljs-attribute">Server</span><span class="hljs-punctuation">: </span>BWS/1.1<br><span class="hljs-attribute">Set-Cookie</span><span class="hljs-punctuation">: </span>BD_NOT_HTTPS=1; path=/; Max-Age=300<br><span class="hljs-attribute">Strict-Transport-Security</span><span class="hljs-punctuation">: </span>max-age=0<br><span class="hljs-attribute">Traceid</span><span class="hljs-punctuation">: </span>1616657951041157658617984224955480001568<br><span class="hljs-attribute">X-Ua-Compatible</span><span class="hljs-punctuation">: </span>IE=Edge,chrome=1<br><br><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span></span><br><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span></span><br><span class="xml">	<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="javascript"><span class="xml">		location.replace(location.href.replace(<span class="hljs-string">&quot;https://&quot;</span>,<span class="hljs-string">&quot;http://&quot;</span>));</span></span><br><span class="javascript"><span class="xml">	</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span></span><br><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span></span><br><span class="xml">	<span class="hljs-tag">&lt;<span class="hljs-name">noscript</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;refresh&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;0;url=http://www.baidu.com/&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">noscript</span>&gt;</span></span><br><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span><br><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+
+<h2 id="1-3-其他"><a href="#1-3-其他" class="headerlink" title="1.3 其他"></a>1.3 其他</h2><ol>
+<li>HTTP是不保存状态的协议。<br>每次有新的请求时，就会产生新的响应，协议本身不保留之前的请求或响应报文数据。<br>为了解决这个问题，引入了Cookie技术，就可以在使用HTTP协议时管理状态。</li>
+</ol>
+<h1 id="2-请求方法"><a href="#2-请求方法" class="headerlink" title="2. 请求方法"></a>2. 请求方法</h1><h2 id="2-1-GET"><a href="#2-1-GET" class="headerlink" title="2.1 GET"></a>2.1 GET</h2><p><strong>GET</strong>方法用来请求被URI识别的资源。资源被服务器解析后返回响应内容，如果是文本类型，就直接返回；如果是接口，则返回执行后的结果。</p>
+<p>传递参数的长度是受限制的，因为参数会直接拼接到请求链接后面，可以在地址栏中看到，浏览器或者网站对URL长度有限制。</p>
+<p>因此，通常在HTTP请求时使用GET。</p>
+<h2 id="2-2-POST"><a href="#2-2-POST" class="headerlink" title="2.2 POST"></a>2.2 POST</h2><p><strong>POST</strong>常用作传输实体内容部分（1.1 请求报文结构图）。</p>
+<p>将参数封装到HTTP请求中，可以使用 key-value、JSON 等格式传输，可以传递大量数据，对数据量没有限制。不会限制到地址栏中。</p>
+<p>表单提交时，使用POST。</p>
+<h2 id="2-3-PUT"><a href="#2-3-PUT" class="headerlink" title="2.3 PUT"></a>2.3 PUT</h2><p>常用来存放文件，和POST类似，可以向服务器传输数据。但是有个区别，PUT会指定传输资源的存放路径，POST则由服务器指定。</p>
+<h2 id="2-4-HEAD"><a href="#2-4-HEAD" class="headerlink" title="2.4 HEAD"></a>2.4 HEAD</h2><p><strong>HEAD</strong>可以获取报文头部内容。</p>
+<p>和GET请求类似，但是服务端只返回响应头，不返回具体内容。</p>
+<p>如果只想查看页面状态，使用HEAD会更加高效。</p>
+<h2 id="2-5-DELETE"><a href="#2-5-DELETE" class="headerlink" title="2.5 DELETE"></a>2.5 DELETE</h2><p><strong>DELETE</strong>可以删除某个资源。</p>
+<p>按照请求的URI删除指定资源，本身没有验证机制，一般和网站验证机制配合或者接口使用RESTFul时使用。</p>
+<h2 id="2-6-OPTIONS"><a href="#2-6-OPTIONS" class="headerlink" title="2.6 OPTIONS"></a>2.6 OPTIONS</h2><p>查询当前URL支持的方法，如果请求成功，会在HTTP头中包含一个 “Allow” 字段，值是支持的方法，例如：GET、POST等。</p>
+<h2 id="2-7-TRANCE"><a href="#2-7-TRANCE" class="headerlink" title="2.7 TRANCE"></a>2.7 TRANCE</h2><p>显示服务器收到请求的通信过程：查询发送的请求是怎样被加工、篡改的。</p>
+<p>在请求头中添加了 “Max-Forwards” 字段，该字段中填入一个数值，每经过一台代理服务器，该数值减1，当减为0时就停止传输，最后收到请求的服务器返回状态码 200 OK。</p>
+<p>常用作测试、诊断等，容易引起XST（跨站追踪）攻击。</p>
+<h2 id="2-8-CONNECT"><a href="#2-8-CONNECT" class="headerlink" title="2.8 CONNECT"></a>2.8 CONNECT</h2><p>与代理服务器通信时建立隧道，并通过隧道协议进行TCP通信，使用 SSL（安全套接层）和TLS（传输层安全）协议，把内容加密后经过隧道传输。</p>
+<h1 id="3-持久连接"><a href="#3-持久连接" class="headerlink" title="3. 持久连接"></a>3. 持久连接</h1><p>在HTTP的初始版本中，每进行一次通信就要断开HTTP连接。如果访问一个包含多张图片的网页时，每次请求都要产生无谓的TCP连接和断开，增加通信量的开销。</p>
+<p>为了解决这个问题，提出了<strong>持久连接：只要任意一端没有提出断开连接，则保持TCP连接状态。</strong></p>
+<p><strong>管线化：</strong></p>
+<ul>
+<li>能够并行发送多个请求，不需要挨个等待响应。</li>
+</ul>
+<h2 id="3-1-四次挥手"><a href="#3-1-四次挥手" class="headerlink" title="3.1 四次挥手"></a>3.1 四次挥手</h2><p><img src="/pics/HTTP/2-3.1-1.png" alt="四次挥手示意图"></p>
+<h1 id="4-状态码"><a href="#4-状态码" class="headerlink" title="4. 状态码"></a>4. 状态码</h1><table>
+    <tr>
+        <td></td>
+        <td align="center">类别</td>
+        <td align="center">含义</td>
+    </tr>
+    <tr>
+        <td>1XX</td>
+        <td>Informational（信息性状态码）</td>
+        <td>接收的请求正在处理</td>
+    </tr>
+    <tr>
+        <td>2XX</td>
+        <td>Success（成功状态码）</td>
+        <td>请求正常处理完毕</td>
+    </tr>
+    <tr>
+        <td>3XX</td>
+        <td>Redirection（重定向状态码）</td>
+        <td>需要进行附加操作以完成请求</td>
+    </tr>
+    <tr>
+        <td>4XX</td>
+        <td>Client Error（客户端错误状态码）</td>
+        <td>服务器无法处理请求</td>
+    </tr>
+    <tr>
+        <td>5XX</td>
+        <td>Server Error（服务器错误状态码）</td>
+        <td>服务器处理请求出错</td>
+    </tr>
+</table>
+
+
+<h1 id="5-Web服务器"><a href="#5-Web服务器" class="headerlink" title="5. Web服务器"></a>5. Web服务器</h1><h2 id="5-1-代理"><a href="#5-1-代理" class="headerlink" title="5.1 代理"></a>5.1 代理</h2><p>代理是有转发功能的应用程序，接收由客户端发送的请求并转发给服务器，同时也接收服务器返回的响应并转发给客户端。</p>
+<p>代理不改变请求URI，会直接发送给有资源的目标服务器，每次通过代理服务器转发请求或响应时，会追加写入 Via 信息，标记经过的主机的信息。</p>
+<p><img src="/pics/HTTP/2-5.1-1.png" alt="代理服务器转发请求和响应"></p>
+<p>代理有多种使用方法，一般按照两种基准分类：</p>
+<ol>
+<li><p>是否使用缓存代理</p>
+<p>代理转发响应时，<strong>缓存代理（Caching Proxy）</strong>会预先将资源缓存保存在代理服务器上。</p>
+<p>当代理再次收到对相同资源的请求时，就直接返回资源，不再去服务器获取。</p>
+</li>
+<li><p>是否修改报文</p>
+<p>转发请求或响应时，不对报文进行任何加工的代理类型被称为<strong>透明代理（Transparent Proxy）</strong>。</p>
+<p>反之，则被称为非透明代理。</p>
+</li>
+</ol>
+<h2 id="5-2-网关"><a href="#5-2-网关" class="headerlink" title="5.2 网关"></a>5.2 网关</h2><p>工作机制和代理类似，网关可以使通信线路上的服务器提供非HTTP协议服务。</p>
+<p>因为可以在客户端和网关之间通信线路加密，所有可以提高通信的安全性。</p>
+<p><img src="/pics/HTTP/2-5.2-1.png" alt="网关转化为非HTTP请求"></p>
+<h1 id="6-资源缓存"><a href="#6-资源缓存" class="headerlink" title="6. 资源缓存"></a>6. 资源缓存</h1><p>缓存是指 <strong>代理服务器</strong> 或者 <strong>客户端</strong> 内保存的资源副本。利用缓存可有效减少对服务器的请求，节省了流量和通信时间。</p>
+<p>即使存在缓存，也会因为客户端的要求、缓存的有效期等因素，向服务器确认资源的有效性。</p>
+<p>如果缓存失效，则缓存服务器或者客户端浏览器会再次从服务器上请求新的资源。</p>
+<h2 id="6-1-代理服务器"><a href="#6-1-代理服务器" class="headerlink" title="6.1 代理服务器"></a>6.1 代理服务器</h2><p>缓存服务器是代理服务器的一种，当代理转发从服务器返回的响应时，会保存一份资源副本。</p>
+<p>优势在于利用缓存可以避免多次向服务器转发资源。</p>
+<p><img src="/pics/HTTP/2-6.1-1.png" alt="缓存服务器请求示意图"></p>
+<h2 id="6-2-客户端"><a href="#6-2-客户端" class="headerlink" title="6.2 客户端"></a>6.2 客户端</h2><p>缓存保存在客户端浏览器中，如果缓存有效，则不会向服务器请求；</p>
+<p>如果过期，会向服务器确认资源有效性，判断浏览器缓存失效，浏览器会再次请求新资源。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><div id="refer-anchor-1"></div>
+
+<ul>
+<li>[1] 《图解HTTP》</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/HTTP/">HTTP</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/03/28/HTTP%EF%BC%88%E4%B8%89%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HTTP（三）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/03/14/HTTP%EF%BC%88%E4%B8%80%EF%BC%89/">
+                        <span class="hidden-mobile">HTTP（一）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon1.png">
+  <link rel="icon" href="/img/favicon1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="基础篇二：事物隔离级别的现象和实现，长事物的风险。">
+  <meta name="author" content="Hy">
+  <meta name="keywords" content="">
+  
+  <title>MySQL实战 基础篇（二） - Hy&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Hy</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="MySQL实战 基础篇（二）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-04-26 16:57" pubdate>
+        2021年4月26日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MySQL实战 基础篇（二）</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
+<p>该系列是极客时间林晓斌的 MySQL实战45讲 课程笔记。</p>
+</blockquote>
+<h1 id="1-事物隔离"><a href="#1-事物隔离" class="headerlink" title="1. 事物隔离"></a>1. 事物隔离</h1><p>事物就是要保证一组数据库操作，要么全部成功，要不全部失败。MySQL 的事物支持是在引擎层实现的，但不是所有引擎都支持事物，MySQL 原生的 MyISAM 引擎就不支持事务，这也是 MyISAM 被 InnoDB 取代的重要原因之一。</p>
+<p>事物的特性：ACID（Atomicity、Consistency、Isolation、Durability），即原子性、一致性、隔离性、持久性。</p>
+<h2 id="1-1-隔离性和隔离级别"><a href="#1-1-隔离性和隔离级别" class="headerlink" title="1.1 隔离性和隔离级别"></a>1.1 隔离性和隔离级别</h2><p>数据库中有多个事务同时执行时，可能会出现脏读（dirty read）、幻影读（phantom read）、不可重复读（non-repeatable read）的问题，为了解决这些问题，出现了 <strong>隔离级别</strong> 的概念。</p>
+<p>隔离的级别越高，效率就越低。</p>
+<table>
+   <tr>
+      <td colspan = "3" align="center"><b>SQL事务隔离级别</b></td>
+   </tr>
+   <tr>
+      <td>读未提交 readuncommitted</td>
+      <td>一个事务还没提交时，它做的变更就能被别的事务看到。</td>
+   </tr>
+   <tr>
+      <td>读提交 readcommitted</td>
+      <td>一个事务提交之后，它做的变更才会被其他事务看到。</td>
+   </tr>
+   <tr>
+      <td>可重复读 repeatableread</td>
+      <td>一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当然在可重复读隔离级别下，未提交变更对其他事务也是不可见的。</td>
+   </tr>
+   <tr>
+      <td>串行化 serializable</td>
+      <td>对于同一行记录，“写”会加“写锁”，“读”会加“读锁”。当出现读写锁冲突的时候，后访问的事务必须等前一个事务执行完成，才能继续执行。</td>
+   </tr>
+</table>
+
+<p class="note note-info">
+<b>举例：</b>
+<br><br>
+<img src="/pics/MySQL/事务隔离性举例.png"/>
+<br><br>对于不同的隔离级别，在各阶段能查询到的结果也不同，以上图为例：
+<br><br><b>读未提交：</b> V1 = 2， V2 = 2， V3 = 2
+<br><br><b>读提交：</b> V1 = 1， V2 = 2， V3 = 2
+<br><br><b>重复读：</b> V1 = 1， V2 = 1， V3 = 2
+<br><br><b>串行化：</b> V1 = 1， V2 = 1， V3 = 2
+</p>
+
+<p><strong>实现方式：</strong></p>
+<p> 在事务四种隔离级别的实现中，数据库里面会创建一个视图，访问的时候以视图的逻辑结果为准。</p>
+<ul>
+<li><p>读未提交：直接返回记录中的最新值，<strong>在这个级别下没有视图的概念</strong>；</p>
+</li>
+<li><p>读提交：视图在每个 SQL 语句的执行时创建；</p>
+</li>
+<li><p>可重复读：视图在启动时创建，在整个事务的执行过程中使用；</p>
+</li>
+<li><p>串行化：使用加锁的方式避免并行访问。</p>
+</li>
+</ul>
+<p><strong>配置：</strong></p>
+<p> Oracle 的默认隔离级别是 读提交。</p>
+<p> MySQL 中通过启动参数 transaction-isolation 进行隔离级别的设置，查看命令如下：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">show</span> variables<br></code></pre></td></tr></table></figure>
+
+<h2 id="1-2-事物隔离是怎么实现的"><a href="#1-2-事物隔离是怎么实现的" class="headerlink" title="1.2 事物隔离是怎么实现的"></a>1.2 事物隔离是怎么实现的</h2><p>MySQL 中，每条记录在更新时都会在 undo log <sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="mysql中的7种日志
+">[1]</span></a></sup> 中记录一条回滚操作，通过该记录可以得到前一个状态的值。</p>
+<p class="note note-danger">
+undo log 的作用就是为了回滚，所以记录是反向的，比如事务的操作时把1改成2，undo log 的记录就是将2改成1，这样是为了方便回滚。
+</p>
+
+<p class="note note-info">
+<b>举例：此处以 可重复读 为例</b>
+<br><br>
+<img src="/pics/MySQL/事务隔离-回滚日志记录示意图.png"/>
+<br><br>假设有一个值1，按照顺序被改成了2、3、4，则 undo log 就会有图中的记录，方便进行回滚操作。
+<br><br>当前的值为4，但是在查询这条记录时，不同时间段启动的事物有不同的 read-view。
+<br><br>如图所示，不同的视图中，这个记录的值分别为1、2、4，同一条记录在系统中有不同的版本，这个就是数据库的多版本并发控制（MVCC）。对于 read-view A 而言，如果要取到 1，则需要将当前值按照顺序依次回滚。
+<br><br>即使有另一个事物正在将 4 改成 5，这个事物和 read-view A、B 也是不冲突的。有行锁保证修改时，另一个事物不会出现回滚的现象。
+</p>
+
+<p>回滚日志（undo log）并不是一直保留的，当系统中没有比这个回滚日志更早的 read-view 时，就会被删除。</p>
+<p>也因为这个原因，<strong>不建议使用长事物</strong>。</p>
+<p>长事物会在系统中保存很多老的事物视图，由于这些事物随时可能访问数据库里的任何数据，所以在这个事物提交前，需要保留它可能用到的回滚日志，意味着要占用大量存储空间。</p>
+<p>除了存储空间，长事物还会占用锁资源，有可能拖垮整个数据库。</p>
+<h2 id="3-3-事物的启动方式和设置"><a href="#3-3-事物的启动方式和设置" class="headerlink" title="3.3 事物的启动方式和设置"></a>3.3 事物的启动方式和设置</h2><p>Mysql 的事物启动方式主要有两种：</p>
+<ol>
+<li><p>使用 BEGIN、ROLLBACK、COMMIT 实现</p>
+<ul>
+<li>BEGIN : 开始一个事物</li>
+<li>ROLLBACK : 回滚事物</li>
+<li>COMMIT : 提交事物</li>
+</ul>
+</li>
+<li><p>通过参数配置，改变自动提交模式</p>
+<ul>
+<li>SET AUTOCOMMIT = 0 : 关闭自动提交</li>
+<li>SET AUTOCOMMIT = 1 : 开启自动提交</li>
+</ul>
+</li>
+</ol>
+<p class="note note-danger">有些数据库默认设置 SET AUTOCOMMIT = 0，这导致了接下来的查询都在事物中，如果有长连接，就会导致意外的长事物。</p>
+
+<p>建议使用 commit work and chain 语法，提交事务后自动开启下一个事务，省去了再次执行 begin 的开销。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 查询超过60s的事务</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> information_schema.innodb_trx <span class="hljs-keyword">where</span> TIME_TO_SEC(timediff(now(),trx_started))<span class="hljs-operator">&gt;</span><span class="hljs-number">60</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq9808/article/details/105672687/">mysql中的7种日志</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/05/06/Vue%EF%BC%88%E4%B8%80%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Vue（一）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/04/17/MySQL%E5%AE%9E%E6%88%98%EF%BC%88%E4%B8%80%EF%BC%89/">
+                        <span class="hidden-mobile">MySQL实战 基础篇（一）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon1.png">
+  <link rel="icon" href="/img/favicon1.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="网络基础。">
+  <meta name="author" content="Hy">
+  <meta name="keywords" content="">
+  
+  <title>HTTP（一） - Hy&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Hy</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="HTTP（一）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-14 08:26" pubdate>
+        2021年3月14日 早上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      22
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">HTTP（一）</h1>
+            
+            <div class="markdown-body">
+              <h1 id="1-TCP-IP"><a href="#1-TCP-IP" class="headerlink" title="1. TCP/IP"></a>1. TCP/IP</h1><h2 id="1-1-简介"><a href="#1-1-简介" class="headerlink" title="1.1 简介"></a>1.1 简介</h2><p>为了更好的理解 HTTP，需要先大概了解 TCP/IP 协议族。</p>
+<p>通常使用的网络（包括互联网）是在 TCP/IP 协议族的基础上运作的，而 HTTP 协议是属于 TCP/IP 的一个子集。</p>
+<h2 id="1-2-协议"><a href="#1-2-协议" class="headerlink" title="1.2 协议"></a>1.2 协议</h2><p><strong>协议（protocol）定义：</strong></p>
+<p>计算机和网络设备要相互通信，双方必须基于相同的方法，例如：</p>
+<ul>
+<li>如何探测到相同的目标</li>
+<li>由哪一边先发起通信</li>
+<li>使用什么语言</li>
+<li>怎样结束通信</li>
+<li>…</li>
+</ul>
+<p>不同硬件、操作系统之间的通信都需要一种规则。这种规则就被成为 <strong>协议</strong>。</p>
+<p><strong>TCP/IP 协议：</strong></p>
+<p>协议中存在各种内容：</p>
+<ul>
+<li>IP地址的选定方法</li>
+<li>寻找异地用户的方法</li>
+<li>双方建立通讯的顺序</li>
+<li>Web页面显示需要处理的步骤</li>
+<li>…</li>
+</ul>
+<p>这种把互联网相关的协议集合起来，统称为 <strong>TCP/IP 协议</strong>。</p>
+<p>还有说法认为，TCP/IP 指的是 TCP 和 IP 两种协议。</p>
+<h2 id="1-3-分层管理"><a href="#1-3-分层管理" class="headerlink" title="1.3 分层管理"></a>1.3 分层管理</h2><p>TCP/IP 里最重要的就是分层，进行层次化后，设计也更加简单了，只需要考虑分配给自己的任务即可</p>
+<p>各层的作用如下：</p>
+<ol>
+<li><p>应用层</p>
+<p>决定了向用户提供应用服务时通信的活动，简单来说，就是这次通信要干什么。</p>
+<p>TCP/IP 内预存了各类通用的应用服务，例如：FTP、DNS等。HTTP 也处于该层。</p>
+</li>
+<li><p>传输层</p>
+<p>提供处于网络连接中的两台计算机之间的数据传输。</p>
+<p>该层有两个性质不同的协议：UDP、TCP。</p>
+</li>
+<li><p>网络层</p>
+<p>处理在网络上流动的数据包。</p>
+<p>该层规定通过什么传输路线到达对方的计算机，并给对方传递数据包。</p>
+</li>
+<li><p>链路层</p>
+<p>处理连接网络的软件和硬件部分。</p>
+<p>包括操作系统、硬件驱动、网卡、光纤等物理部分。硬件上的范畴均在链路层的作用范围内。</p>
+</li>
+</ol>
+<p><img src="/pics/HTTP/1-1.3-1.png" alt="三种网络分层体系结构"></p>
+<h2 id="1-4-通信传输流"><a href="#1-4-通信传输流" class="headerlink" title="1.4 通信传输流"></a>1.4 通信传输流</h2><p>使用 TCP/IP 进行通信时，会按照分层的顺序进行通信。客户端从上往下，服务器端从下往上。</p>
+<p>下面以 HTTP 为例：</p>
+<ol>
+<li>客户端在应用层发起一个 HTTP 请求；</li>
+<li>传输层（TCP）在收到请求后进行分割，在各个报文上打好标记序号和端口号，发送给网络层；</li>
+<li>网络层（IP）收到后，添加通信目的地的 MAC 地址，转发给链路层；</li>
+<li>服务器端在链路层接收到数据后，按照顺序依次向上发送；</li>
+<li>直到传递给应用层后，服务器才真正收到了由客户端发起的 HTTP 请求。</li>
+</ol>
+<p><img src="/pics/HTTP/1-1.4-1.png" alt="示意图"></p>
+<h1 id="2-IP、TCP、DNS-协议"><a href="#2-IP、TCP、DNS-协议" class="headerlink" title="2. IP、TCP、DNS 协议"></a>2. IP、TCP、DNS 协议</h1><h2 id="2-1-IP"><a href="#2-1-IP" class="headerlink" title="2.1 IP"></a>2.1 IP</h2><p>按照层次划分，IP属于网络层。</p>
+<p>主要作用是将各种数据包传给对方，为了确保数据包能送达，需要满足很多条件，最重要的是 <strong>IP地址</strong> 和 <strong>MAC地址</strong>。</p>
+<p>IP地址是节点被分配的地址，是可变的；MAC地址是网卡所属的固定地址，基本不会变。</p>
+<p><img src="/pics/HTTP/1-2.1-2.png" alt="示意图"></p>
+<h3 id="2-1-1-APR协议（Address-Resolution-Protocol）"><a href="#2-1-1-APR协议（Address-Resolution-Protocol）" class="headerlink" title="2.1.1 APR协议（Address Resolution Protocol）"></a>2.1.1 APR协议（Address Resolution Protocol）</h3><p>IP 之间的通信依靠 MAC地址。</p>
+<p>在网络上，通信的双方大部分都需要经过计算机和设备进行多次中转才能连接到对方。在进行中转时，需要使用下一站的 MAC地址搜索下一个中转目标。</p>
+<p>这时，会使用 APR协议 解析地址，使用 IP 反查出对方的 MAC地址。</p>
+<h3 id="2-1-2-路由选择（routing）"><a href="#2-1-2-路由选择（routing）" class="headerlink" title="2.1.2 路由选择（routing）"></a>2.1.2 路由选择（routing）</h3><p>在到达通信目标前的中转过程中，计算机和路由器等网络设备只能获取大概的传输路线，无法获取全部的细节。</p>
+<p>这种机制被称为路由选择。</p>
+<h2 id="2-2-TCP"><a href="#2-2-TCP" class="headerlink" title="2.2 TCP"></a>2.2 TCP</h2><p>按照层次划分，TCP属于传输层。</p>
+<p>为了方便管理和传输，TCP 将大块的数据切分成报文段，而且能够确认数据最终是否送到。</p>
+<h3 id="2-2-1-三次握手"><a href="#2-2-1-三次握手" class="headerlink" title="2.2.1 三次握手"></a>2.2.1 三次握手</h3><p>为了确保数据能够正确送达，TCP 采用了三次握手的策略，这个过程中使用了 TCP 的标志：SYN 和 ACK。</p>
+<ol>
+<li><p>客户端发送一个带有 <strong>SYN</strong> 标志的数据包。</p>
+<pre><code> 客户端设置数据包 SYN = 1，产生一个随机值 seq = J；
+
+ 将数据包发送给服务端，此时客户端等待服务端确认，状态为 *SYN_SENT*。
+</code></pre>
+</li>
+<li><p>服务端收到后，回传一个带有 <strong>SYN</strong> 和 <strong>ACK</strong> 的数据包，表示收到。</p>
+<pre><code> 服务端收到请求后，根据 SYN = 1 知道了客户端请求建立连接；
+
+ 服务端设置 SYN = 1，ACK = 1，ack = J+1，产生一个随机值 seq = K;
+
+ 将数据包回传给客户端，此时服务端等待客户端进行连接确认，状态为 *SYN_RCVD*（半开连接）。
+</code></pre>
+</li>
+<li><p>客户端收到后，回传一个带有 <strong>ACK</strong> 的数据包，表示“握手”结束。</p>
+<pre><code> 客户端收到请求后，检查 ack = J+1，ACK = 1，
+ 如果检查正确，则设置 ACK = 1，ack = K+1，并且将数据包发送给服务端；
+
+ 服务端收到请求后，检查 ack = K+1，ACK = 1，
+ 如果检查正确，则连接建立成功，三次握手结束，此时可以传递数据，双方的状态为 *ESTABLISHED*。
+</code></pre>
+<p> <img src="/pics/HTTP/1-2.2-1.png" alt="示意图"></p>
+</li>
+</ol>
+<h1 id="3-DNS"><a href="#3-DNS" class="headerlink" title="3. DNS"></a>3. DNS</h1><p>按照层次划分，DNS属于应用层（和HTTP同层）。</p>
+<p>用户通常使用域名访问网站，而不是IP地址。但是在计算机访问时，则需要使用IP地址发起请求。而DNS协议可以根据域名查询IP地址，也可以根据IP地址获取域名。</p>
+<h1 id="4-三次握手中的常见问题"><a href="#4-三次握手中的常见问题" class="headerlink" title="4. 三次握手中的常见问题"></a>4. 三次握手中的常见问题</h1><h2 id="4-1-三次握手那个阶段容易出现攻击？3"><a href="#4-1-三次握手那个阶段容易出现攻击？3" class="headerlink" title="4.1 三次握手那个阶段容易出现攻击？3"></a>4.1 三次握手那个阶段容易出现攻击？<a href="#refer-anchor-3"><sup>3</sup></a></h2><p><strong>第二阶段</strong></p>
+<p>如果大量伪造第一阶段的SYN包，则服务器会依次消耗资源进行保存，同时返回大量的确认字段。实际确认是失败的，因为服务端会进行多次第二次握手才会认为失败，所以需要一定的时间。在这段时间内，服务器资源可能会被大量的SYN报文耗尽，可能导致正常请求得不到相应。</p>
+<ul>
+<li>开放一个TCP端口后，该端口就处于 Listening状态；</li>
+<li>如果服务端的端口接收到了客户端发送的SYN包，则会为其分配一个 TCB，通常一个 TCB 需要280字节，有些系统甚至需要1300个字节；</li>
+<li>同时返回一个 SYN ACK，然后服务端转为 <em>SYN_RCVD</em>（半开连接状态）。</li>
+<li>从上述过程可以看出，如果向某个端口恶意发送大量的SYN数据包，则服务器会分配TCB、打开大量的半开连接，从而消耗服务器资源，导致正常请求无法得到响应。</li>
+</ul>
+<h2 id="4-2-客户端故意不发送最后一次的SYN包"><a href="#4-2-客户端故意不发送最后一次的SYN包" class="headerlink" title="4.2 客户端故意不发送最后一次的SYN包"></a>4.2 客户端故意不发送最后一次的SYN包</h2><p>同4.1，服务端此时处于<em>SYN_RCVD</em>（半开连接状态），消耗大量资源。</p>
+<h2 id="4-3-客户端第一个SYN包丢失"><a href="#4-3-客户端第一个SYN包丢失" class="headerlink" title="4.3 客户端第一个SYN包丢失"></a>4.3 客户端第一个SYN包丢失</h2><p>客户端发出的第一个SYN包丢失，服务端没有收到，由客户端处理。</p>
+<p>TCP中，客户端或者服务端，在 请求——应答 这个过程中没有收到返回的SYN ACK包，就会认为丢包。</p>
+<p>此时会重新发送SYN包，一共尝试三次，耗时分别为：5.8s、24s、48s，三次时间总和约76s。</p>
+<p>总结：丢失后会重新发送，尝试三次，总耗时约76s。</p>
+<h2 id="4-4-服务端返回的ACK包丢失"><a href="#4-4-服务端返回的ACK包丢失" class="headerlink" title="4.4 服务端返回的ACK包丢失"></a>4.4 服务端返回的ACK包丢失</h2><p>客户端和服务端会分别进行处理：</p>
+<p>客户端：没有收到服务端返回的SYN ACK包，会认为是一开始的SYN包丢失，此时按照 4.3 进行处理</p>
+<p>服务端：如果发送了SYN ACK包，没有收到客户端返回的ACK包后，将会重新发送，此时服务端状态为 <em>SYN_RCVD</em>（半开连接）；</p>
+<p>重发的时间间隔为3s、6s、12s。此时如果收到了客户端重新发送的SYN包，服务端将会立即发送SYN ACK包。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><div id="refer-anchor-1"></div>
+
+<ul>
+<li>[1] 《图解HTTP》</li>
+</ul>
+<div id="refer-anchor-2"></div>
+
+<ul>
+<li>[2] <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21546408">有了 IP 地址，为什么还要用 MAC 地址？</a></li>
+</ul>
+<div id="refer-anchor-3"></div>
+
+<ul>
+<li>[3] <a target="_blank" rel="noopener" href="https://blog.csdn.net/bill_lee_sh_cn/article/details/6065704">SYN Flood攻击及防御方法</a></li>
+</ul>
+<div id="refer-anchor-4"></div>
+
+<ul>
+<li>[4] <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021740112">TCP三次握手、四次挥手出现意外情况时，为保证稳定，是如何处理的？</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/HTTP/">HTTP</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/03/25/HTTP%EF%BC%88%E4%BA%8C%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HTTP（二）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/03/08/Mybatis%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%8A%A8%E6%80%81sql/">
+                        <span class="hidden-mobile">Mybatis（二）：动态sql</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
