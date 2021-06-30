@@ -14,11 +14,11 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="网络基础。">
+  <meta name="description" content="Hexo Fluid 主题美化汇总。">
   <meta name="author" content="Hy">
   <meta name="keywords" content="">
   
-  <title>HTTP（一） - Hy&#39;s Blog</title>
+  <title>Hexo Fluid 主题美化 - Hy&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="HTTP（一）">
+            <span class="h2" id="subtitle" title="Hexo Fluid 主题美化">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-14 08:26" pubdate>
-        2021年3月14日 早上
+      <time datetime="2021-06-30 11:28" pubdate>
+        2021年6月30日 上午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.1k 字
+      306 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      22
+      4
        分钟
     </span>
   
@@ -225,160 +225,19 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">HTTP（一）</h1>
+            <h1 style="display: none">Hexo Fluid 主题美化</h1>
             
             <div class="markdown-body">
-              <h1>1. TCP/IP</h1>
-<h2 id="1-1-简介">1.1 简介</h2>
-<p>为了更好的理解 HTTP，需要先大概了解 TCP/IP 协议族。</p>
-<p>通常使用的网络（包括互联网）是在 TCP/IP 协议族的基础上运作的，而 HTTP 协议是属于 TCP/IP 的一个子集。</p>
-<h2 id="1-2-协议">1.2 协议</h2>
-<p><strong>协议（protocol）定义：</strong></p>
-<p>计算机和网络设备要相互通信，双方必须基于相同的方法，例如：</p>
-<ul>
-<li>如何探测到相同的目标</li>
-<li>由哪一边先发起通信</li>
-<li>使用什么语言</li>
-<li>怎样结束通信</li>
-<li>…</li>
-</ul>
-<p>不同硬件、操作系统之间的通信都需要一种规则。这种规则就被成为 <strong>协议</strong>。</p>
-<p><strong>TCP/IP 协议：</strong></p>
-<p>协议中存在各种内容：</p>
-<ul>
-<li>IP地址的选定方法</li>
-<li>寻找异地用户的方法</li>
-<li>双方建立通讯的顺序</li>
-<li>Web页面显示需要处理的步骤</li>
-<li>…</li>
-</ul>
-<p>这种把互联网相关的协议集合起来，统称为 <strong>TCP/IP 协议</strong>。</p>
-<p>还有说法认为，TCP/IP 指的是 TCP 和 IP 两种协议。</p>
-<h2 id="1-3-分层管理">1.3 分层管理</h2>
-<p>TCP/IP 里最重要的就是分层，进行层次化后，设计也更加简单了，只需要考虑分配给自己的任务即可</p>
-<p>各层的作用如下：</p>
-<ol>
-<li>
-<p>应用层</p>
-<p>决定了向用户提供应用服务时通信的活动，简单来说，就是这次通信要干什么。</p>
-<p>TCP/IP 内预存了各类通用的应用服务，例如：FTP、DNS等。HTTP 也处于该层。</p>
-</li>
-<li>
-<p>传输层</p>
-<p>提供处于网络连接中的两台计算机之间的数据传输。</p>
-<p>该层有两个性质不同的协议：UDP、TCP。</p>
-</li>
-<li>
-<p>网络层</p>
-<p>处理在网络上流动的数据包。</p>
-<p>该层规定通过什么传输路线到达对方的计算机，并给对方传递数据包。</p>
-</li>
-<li>
-<p>链路层</p>
-<p>处理连接网络的软件和硬件部分。</p>
-<p>包括操作系统、硬件驱动、网卡、光纤等物理部分。硬件上的范畴均在链路层的作用范围内。</p>
-</li>
-</ol>
-<p><img src="/pics/HTTP/1-1.3-1.png" alt="三种网络分层体系结构"></p>
-<h2 id="1-4-通信传输流">1.4 通信传输流</h2>
-<p>使用 TCP/IP 进行通信时，会按照分层的顺序进行通信。客户端从上往下，服务器端从下往上。</p>
-<p>下面以 HTTP 为例：</p>
-<ol>
-<li>客户端在应用层发起一个 HTTP 请求；</li>
-<li>传输层（TCP）在收到请求后进行分割，在各个报文上打好标记序号和端口号，发送给网络层；</li>
-<li>网络层（IP）收到后，添加通信目的地的 MAC 地址，转发给链路层；</li>
-<li>服务器端在链路层接收到数据后，按照顺序依次向上发送；</li>
-<li>直到传递给应用层后，服务器才真正收到了由客户端发起的 HTTP 请求。</li>
-</ol>
-<p><img src="/pics/HTTP/1-1.4-1.png" alt="示意图"></p>
-<h1>2. IP、TCP、DNS 协议</h1>
-<h2 id="2-1-IP">2.1 IP</h2>
-<p>按照层次划分，IP属于网络层。</p>
-<p>主要作用是将各种数据包传给对方，为了确保数据包能送达，需要满足很多条件，最重要的是 <strong>IP地址</strong> 和 <strong>MAC地址</strong>。</p>
-<p>IP地址是节点被分配的地址，是可变的；MAC地址是网卡所属的固定地址，基本不会变。</p>
-<p><img src="/pics/HTTP/1-2.1-2.png" alt="示意图"></p>
-<h3 id="2-1-1-APR协议（Address-Resolution-Protocol）">2.1.1 APR协议（Address Resolution Protocol）</h3>
-<p>IP 之间的通信依靠 MAC地址。</p>
-<p>在网络上，通信的双方大部分都需要经过计算机和设备进行多次中转才能连接到对方。在进行中转时，需要使用下一站的 MAC地址搜索下一个中转目标。</p>
-<p>这时，会使用 APR协议 解析地址，使用 IP 反查出对方的 MAC地址。</p>
-<h3 id="2-1-2-路由选择（routing）">2.1.2 路由选择（routing）</h3>
-<p>在到达通信目标前的中转过程中，计算机和路由器等网络设备只能获取大概的传输路线，无法获取全部的细节。</p>
-<p>这种机制被称为路由选择。</p>
-<h2 id="2-2-TCP">2.2 TCP</h2>
-<p>按照层次划分，TCP属于传输层。</p>
-<p>为了方便管理和传输，TCP 将大块的数据切分成报文段，而且能够确认数据最终是否送到。</p>
-<h3 id="2-2-1-三次握手">2.2.1 三次握手</h3>
-<p>为了确保数据能够正确送达，TCP 采用了三次握手的策略，这个过程中使用了 TCP 的标志：SYN 和 ACK。</p>
-<ol>
-<li>
-<p>客户端发送一个带有 <strong>SYN</strong> 标志的数据包。</p>
-<pre><code> 客户端设置数据包 SYN = 1，产生一个随机值 seq = J；
-
- 将数据包发送给服务端，此时客户端等待服务端确认，状态为 *SYN_SENT*。
-</code></pre>
-</li>
-<li>
-<p>服务端收到后，回传一个带有 <strong>SYN</strong> 和 <strong>ACK</strong> 的数据包，表示收到。</p>
-<pre><code> 服务端收到请求后，根据 SYN = 1 知道了客户端请求建立连接；
-
- 服务端设置 SYN = 1，ACK = 1，ack = J+1，产生一个随机值 seq = K;
-
- 将数据包回传给客户端，此时服务端等待客户端进行连接确认，状态为 *SYN_RCVD*（半开连接）。
-</code></pre>
-</li>
-<li>
-<p>客户端收到后，回传一个带有 <strong>ACK</strong> 的数据包，表示“握手”结束。</p>
-<pre><code> 客户端收到请求后，检查 ack = J+1，ACK = 1，
- 如果检查正确，则设置 ACK = 1，ack = K+1，并且将数据包发送给服务端；
-
- 服务端收到请求后，检查 ack = K+1，ACK = 1，
- 如果检查正确，则连接建立成功，三次握手结束，此时可以传递数据，双方的状态为 *ESTABLISHED*。
-</code></pre>
-<p><img src="/pics/HTTP/1-2.2-1.png" alt="示意图"></p>
-</li>
-</ol>
-<h1>3. DNS</h1>
-<p>按照层次划分，DNS属于应用层（和HTTP同层）。</p>
-<p>用户通常使用域名访问网站，而不是IP地址。但是在计算机访问时，则需要使用IP地址发起请求。而DNS协议可以根据域名查询IP地址，也可以根据IP地址获取域名。</p>
-<h1>4. 三次握手中的常见问题</h1>
-<h2 id="4-1-三次握手那个阶段容易出现攻击？-sup-3-sup">4.1 三次握手那个阶段容易出现攻击？<a href="#refer-anchor-3"><sup>3</sup></a></h2>
-<p><strong>第二阶段</strong></p>
-<p>如果大量伪造第一阶段的SYN包，则服务器会依次消耗资源进行保存，同时返回大量的确认字段。实际确认是失败的，因为服务端会进行多次第二次握手才会认为失败，所以需要一定的时间。在这段时间内，服务器资源可能会被大量的SYN报文耗尽，可能导致正常请求得不到相应。</p>
-<ul>
-<li>开放一个TCP端口后，该端口就处于 Listening状态；</li>
-<li>如果服务端的端口接收到了客户端发送的SYN包，则会为其分配一个 TCB，通常一个 TCB 需要280字节，有些系统甚至需要1300个字节；</li>
-<li>同时返回一个 SYN ACK，然后服务端转为 <em>SYN_RCVD</em>（半开连接状态）。</li>
-<li>从上述过程可以看出，如果向某个端口恶意发送大量的SYN数据包，则服务器会分配TCB、打开大量的半开连接，从而消耗服务器资源，导致正常请求无法得到响应。</li>
-</ul>
-<h2 id="4-2-客户端故意不发送最后一次的SYN包">4.2 客户端故意不发送最后一次的SYN包</h2>
-<p>同4.1，服务端此时处于<em>SYN_RCVD</em>（半开连接状态），消耗大量资源。</p>
-<h2 id="4-3-客户端第一个SYN包丢失">4.3 客户端第一个SYN包丢失</h2>
-<p>客户端发出的第一个SYN包丢失，服务端没有收到，由客户端处理。</p>
-<p>TCP中，客户端或者服务端，在 请求——应答 这个过程中没有收到返回的SYN ACK包，就会认为丢包。</p>
-<p>此时会重新发送SYN包，一共尝试三次，耗时分别为：5.8s、24s、48s，三次时间总和约76s。</p>
-<p>总结：丢失后会重新发送，尝试三次，总耗时约76s。</p>
-<h2 id="4-4-服务端返回的ACK包丢失">4.4 服务端返回的ACK包丢失</h2>
-<p>客户端和服务端会分别进行处理：</p>
-<p>客户端：没有收到服务端返回的SYN ACK包，会认为是一开始的SYN包丢失，此时按照 4.3 进行处理</p>
-<p>服务端：如果发送了SYN ACK包，没有收到客户端返回的ACK包后，将会重新发送，此时服务端状态为 <em>SYN_RCVD</em>（半开连接）；</p>
-<p>重发的时间间隔为3s、6s、12s。此时如果收到了客户端重新发送的SYN包，服务端将会立即发送SYN ACK包。</p>
-<h1>参考</h1>
-<div id="refer-anchor-1"></div>
-<ul>
-<li>[1] 《图解HTTP》</li>
-</ul>
-<div id="refer-anchor-2"></div>
-<ul>
-<li>[2] <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21546408">有了 IP 地址，为什么还要用 MAC 地址？</a></li>
-</ul>
-<div id="refer-anchor-3"></div>
-<ul>
-<li>[3] <a target="_blank" rel="noopener" href="https://blog.csdn.net/bill_lee_sh_cn/article/details/6065704">SYN Flood攻击及防御方法</a></li>
-</ul>
-<div id="refer-anchor-4"></div>
-<ul>
-<li>[4] <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021740112">TCP三次握手、四次挥手出现意外情况时，为保证稳定，是如何处理的？</a></li>
-</ul>
+              <h1>背景图固定</h1>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://aigisss.com/blog/posts/1563abd8.html">https://aigisss.com/blog/posts/1563abd8.html</a></p>
+<p>非常感谢大佬的帮助🙏。</p>
+<p>在项目根目录下创建 <em>scripts</em> 文件夹，该文件夹内创建 <code>injector.js</code> 文件，内容如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 全屏背景的需要导入这些js</span><br><span class="hljs-keyword">const</span> &#123; <span class="hljs-attr">root</span>: siteRoot = <span class="hljs-string">&quot;/&quot;</span> &#125; = hexo.config;<br>hexo.extend.injector.register(<span class="hljs-string">&quot;body_begin&quot;</span>, <span class="hljs-string">`&lt;div id=&quot;web_bg&quot;&gt;&lt;/div&gt;`</span>);<br>hexo.extend.injector.register(<br>  <span class="hljs-string">&quot;body_end&quot;</span>,<br>  <span class="hljs-string">`&lt;script src=&quot;<span class="hljs-subst">$&#123;siteRoot&#125;</span>js/backgroundize.js&quot;&gt;&lt;/script&gt;</span><br><span class="hljs-string">  &lt;link defer rel=&quot;stylesheet&quot; href=&quot;<span class="hljs-subst">$&#123;siteRoot&#125;</span>styles/backgroundize.css&quot; /&gt;</span><br><span class="hljs-string">  `</span><br>);<br></code></pre></td></tr></table></figure>
+<p>在项目根目录下的 <em>source</em> 文件夹内创建 <em>js</em> 文件夹，该文件夹内创建 <code>backgroundize.js</code> 文件，内容如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> bannerContainer = $(<span class="hljs-string">&quot;#banner&quot;</span>);<br><span class="hljs-keyword">const</span> viewBg = $(<span class="hljs-string">&quot;#web_bg&quot;</span>);<br><span class="hljs-keyword">const</span> bannerMask = $(<span class="hljs-string">&quot;#banner .mask&quot;</span>);<br><span class="hljs-keyword">const</span> bg = $(bannerContainer).css(<span class="hljs-string">&quot;background-image&quot;</span>);<br>$(viewBg).css(<span class="hljs-string">&quot;background-image&quot;</span>, bg);<br>$(bannerContainer).css(<span class="hljs-string">&quot;background-image&quot;</span>, <span class="hljs-string">&quot;url()&quot;</span>);<br><span class="hljs-keyword">const</span> color = $(bannerMask).css(<span class="hljs-string">&quot;background-color&quot;</span>);<br>$(bannerMask).css(<span class="hljs-string">&quot;background-color&quot;</span>, <span class="hljs-string">`rgba(0,0,0,0)`</span>);<br>$(viewBg).css(<span class="hljs-string">&quot;background-color&quot;</span>, color);<br></code></pre></td></tr></table></figure>
+<p>在项目根目录下的 <em>source</em> 文件夹内创建 <em>styles</em> 文件夹，该文件夹内创建 <code>backgroundize.css</code> 文件，内容如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-id">#web_bg</span> &#123;<br>  <span class="hljs-attribute">position</span>: fixed;<br>  <span class="hljs-attribute">z-index</span>: -<span class="hljs-number">999</span>;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;<br>  <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;<br>  <span class="hljs-attribute">background-attachment</span>: local;<br>  <span class="hljs-attribute">background-position</span>: center;<br>  -webkit-<span class="hljs-attribute">background-size</span>: cover;<br>  -moz-<span class="hljs-attribute">background-size</span>: cover;<br>  <span class="hljs-attribute">background-size</span>: cover;<br>  <span class="hljs-attribute">background-repeat</span>: repeat;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>然后 clean、启动项目即可。</p>
 
             </div>
             <hr>
@@ -388,7 +247,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>
+                      <a class="hover-with-bg" href="/categories/Hexo-Fluid/">Hexo Fluid</a>
                     
                   </div>
                 
@@ -396,7 +255,11 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/HTTP/">HTTP</a>
+                      <a class="hover-with-bg" href="/tags/Hexo/">Hexo</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Fluid/">Fluid</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/">主题美化</a>
                     
                   </div>
                 
@@ -413,18 +276,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/03/25/HTTP%EF%BC%88%E4%BA%8C%EF%BC%89/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">HTTP（二）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/03/08/Mybatis%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%8A%A8%E6%80%81sql/">
-                        <span class="hidden-mobile">Mybatis（二）：动态sql</span>
+                      <a href="/2021/06/21/MySQL%E5%AE%9E%E6%88%98%EF%BC%88%E5%9B%9B%EF%BC%89/">
+                        <span class="hidden-mobile">MySQL实战 基础篇（四）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

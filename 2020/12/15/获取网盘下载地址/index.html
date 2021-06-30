@@ -229,20 +229,27 @@
             
             <div class="markdown-body">
               <ol>
-<li>打开需要下载的文件所在目录页面，按 F12；</li>
-<li>找到 Console 标签页，清空；</li>
-<li>复制以下代码，并修改 ‘下载文件名’ 处的内容，然后按回车。 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs javascript">(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<br>   <span class="hljs-keyword">var</span> _id    = <span class="hljs-number">309847</span>;<br>   <span class="hljs-keyword">var</span> isHome = $(<span class="hljs-string">&#x27;a[title=&quot;我的卡包&quot;]&#x27;</span>).html();<br>   <span class="hljs-keyword">var</span> _temp  = isHome ? <span class="hljs-string">&quot;&quot;</span> : $(<span class="hljs-string">&#x27;span[title*=&quot;全部文件&quot;]&#x27;</span>)[<span class="hljs-number">0</span>].title.slice(<span class="hljs-number">4</span>);<br>   <span class="hljs-keyword">var</span> _name  = <span class="hljs-string">&#x27;下载文件名&#x27;</span>; <span class="hljs-comment">// 这里 &#x27;&#x27; 里面的内容改成需要下载的文件的名称</span><br>   <span class="hljs-keyword">var</span> _path  = <span class="hljs-built_in">encodeURIComponent</span>(_temp + <span class="hljs-string">&#x27;/&#x27;</span> + _name);<br>   <span class="hljs-keyword">var</span> _link  = <span class="hljs-string">&#x27;https://pcs.baidu.com/rest/2.0/pcs/file?method=download&amp;app_id=&#x27;</span>+_id+<span class="hljs-string">&#x27;&amp;path=&#x27;</span>+_path;<br>   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;下载地址为：&#x27;</span>);<br>   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;%c%s&#x27;</span>,<span class="hljs-string">&#x27;color:#00ff00;background-color:#000000;&#x27;</span>,_link);<br>&#125;)();<br></code></pre></td></tr></table></figure></li>
+<li>
+<p>打开需要下载的文件所在目录页面，按 F12；</p>
+</li>
+<li>
+<p>找到 Console 标签页，清空；</p>
+</li>
+<li>
+<p>复制以下代码，并修改 ‘下载文件名’ 处的内容，然后按回车。</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs javascript">(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<br>   <span class="hljs-keyword">var</span> _id    = <span class="hljs-number">309847</span>;<br>   <span class="hljs-keyword">var</span> isHome = $(<span class="hljs-string">&#x27;a[title=&quot;我的卡包&quot;]&#x27;</span>).html();<br>   <span class="hljs-keyword">var</span> _temp  = isHome ? <span class="hljs-string">&quot;&quot;</span> : $(<span class="hljs-string">&#x27;span[title*=&quot;全部文件&quot;]&#x27;</span>)[<span class="hljs-number">0</span>].title.slice(<span class="hljs-number">4</span>);<br>   <span class="hljs-keyword">var</span> _name  = <span class="hljs-string">&#x27;下载文件名&#x27;</span>; <span class="hljs-comment">// 这里 &#x27;&#x27; 里面的内容改成需要下载的文件的名称</span><br>   <span class="hljs-keyword">var</span> _path  = <span class="hljs-built_in">encodeURIComponent</span>(_temp + <span class="hljs-string">&#x27;/&#x27;</span> + _name);<br>   <span class="hljs-keyword">var</span> _link  = <span class="hljs-string">&#x27;https://pcs.baidu.com/rest/2.0/pcs/file?method=download&amp;app_id=&#x27;</span>+_id+<span class="hljs-string">&#x27;&amp;path=&#x27;</span>+_path;<br>   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;下载地址为：&#x27;</span>);<br>   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;%c%s&#x27;</span>,<span class="hljs-string">&#x27;color:#00ff00;background-color:#000000;&#x27;</span>,_link);<br>&#125;)();<br></code></pre></td></tr></table></figure>
+</li>
 </ol>
 <p><img src="/pics/pan.png" alt="示例图"></p>
 <hr>
-<p> <strong>Tips:</strong></p>
+<p><strong>Tips:</strong></p>
 <ul>
 <li>需要将待下载的文件保存到网盘中</li>
 <li>推荐使用最新版谷歌浏览器</li>
 </ul>
 <p>转载：</p>
 <blockquote>
-<p> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/qixiaodui/p/8379616.html">获取百度网盘真实下载地址</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qixiaodui/p/8379616.html">获取百度网盘真实下载地址</a></p>
 </blockquote>
 
             </div>

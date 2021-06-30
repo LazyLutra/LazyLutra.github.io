@@ -228,58 +228,73 @@
             <h1 style="display: none">SpringBoot（一）：日志框架配置</h1>
             
             <div class="markdown-body">
-              <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>开发时使用统一的代码记录日志，不用关心是什么日志系统和日志风格，专心开发即可。</p>
+              <h1>简介</h1>
+<p>开发时使用统一的代码记录日志，不用关心是什么日志系统和日志风格，专心开发即可。</p>
 <p>而slf4j作为日志门面系统，并非像log4j、logback等那样具体的日志解决方案，如果后期项目对日志系统有变更的需求，直接将绑定的log4j或者logback进行替换即可，使用方便。</p>
 <p>平时常用的《阿里巴巴java开发手册》中，将slf4j作为日志框架，在日志规约第一条中就进行了强制要求：</p>
 <blockquote>
 <ol>
-<li>【强制】应用中不可直接使用日志系统（Log4j、Logback）中的 API，而应依赖使用日志框架<br>（SLF4J、JCL–Jakarta Commons Logging）中的 API，使用门面模式的日志框架，有利于维护和<br>各个类的日志处理方式统一。 </li>
+<li>【强制】应用中不可直接使用日志系统（Log4j、Logback）中的 API，而应依赖使用日志框架<br>
+（SLF4J、JCL–Jakarta Commons Logging）中的 API，使用门面模式的日志框架，有利于维护和<br>
+各个类的日志处理方式统一。</li>
 </ol>
 </blockquote>
-<h2 id="配置文件介绍"><a href="#配置文件介绍" class="headerlink" title="配置文件介绍"></a>配置文件介绍</h2><h3 id="日志级别分类"><a href="#日志级别分类" class="headerlink" title="日志级别分类"></a>日志级别分类</h3><p>常用的日志级别按照由高到低的顺序为：</p>
+<h2 id="配置文件介绍">配置文件介绍</h2>
+<h3 id="日志级别分类">日志级别分类</h3>
+<p>常用的日志级别按照由高到低的顺序为：</p>
 <ul>
 <li>ERROR</li>
 <li>WARN</li>
 <li>INFO</li>
 <li>DEBUG</li>
 </ul>
-<h3 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h3><p>在 <strong>logback-spring.xml</strong> 文件中，根节点 <code>&lt;configuration&gt;&lt;/configuration&gt;</code> 下有三个子节点：</p>
+<h3 id="节点">节点</h3>
+<p>在 <strong>logback-spring.xml</strong> 文件中，根节点 <code>&lt;configuration&gt;&lt;/configuration&gt;</code> 下有三个子节点：</p>
 <ol>
-<li><p><code>&lt;appender&gt;&lt;/appender&gt;</code> </p>
+<li>
+<p><code>&lt;appender&gt;&lt;/appender&gt;</code></p>
 <p>定义日志策略的节点，一个策略对应一个，文件内可以有零个或多个该节点。</p>
 <p><strong>子属性</strong>：</p>
 <ul>
-<li><p>name</p>
+<li>
+<p>name</p>
 <p>定义该节点的名称，方便引用</p>
 </li>
-<li><p>class</p>
+<li>
+<p>class</p>
 <p>指定该节点的限定名，具体类型可以查阅 <a target="_blank" rel="noopener" href="https://logback.qos.ch/manual/appenders.html">官方文档</a> 例如：</p>
 <p>将日志输出到控制台时，使用 ch.qos.logback.core.ConsoleAppender</p>
 <p>将日志输出到文件时，使用 ch.qos.logback.core.FileAppender</p>
 </li>
 </ul>
 </li>
-<li><p><code>&lt;logger&gt;&lt;/logger&gt;</code></p>
+<li>
+<p><code>&lt;logger&gt;&lt;/logger&gt;</code></p>
 <p>设置某个包或者某个类的日志打印级别，可以引用 <code>&lt;appender&gt;&lt;/appender&gt;</code> ，绑定日志策略</p>
 <p><strong>子属性</strong>：</p>
 <ul>
-<li><p>name</p>
+<li>
+<p>name</p>
 <p>设置该 <code>&lt;logger&gt;&lt;/logger&gt;</code> 的使用范围，某个包或者某个类</p>
 </li>
-<li><p>level</p>
+<li>
+<p>level</p>
 <p>指定日志的输出级别，如果不设置，会继承上一级的日志级别</p>
 </li>
-<li><p>additivity</p>
+<li>
+<p>additivity</p>
 <p>是否向上一级传递日志信息，默认为 true ，可设置为 false</p>
 </li>
 </ul>
 </li>
-<li><p><code>&lt;root&gt;&lt;/root&gt;</code></p>
+<li>
+<p><code>&lt;root&gt;&lt;/root&gt;</code></p>
 <p>一个特殊的根 <code>&lt;logger&gt;&lt;/logger&gt;</code> ，</p>
 <p>name 属性默认为 root；因为是根节点，所以没有 additivity 属性</p>
 </li>
 </ol>
-<h1 id="application-的配置"><a href="#application-的配置" class="headerlink" title="application 的配置"></a>application 的配置</h1><p>需要在 <strong>application.properties</strong> 文件中添加日志的配置文件，文件名需要使用下面两种：</p>
+<h1>application 的配置</h1>
+<p>需要在 <strong>application.properties</strong> 文件中添加日志的配置文件，文件名需要使用下面两种：</p>
 <ul>
 <li>logback.xml</li>
 <li>logback-spring.xml（官方推荐使用）</li>
@@ -287,13 +302,8 @@
 <p>logging.config 设置日志配置文件名</p>
 <p>logging.level.com.example.demo.mapper 设置 <strong>mapper</strong> 包下的日志输出级别为 trace ，可以将 sql 打印出来，开发时便于定位错误。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- 需要注意，此处使用相对路径 --&gt;</span><br>logging.config=classpath:logback-spring.xml<br>logging.level.com.example.demo.mapper=trace<br></code></pre></td></tr></table></figure>
-
-
-
-<h1 id="logback-spring-的配置"><a href="#logback-spring-的配置" class="headerlink" title="logback-spring 的配置"></a>logback-spring 的配置</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 1. 定义日志格式 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;LOG_PATTERN&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;%date&#123;HH:mm:ss.SSS&#125; [%thread] %-5level%logger&#123;36&#125; - %msg%n&quot;</span> /&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 2. 定义日志路径 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;FILE_PATH&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;G:/Work/SpringBootDemo/logs/log.%d&#123;yyyy-MM-dd&#125;.%i.log&quot;</span> /&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 3. 定义控制台日志输出 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;CONSOLE&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.ConsoleAppender&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">encoder</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 按照上面配置的LOG_PATTERN来打印日志 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">pattern</span>&gt;</span>$&#123;LOG_PATTERN&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">pattern</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">encoder</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 4. 定义日志文件输出 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;FILE&quot;</span></span><br><span class="hljs-tag">              <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">rollingPolicy</span></span><br><span class="hljs-tag">                <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 按照上面配置的FILE_PATH路径来保存日志 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">fileNamePattern</span>&gt;</span>$&#123;FILE_PATH&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">fileNamePattern</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 日志保存15天 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">maxHistory</span>&gt;</span>15<span class="hljs-tag">&lt;/<span class="hljs-name">maxHistory</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">timeBasedFileNamingAndTriggeringPolicy</span></span><br><span class="hljs-tag">                    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP&quot;</span>&gt;</span><br>                <span class="hljs-comment">&lt;!-- 单个日志文件的最大，超过则新建日志文件存储 --&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">maxFileSize</span>&gt;</span>10MB<span class="hljs-tag">&lt;/<span class="hljs-name">maxFileSize</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">timeBasedFileNamingAndTriggeringPolicy</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">rollingPolicy</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">encoder</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 按照上面配置的LOG_PATTERN来打印日志 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">pattern</span>&gt;</span>$&#123;LOG_PATTERN&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">pattern</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">encoder</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 5. 指定 demo 包下的日志输出级别为 INFO --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">logger</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;com.demo&quot;</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;INFO&quot;</span>/&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 6. 使用最高级的 root 节点引用上面 1、2 部分定义的控制台和文件输出 --&gt;</span><br>    <span class="hljs-comment">&lt;!-- 当存在多个 logger 时，会存在父子关系，会根据 name属性指定的包名判断，日志处理流程为先子后父 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">root</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;INFO&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">appender-ref</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;CONSOLE&quot;</span> /&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">appender-ref</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;FILE&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-
-
+<h1>logback-spring 的配置</h1>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 1. 定义日志格式 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;LOG_PATTERN&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;%date&#123;HH:mm:ss.SSS&#125; [%thread] %-5level%logger&#123;36&#125; - %msg%n&quot;</span> /&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 2. 定义日志路径 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;FILE_PATH&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;G:/Work/SpringBootDemo/logs/log.%d&#123;yyyy-MM-dd&#125;.%i.log&quot;</span> /&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 3. 定义控制台日志输出 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;CONSOLE&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.ConsoleAppender&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">encoder</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 按照上面配置的LOG_PATTERN来打印日志 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">pattern</span>&gt;</span>$&#123;LOG_PATTERN&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">pattern</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">encoder</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 4. 定义日志文件输出 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">appender</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;FILE&quot;</span></span><br><span class="hljs-tag">              <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">rollingPolicy</span></span><br><span class="hljs-tag">                <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 按照上面配置的FILE_PATH路径来保存日志 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">fileNamePattern</span>&gt;</span>$&#123;FILE_PATH&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">fileNamePattern</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 日志保存15天 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">maxHistory</span>&gt;</span>15<span class="hljs-tag">&lt;/<span class="hljs-name">maxHistory</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">timeBasedFileNamingAndTriggeringPolicy</span></span><br><span class="hljs-tag">                    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP&quot;</span>&gt;</span><br>                <span class="hljs-comment">&lt;!-- 单个日志文件的最大，超过则新建日志文件存储 --&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">maxFileSize</span>&gt;</span>10MB<span class="hljs-tag">&lt;/<span class="hljs-name">maxFileSize</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">timeBasedFileNamingAndTriggeringPolicy</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">rollingPolicy</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">encoder</span>&gt;</span><br>            <span class="hljs-comment">&lt;!-- 按照上面配置的LOG_PATTERN来打印日志 --&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">pattern</span>&gt;</span>$&#123;LOG_PATTERN&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">pattern</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">encoder</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">appender</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 5. 指定 demo 包下的日志输出级别为 INFO --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">logger</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;com.demo&quot;</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;INFO&quot;</span>/&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 6. 使用最高级的 root 节点引用上面 1、2 部分定义的控制台和文件输出 --&gt;</span><br>    <span class="hljs-comment">&lt;!-- 当存在多个 logger 时，会存在父子关系，会根据 name属性指定的包名判断，日志处理流程为先子后父 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">root</span> <span class="hljs-attr">level</span>=<span class="hljs-string">&quot;INFO&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">appender-ref</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;CONSOLE&quot;</span> /&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">appender-ref</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;FILE&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br></code></pre></td></tr></table></figure>
 <p>参考：</p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903790349385735">Spring boot学习（七）Spring boot配置slf4j+logback日志框架</a></p>

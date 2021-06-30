@@ -228,47 +228,47 @@
             <h1 style="display: none">Vue（一）</h1>
             
             <div class="markdown-body">
-              <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本篇博客为自己对 Vue 的理解，巩固基础知识，作为开发时的参考使用。</p>
-<h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h1><p>创建 html 文件，引入 Vue 脚本链接：</p>
+              <h1>前言</h1>
+<p>本篇博客为自己对 Vue 的理解，巩固基础知识，作为开发时的参考使用。</p>
+<h1>1. 简介</h1>
+<p>创建 html 文件，引入 Vue 脚本链接：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs html"><br><span class="hljs-comment">&lt;!-- 开发环境版本，包含了有帮助的命令行警告 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/npm/vue/dist/vue.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-comment">&lt;!-- 或者 --&gt;</span><br><br><span class="hljs-comment">&lt;!-- 生产环境版本，优化了尺寸和速度 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/npm/vue&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br></code></pre></td></tr></table></figure>
-
 <p>每个 Vue 都需要通过实例化实现：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Vue 测试<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/npm/vue&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>	<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span><br>		  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123;&#123; message &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>		<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><br>		<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span><span class="javascript"></span><br><span class="javascript">			<span class="hljs-keyword">var</span> vm = <span class="hljs-keyword">new</span> Vue(&#123;</span><br><span class="javascript">			  <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;#app&#x27;</span>,</span><br><span class="javascript">			  <span class="hljs-attr">data</span>: &#123;</span><br><span class="javascript">			    <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Hello Vue.js!&#x27;</span></span><br><span class="javascript">			  &#125;</span><br><span class="javascript">			&#125;)</span><br><span class="javascript">		</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>	<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
 <p>可以看到，Vue 应用和 HTML不再直接交互，将会挂载到一个 DOM 元素上，将其作为一个入口，然后进行控制。</p>
-<h1 id="2-实例"><a href="#2-实例" class="headerlink" title="2. 实例"></a>2. 实例</h1><h2 id="2-1-创建"><a href="#2-1-创建" class="headerlink" title="2.1 创建"></a>2.1 创建</h2><p>每个 Vue 应用都是从创建一个 Vue 的根实例开始的：</p>
+<h1>2. 实例</h1>
+<h2 id="2-1-创建">2.1 创建</h2>
+<p>每个 Vue 应用都是从创建一个 Vue 的根实例开始的：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javaScript"><span class="hljs-keyword">var</span> vm = <span class="hljs-keyword">new</span> Vue (&#123;<br>	<span class="hljs-comment">// 选项对象</span><br>&#125;)<br></code></pre></td></tr></table></figure>
-
 <p>创建一个实例时，可以传入选项对象，以创建用户想要的行为，可以参考官方的 API 文档<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="API —— Vue.js 选项/数据
 ">[1]</span></a></sup>。</p>
 <p>可以包含数据、模板、挂载元素、方法、生命周期钩子等选项。</p>
 <p class="note note-danger">所有的 Vue 组件都是 Vue 实例，并且接受相同的选项对象 (一些根实例特有的选项除外)。</p>
-
-
-<h2 id="2-2-属性、方法"><a href="#2-2-属性、方法" class="headerlink" title="2.2 属性、方法"></a>2.2 属性、方法</h2><p>每个 Vue 实例都会代理其 data 对象里的所有属性，<strong>只有这些被代理的属性才是响应的</strong>：</p>
+<h2 id="2-2-属性、方法">2.2 属性、方法</h2>
+<p>每个 Vue 实例都会代理其 data 对象里的所有属性，<strong>只有这些被代理的属性才是响应的</strong>：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs JavaScript"><span class="hljs-keyword">var</span> data = &#123;<span class="hljs-attr">a</span> : <span class="hljs-number">1</span>&#125;<br><br><span class="hljs-keyword">var</span> vm = <span class="hljs-keyword">new</span> Vue(&#123;<br>	<span class="hljs-attr">data</span>: data<br>&#125;)<br><br><span class="hljs-comment">// 1. 属性是否相等</span><br>vm.a === data.a <span class="hljs-comment">// true</span><br><br><br><span class="hljs-comment">// 2. 设置属性也会影响到原始数据</span><br>vm.a = <span class="hljs-number">2</span><br><br>data.a <span class="hljs-comment">// 2</span><br><br><span class="hljs-comment">// 修改 data 也是如此</span><br><br>data.a = <span class="hljs-number">3</span><br><br>vm.a <span class="hljs-comment">// 3</span><br><br></code></pre></td></tr></table></figure>
-
 <p>除了 data 属性，Vue 实例还暴露了其他的 property（实例属性）和方法，这些都有 <code>$</code> 前缀，以便和代理的 data 属性区分。</p>
 <p>可以参考 API 文档<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="API —— Vue.js 实例 property
 ">[2]</span></a></sup>，常用的实例属性：</p>
 <ul>
-<li><p>vm.$data : 实例的数据对象</p>
+<li>
+<p>vm.$data : 实例的数据对象</p>
 </li>
-<li><p>vm.$el : 实例的根 DOM 元素</p>
+<li>
+<p>vm.$el : 实例的根 DOM 元素</p>
 </li>
-<li><p>vm.$patent : 当前实例的父实例</p>
+<li>
+<p>vm.$patent : 当前实例的父实例</p>
 </li>
 </ul>
-<h2 id="2-3-生命周期和生命周期钩子函数"><a href="#2-3-生命周期和生命周期钩子函数" class="headerlink" title="2.3 生命周期和生命周期钩子函数"></a>2.3 生命周期和生命周期钩子函数</h2><p><img src="/pics/Vue/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" alt="生命周期"></p>
+<h2 id="2-3-生命周期和生命周期钩子函数">2.3 生命周期和生命周期钩子函数</h2>
+<p><img src="/pics/Vue/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" alt="生命周期"></p>
 <p>上图为 Vue 实例的生命周期，其中红色虚线箭头指向的红色方框是 Vue 实例生命周期中可以使用的钩子函数，表示其可以在不同阶段被调用。</p>
 <p>例如：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs JavaScript"><span class="hljs-keyword">new</span> Vue(&#123;<br>	<span class="hljs-attr">data</span>: &#123;<br>		<span class="hljs-attr">a</span>: <span class="hljs-number">1</span><br>	&#125;,<br>	<span class="hljs-attr">created</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<br>		<span class="hljs-comment">// this 指向 vm 实例</span><br>		<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;a 的值为： &#x27;</span> + <span class="hljs-built_in">this</span>.a)<br>	&#125;<br>&#125;)<br><br><span class="hljs-comment">// a 的值为： 1</span><br><br></code></pre></td></tr></table></figure>
-
 <p class="note note-danger">生命周期钩子函数的 this 上下文，指向调用它的 Vue 实例。</p>
-
-
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#%E9%80%89%E9%A1%B9-%E6%95%B0%E6%8D%AE">API —— Vue.js 选项/数据</a>
+<h1>参考</h1>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#%E9%80%89%E9%A1%B9-%E6%95%B0%E6%8D%AE">API —— Vue.js 选项/数据</a>
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/api/#%E5%AE%9E%E4%BE%8B-property">API —— Vue.js 实例 property</a>
 <a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
             </div>

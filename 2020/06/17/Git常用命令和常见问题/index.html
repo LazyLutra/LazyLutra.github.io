@@ -228,12 +228,18 @@
             <h1 style="display: none">Git常用命令</h1>
             
             <div class="markdown-body">
-              <h1 id="SSH配置"><a href="#SSH配置" class="headerlink" title="SSH配置"></a>SSH配置</h1><ol>
-<li><p>切换Git的邮箱和用户名</p>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs verilog">git <span class="hljs-keyword">config</span> --<span class="hljs-keyword">global</span> user<span class="hljs-variable">.name</span> <span class="hljs-string">&quot;YourEmail@mail.com&quot;</span><br>git <span class="hljs-keyword">config</span> --<span class="hljs-keyword">global</span> user<span class="hljs-variable">.email</span> <span class="hljs-string">&quot;YourEmail@mail.com&quot;</span><br></code></pre></td></tr></table></figure></li>
-<li><p>执行下列命令，生成秘钥，生成默认文件名和指定文件名</p>
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs perl"><span class="hljs-number">1</span>. ssh-keygen -t rsa -C <span class="hljs-string">&quot;YourEmail@mail.com&quot;</span><br><span class="hljs-number">2</span>. ssh-keygen -t rsa -f ~<span class="hljs-regexp">/.ssh/id</span>_rsa_github -C <span class="hljs-string">&quot;YourEmail@mail.com&quot;</span><br></code></pre></td></tr></table></figure></li>
-<li><p>需要多次确认内容</p>
+              <h1>SSH配置</h1>
+<ol>
+<li>
+<p>切换Git的邮箱和用户名</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs verilog">git <span class="hljs-keyword">config</span> --<span class="hljs-keyword">global</span> user<span class="hljs-variable">.name</span> <span class="hljs-string">&quot;YourEmail@mail.com&quot;</span><br>git <span class="hljs-keyword">config</span> --<span class="hljs-keyword">global</span> user<span class="hljs-variable">.email</span> <span class="hljs-string">&quot;YourEmail@mail.com&quot;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>执行下列命令，生成秘钥，生成默认文件名和指定文件名</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs perl"><span class="hljs-number">1</span>. ssh-keygen -t rsa -C <span class="hljs-string">&quot;YourEmail@mail.com&quot;</span><br><span class="hljs-number">2</span>. ssh-keygen -t rsa -f ~<span class="hljs-regexp">/.ssh/id</span>_rsa_github -C <span class="hljs-string">&quot;YourEmail@mail.com&quot;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>需要多次确认内容</p>
 <ul>
 <li>秘钥的保存路径，不需要修改路径可直接回车</li>
 <li>如果上一步已经有秘钥文件存在，是否覆盖</li>
@@ -241,85 +247,120 @@
 <li>创建密码后需要确认密码</li>
 </ul>
 </li>
-<li><p>执行路径下会生成两个文件</p>
+<li>
+<p>执行路径下会生成两个文件</p>
 </li>
-<li><p>在刚才的目录下，查看是否有config文件，如果有，则添加以下内容</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stylus">Host github<span class="hljs-selector-class">.com</span><br>User YourEmail@mail<span class="hljs-selector-class">.com</span><br>Hostname ssh<span class="hljs-selector-class">.github</span><span class="hljs-selector-class">.com</span><br>PreferredAuthentications publickey<br>IdentityFile ~/.ssh/id_rsa_github<br></code></pre></td></tr></table></figure></li>
-<li><p>连接测试，输入以下命令</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">ssh -T <span class="hljs-symbol">git@</span>github.com<br></code></pre></td></tr></table></figure></li>
+<li>
+<p>在刚才的目录下，查看是否有config文件，如果有，则添加以下内容</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs stylus">Host github<span class="hljs-selector-class">.com</span><br>User YourEmail@mail<span class="hljs-selector-class">.com</span><br>Hostname ssh<span class="hljs-selector-class">.github</span><span class="hljs-selector-class">.com</span><br>PreferredAuthentications publickey<br>IdentityFile ~/.ssh/id_rsa_github<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>连接测试，输入以下命令</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">ssh -T <span class="hljs-symbol">git@</span>github.com<br></code></pre></td></tr></table></figure>
+</li>
 </ol>
-<p>   返回以下内容则连接正常：</p>
-<pre><code>`Hi Your UserName ! You&#39;ve successfully authenticated, but GitHub does not provide she ll access.`    
+<p>返回以下内容则连接正常：</p>
+<pre><code>`Hi Your UserName ! You've successfully authenticated, but GitHub does not provide she ll access.`    
 </code></pre>
-<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="用户操作"><a href="#用户操作" class="headerlink" title="用户操作"></a>用户操作</h2><ol>
-<li>查看当前用户名和邮箱： <figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">git</span> <span class="hljs-comment">config</span> --<span class="hljs-comment">global</span> --<span class="hljs-comment">list</span> <br></code></pre></td></tr></table></figure></li>
-<li>切换用户名和邮箱：<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs verilog">git <span class="hljs-keyword">config</span> --<span class="hljs-keyword">global</span> user<span class="hljs-variable">.name</span> <span class="hljs-string">&quot;这里换上你的用户名&quot;</span><br>git <span class="hljs-keyword">config</span> --<span class="hljs-keyword">global</span> user<span class="hljs-variable">.email</span> <span class="hljs-string">&quot;这里换上你的邮箱&quot;</span> <br></code></pre></td></tr></table></figure></li>
-<li>查看操作记录： <code>git reflog</code></li>
+<h1>常用命令</h1>
+<h2 id="用户操作">用户操作</h2>
+<ol>
+<li>
+<p>查看当前用户名和邮箱：</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">git</span> <span class="hljs-comment">config</span> --<span class="hljs-comment">global</span> --<span class="hljs-comment">list</span> <br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>切换用户名和邮箱：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs verilog">git <span class="hljs-keyword">config</span> --<span class="hljs-keyword">global</span> user<span class="hljs-variable">.name</span> <span class="hljs-string">&quot;这里换上你的用户名&quot;</span><br>git <span class="hljs-keyword">config</span> --<span class="hljs-keyword">global</span> user<span class="hljs-variable">.email</span> <span class="hljs-string">&quot;这里换上你的邮箱&quot;</span> <br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看操作记录： <code>git reflog</code></p>
+</li>
 </ol>
-<h2 id="上传流程"><a href="#上传流程" class="headerlink" title="上传流程"></a>上传流程</h2><ol>
+<h2 id="上传流程">上传流程</h2>
+<ol>
 <li>查看文件修改状态： <code>git status</code></li>
 <li>文件夹下所有修改提交到暂存区： <code>git add .</code></li>
 <li>文件夹下提交单个文件到暂存区： <code>git add 文件名称</code></li>
 <li>提交并填写提交信息： <code>git commit -m &quot;这里填写提交信息&quot;</code></li>
 <li>推送到Git仓库上的默认分支： <code>git push</code></li>
 </ol>
-<h2 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h2><ol>
+<h2 id="分支操作">分支操作</h2>
+<ol>
 <li>查看所有分支： <code>git branch -a</code></li>
 <li>查看当前所属分支： <code>git branch</code></li>
-<li>切换分支： <code>git checkout 分支名称</code> </li>
+<li>切换分支： <code>git checkout 分支名称</code></li>
 </ol>
-<h2 id="版本恢复"><a href="#版本恢复" class="headerlink" title="版本恢复"></a>版本恢复</h2><h3 id="使用git-reset"><a href="#使用git-reset" class="headerlink" title="使用git reset"></a>使用git reset</h3><p> <strong>原理：</strong> 修改HEAD指向的位置，抛弃该位置之后的全部修改</p>
+<h2 id="版本恢复">版本恢复</h2>
+<h3 id="使用git-reset">使用git reset</h3>
+<p><strong>原理：</strong> 修改HEAD指向的位置，抛弃该位置之后的全部修改</p>
 <p><img src="/pics/git01.png" alt="示例"></p>
 <ol>
-<li><p>使用 <code>git log</code> 查看版本号，或者在 git 页面上查看版本号</p>
+<li>
+<p>使用 <code>git log</code> 查看版本号，或者在 git 页面上查看版本号</p>
 </li>
-<li><p>使用 <code>git reset --hard 目标版本号</code></p>
+<li>
+<p>使用 <code>git reset --hard 目标版本号</code></p>
 <p><code>例如：git reset --hard ee8809ce</code></p>
 </li>
-<li><p>再次使用 <code>git log</code> 查看当前版本是否为目标版本</p>
+<li>
+<p>再次使用 <code>git log</code> 查看当前版本是否为目标版本</p>
 </li>
-<li><p>使用 <code>git push -f</code> 强制提交（因为本地 HEAD 指向的版本比远程库旧，所以需要强制提交）</p>
+<li>
+<p>使用 <code>git push -f</code> 强制提交（因为本地 HEAD 指向的版本比远程库旧，所以需要强制提交）</p>
 </li>
 </ol>
-<h2 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h2><ol>
-<li>将暂存区(index)内的文件全部删除：只删除索引，不删除原文件和修改的部分。（HEAD为当前分支 ）<br><code>git reset HEAD</code></li>
+<h2 id="其他操作">其他操作</h2>
+<ol>
+<li>将暂存区(index)内的文件全部删除：只删除索引，不删除原文件和修改的部分。（HEAD为当前分支 ）<br>
+<code>git reset HEAD</code></li>
 </ol>
-<h2 id="当前分支落后于主分钟版本"><a href="#当前分支落后于主分钟版本" class="headerlink" title="当前分支落后于主分钟版本"></a>当前分支落后于主分钟版本</h2><p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/daerzei/article/details/97615665">git合并分支时当前分支落后于主分支</a></p>
-<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="1-IDEA-clone-报错"><a href="#1-IDEA-clone-报错" class="headerlink" title="1. IDEA clone 报错"></a>1. IDEA clone 报错</h2><h3 id="1-1-缓存溢出"><a href="#1-1-缓存溢出" class="headerlink" title="1.1 缓存溢出"></a>1.1 缓存溢出</h3><p>IDEA 使用 git clone 项目报错：</p>
+<h2 id="当前分支落后于主分钟版本">当前分支落后于主分钟版本</h2>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/daerzei/article/details/97615665">git合并分支时当前分支落后于主分支</a></p>
+<h1>常见问题</h1>
+<h2 id="1-IDEA-clone-报错">1. IDEA clone 报错</h2>
+<h3 id="1-1-缓存溢出">1.1 缓存溢出</h3>
+<p>IDEA 使用 git clone 项目报错：</p>
 <p><img src="/pics/git/1.1-1.JPG" alt="1.1-1"></p>
 <ol>
-<li><p>原因一：缓存区溢出，重新设置大小</p>
+<li>
+<p>原因一：缓存区溢出，重新设置大小</p>
 <p><code>git config http.postBuffer 524288000</code></p>
 </li>
-<li><p>原因二：下载速度慢</p>
+<li>
+<p>原因二：下载速度慢</p>
 <p><code>git config --global http.lowSpeedLimit 0</code></p>
 <p><code>git config --global http.lowSpeedTime 999999</code></p>
 </li>
-<li><p>其他解决方法</p>
+<li>
+<p>其他解决方法</p>
 <p>先浅克隆到本地，然后远程库拉取</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">git clone --depth=<span class="hljs-number">1</span> http:<span class="hljs-regexp">//gi</span>tlab.xxx.cn<span class="hljs-regexp">/yyy/</span>zzz.git<br>git fetch --unshallow<br></code></pre></td></tr></table></figure></li>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">git clone --depth=<span class="hljs-number">1</span> http:<span class="hljs-regexp">//gi</span>tlab.xxx.cn<span class="hljs-regexp">/yyy/</span>zzz.git<br>git fetch --unshallow<br></code></pre></td></tr></table></figure>
+</li>
 </ol>
-<h2 id="2-pull失败如何解决"><a href="#2-pull失败如何解决" class="headerlink" title="2. pull失败如何解决"></a>2. pull失败如何解决</h2><h3 id="2-1-提示远程仓库不存在"><a href="#2-1-提示远程仓库不存在" class="headerlink" title="2.1 提示远程仓库不存在"></a>2.1 提示远程仓库不存在</h3><ol>
+<h2 id="2-pull失败如何解决">2. pull失败如何解决</h2>
+<h3 id="2-1-提示远程仓库不存在">2.1 提示远程仓库不存在</h3>
+<ol>
 <li>移除本地存储的仓库地址</li>
 </ol>
-<p>  <code>git remote rm origin</code></p>
+<p><code>git remote rm origin</code></p>
 <ol start="2">
 <li>获取 ssh 地址，重新与远程仓库建立关联</li>
 </ol>
-<p>  <code>git remote add origin 仓库地址</code></p>
+<p><code>git remote add origin 仓库地址</code></p>
 <ol start="3">
 <li>建立成功后，重新查看 branch 情况</li>
 </ol>
-<p>  <code>git fetch origin</code></p>
+<p><code>git fetch origin</code></p>
 <ol start="4">
 <li>检查远程仓库地址</li>
 </ol>
-<p>  这一步会出现两个相同的 git 地址，末尾分别是 (fetch) 和 (push)</p>
-<p>  <code>git remote -v</code></p>
+<p>这一步会出现两个相同的 git 地址，末尾分别是 (fetch) 和 (push)</p>
+<p><code>git remote -v</code></p>
 <ol start="5">
 <li>查看当前分支</li>
 </ol>
-<p>  <code>git branch</code></p>
+<p><code>git branch</code></p>
 
             </div>
             <hr>
