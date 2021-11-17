@@ -1,0 +1,17 @@
+@font-face{
+  font-family:'wcsf' ;  /* 字体名自定义即可 */
+  src:url('/font/wcsf.ttf'); /* 字体文件路径 */
+  font-display : swap;
+}
+
+h1#site-title {
+  font-family: 'wcsf', sans-serif;
+}
+
+.menus_item .site-page span{
+	font-family: 'wcsf',sans-serif !important;
+}
+
+a#site-name {
+  font-family:wcsf,sans-serif !important
+}
