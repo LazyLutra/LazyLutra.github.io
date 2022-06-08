@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UML和时序图 | 征蓬</title><meta name="keywords" content="UML,时序图"><meta name="author" content="huy"><meta name="copyright" content="huy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="示例   车的类图结构为 &lt;&lt;abstract&gt;&gt;，表明车是一个抽象类 车有两个继承类：小汽车和自行车，他们之间是实现关系； 小汽车和SUV是继承关系，他们之间是泛化关系； 小汽车和发动机是组合关系； 学生和班级是聚合关系； 学生和身份证是关联关系； 学生上学需要使用自行车，是依赖关系。  类之间的关系 类的继承结构在 UML 中具体是：泛化(generalize) 和 实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UML和时序图">
+<meta property="og:url" content="http://example.com/18922.html">
+<meta property="og:site_name" content="征蓬">
+<meta property="og:description" content="示例   车的类图结构为 &lt;&lt;abstract&gt;&gt;，表明车是一个抽象类 车有两个继承类：小汽车和自行车，他们之间是实现关系； 小汽车和SUV是继承关系，他们之间是泛化关系； 小汽车和发动机是组合关系； 学生和班级是聚合关系； 学生和身份证是关联关系； 学生上学需要使用自行车，是依赖关系。  类之间的关系 类的继承结构在 UML 中具体是：泛化(generalize) 和 实">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/pics/scenery/02.jpg">
+<meta property="article:published_time" content="2022-05-04T04:39:46.000Z">
+<meta property="article:modified_time" content="2022-05-17T01:05:51.828Z">
+<meta property="article:author" content="huy">
+<meta property="article:tag" content="UML">
+<meta property="article:tag" content="时序图">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/pics/scenery/02.jpg"><link rel="shortcut icon" href="/pics/avatar/8.png"><link rel="canonical" href="http://example.com/18922"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/font/wcsf.ttf" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'UML和时序图',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-17 09:05:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.min.css" media="defer" onload="this.media='all'"><script async src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/pics/Asoul/8.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/pics/scenery/02.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">征蓬</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">UML和时序图</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-05-04T04:39:46.000Z" title="发表于 2022-05-04 12:39:46">2022-05-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-17T01:05:51.828Z" title="更新于 2022-05-17 09:05:51">2022-05-17</time></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="示例">示例</h2>
+<p><img src="https://raw.githubusercontent.com/LazyLutra/imgBed/main/UML.png" alt="示例图"></p>
+<ul>
+<li>车的类图结构为 <code>&lt;&lt;abstract&gt;&gt;</code>，表明车是一个抽象类</li>
+<li>车有两个继承类：小汽车和自行车，他们之间是<strong>实现关系</strong>；</li>
+<li>小汽车和SUV是继承关系，他们之间是<strong>泛化关系</strong>；</li>
+<li>小汽车和发动机是<strong>组合关系</strong>；</li>
+<li>学生和班级是<strong>聚合关系</strong>；</li>
+<li>学生和身份证是<strong>关联关系</strong>；</li>
+<li>学生上学需要使用自行车，是<strong>依赖关系</strong>。</li>
+</ul>
+<h2 id="类之间的关系">类之间的关系</h2>
+<p>类的继承结构在 UML 中具体是：泛化(generalize) 和 实现(realize)。</p>
+<blockquote>
+<p><strong>继承和泛化实际上是一个概念，只不过出发角度不同</strong>：<br>
+继承是从父类角度出发，子类继承了父类的特性，可以用 <strong>is-a</strong> 表示，例如：自行车是车，SUV是车；<br>
+泛化是从子类角度出发，抽取多个子类的公共属性，成为父类，例如：SUV、轿车都是小汽车。</p>
+</blockquote>
+<h3 id="实现关系（realize）">实现关系（realize）</h3>
+<ul>
+<li>图例：<br>
+空心箭头虚线，<strong>箭头指向接口</strong></li>
+</ul>
+<blockquote>
+<p><strong>车</strong> 是一个抽象概念，无法直接定义对象，可以理解为接口。<br>
+类是接口所有特征和行为的实现。</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/LazyLutra/imgBed/main/realize.png" alt=""></p>
+<h3 id="泛化关系（generalization）">泛化关系（generalization）</h3>
+<ul>
+<li>图例：<br>
+空心箭头实线，<strong>箭头指向父类或接口</strong></li>
+</ul>
+<blockquote>
+<p>SUV是车的一种，SUV既有本身的特性，也有车的共性。<br>
+表示一般与特殊的关系，它指定了子类如何特化父类的所有特征和行为。</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/LazyLutra/imgBed/main/generalization.png" alt=""></p>
+<h3 id="组合关系（composition）">组合关系（composition）</h3>
+<ul>
+<li>
+<p>图例：<br>
+实心菱形箭头实线，<strong>箭头指向整体</strong></p>
+</li>
+<li>
+<p>代码表现：<br>
+成员变量</p>
+</li>
+</ul>
+<blockquote>
+<p>多个部门组成了公司，如果公司不存在，则部门也将不存在。<br>
+部分和整体的关系，要强于聚合关系，整体对象要负责部分对象的声明周期。</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/LazyLutra/imgBed/main/composition.png" alt=""></p>
+<h3 id="聚合关系（aggregation）">聚合关系（aggregation）</h3>
+<ul>
+<li>
+<p>图例：<br>
+空心菱形箭头实线，<strong>箭头指向整体</strong></p>
+</li>
+<li>
+<p>代码表现：<br>
+成员变量</p>
+</li>
+</ul>
+<blockquote>
+<p>学生是班级的一部分，脱离班级后学生仍可以独立存在。<br>
+整体和个体之间的强关联关系，个体可离开整体单独存在。</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/LazyLutra/imgBed/main/aggregation.png" alt=""></p>
+<h3 id="关联关系（association）">关联关系（association）</h3>
+<ul>
+<li>
+<p>图例：<br>
+实线或者箭头实线，<strong>箭头指向被拥有者（双向关联可不画箭头）</strong></p>
+</li>
+<li>
+<p>代码表现：<br>
+成员变量</p>
+</li>
+</ul>
+<blockquote>
+<p>是一种<strong>拥有关系</strong>，一个类知道另一个类的属性和方法。<br>
+单向关联：C 知道 D 的属性和方法，D 不知道 C。<br>
+双向关联：A 和 B 都知道彼此的属性和方法。</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/LazyLutra/imgBed/main/association.png" alt=""></p>
+<h3 id="依赖关系（dependency）">依赖关系（dependency）</h3>
+<ul>
+<li>
+<p>图例：<br>
+箭头虚线，<strong>箭头指向被使用者</strong></p>
+</li>
+<li>
+<p>代码表现：<br>
+局部变量、方法的参数或者对静态方法的调用</p>
+</li>
+</ul>
+<blockquote>
+<p>学生使用自行车。<br>
+是使用的关系，一个类实现需要另一个类的协助，尽量杜绝双向依赖。</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/LazyLutra/imgBed/main/dependency.png" alt=""></p>
+<h2 id="参考-2">参考</h2>
+<ul>
+<li>
+<p>[1]  <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42927264/article/details/82963556">类的关系（泛化, 实现，关联，聚合，组合，依赖）_一鲸落.万物生的博客-CSDN博客_泛化关系</a></p>
+</li>
+<li>
+<p>[2]  <a target="_blank" rel="noopener" href="https://design-patterns.readthedocs.io/zh_CN/latest/read_uml.html">看懂UML类图和时序图 — Graphic Design Patterns (design-patterns.readthedocs.io)</a></p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">huy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/18922.html">http://example.com/18922.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">征蓬</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/UML/">UML</a><a class="post-meta__tags" href="/tags/%E6%97%B6%E5%BA%8F%E5%9B%BE/">时序图</a></div><div class="post_share"><div class="social-share" data-image="/pics/scenery/02.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://jsdelivr.pai233.top/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://jsdelivr.pai233.top/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">2.</span> <span class="toc-text">类之间的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%85%B3%E7%B3%BB%EF%BC%88realize%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">实现关系（realize）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%9B%E5%8C%96%E5%85%B3%E7%B3%BB%EF%BC%88generalization%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">泛化关系（generalization）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E5%85%B3%E7%B3%BB%EF%BC%88composition%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">组合关系（composition）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%9A%E5%90%88%E5%85%B3%E7%B3%BB%EF%BC%88aggregation%EF%BC%89"><span class="toc-number">2.4.</span> <span class="toc-text">聚合关系（aggregation）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%85%B3%E7%B3%BB%EF%BC%88association%EF%BC%89"><span class="toc-number">2.5.</span> <span class="toc-text">关联关系（association）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB%EF%BC%88dependency%EF%BC%89"><span class="toc-number">2.6.</span> <span class="toc-text">依赖关系（dependency）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83-2"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('/pics/scenery/02.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By huy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer="defer" id="ribbon" src="https://jsdelivr.pai233.top/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="click-heart" src="https://jsdelivr.pai233.top/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
