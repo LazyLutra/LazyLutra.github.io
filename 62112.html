@@ -1,0 +1,290 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Redis持久化 | 征蓬</title><meta name="keywords" content="Redis"><meta name="author" content="huy"><meta name="copyright" content="huy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="AOF、RDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis持久化">
+<meta property="og:url" content="http://example.com/62112.html">
+<meta property="og:site_name" content="征蓬">
+<meta property="og:description" content="AOF、RDB">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/pics/scenery/04.png">
+<meta property="article:published_time" content="2022-03-02T02:03:25.000Z">
+<meta property="article:modified_time" content="2022-04-11T00:44:56.922Z">
+<meta property="article:author" content="huy">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/pics/scenery/04.png"><link rel="shortcut icon" href="/pics/avatar/8.png"><link rel="canonical" href="http://example.com/62112"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/font/wcsf.ttf" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Redis持久化',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-04-11 08:44:56'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.min.css" media="defer" onload="this.media='all'"><script async src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/pics/Asoul/8.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/pics/scenery/04.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">征蓬</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Redis持久化</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-03-02T02:03:25.000Z" title="发表于 2022-03-02 10:03:25">2022-03-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-11T00:44:56.922Z" title="更新于 2022-04-11 08:44:56">2022-04-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Redis/">Redis</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>有两种把数据保存到硬盘上的方式：快照持久化（RDB）、追加日志（append-only file，AOF）。<br>
+<strong>RDB</strong>：在某时刻备份所有完整数据。<br>
+<strong>AOF</strong>：把用户所有的写指令（增删改）记录到文件中，还原时只需要执行文件。</p>
+</blockquote>
+<h2 id="RDB">RDB</h2>
+<h3 id="配置文件内容">配置文件内容</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">################################ SNAPSHOTTING  ################################</span><br><span class="line">#</span><br><span class="line"># 从最近一次快照创建时间开始，在配置时间内发生一定次数写入时，就创建一个新的快照。如果有多条配置，当任意一条满足时就创建。</span><br><span class="line"># 例如：save 60 10000 ———— 60 秒内发生 10000 次写入，就创建新的快照。</span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br><span class="line"></span><br><span class="line"># 当 BGSAVE 出现错误时，是否停止写 RDB 文件。</span><br><span class="line">stop-writes-on-bgsave-error yes</span><br><span class="line"></span><br><span class="line"># RDB 文件压缩选项。</span><br><span class="line">rdbcompression yes</span><br><span class="line"></span><br><span class="line"># RDB 文件校验。</span><br><span class="line">rdbchecksum yes</span><br><span class="line"></span><br><span class="line"># RDB 文件名称。</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line"></span><br><span class="line"># RDB 和 AOF 文件存储路径。</span><br><span class="line">dir /www/server/redis/</span><br></pre></td></tr></table></figure>
+<h3 id="创建-RDB-文件">创建 RDB 文件</h3>
+<p>RDB 文件可以使用命令手动创建，也可以根据配置自动生成。</p>
+<p>当 <em>BGSAVE</em> 执行时，<em>SAVE</em>、<em>BGSAVE</em>、<em>BGREWRITEAOF</em> 三个命令会被拒绝。</p>
+<ol>
+<li>
+<p><em>SAVE</em></p>
+<p><strong>阻塞服务器进程，直到创建完文件。</strong> 这在期间，服务器不会响应任何请求。</p>
+</li>
+<li>
+<p><em>BGSAVE</em></p>
+<p><strong>派生（fork）出一个子进程创建文件，父进程处理命令请求。</strong></p>
+</li>
+</ol>
+<h3 id="文件载入">文件载入</h3>
+<p>没有专门用于载入文件的命令，在服务器启动时自动执行。</p>
+<p>载入时服务器为阻塞状态，直到载入完成。</p>
+<h2 id="AOF">AOF</h2>
+<h3 id="配置文件内容-2">配置文件内容</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">############################## APPEND ONLY MODE ###############################</span><br><span class="line"></span><br><span class="line"># 开启 AOF</span><br><span class="line">appendonly no</span><br><span class="line"></span><br><span class="line"># AOF文件名称</span><br><span class="line">appendfilename &quot;appendonly.aof&quot;</span><br><span class="line"></span><br><span class="line"># 设置同步频率</span><br><span class="line"># always 每执行一个写命令就同步到硬盘。影响性能</span><br><span class="line"># everysec 每秒同步一次。推荐使用该项</span><br><span class="line"># no 系统自行决定同步频率</span><br><span class="line">appendfsync everysec</span><br><span class="line"></span><br><span class="line"># AOF 重写时不支持追加命令</span><br><span class="line">no-appendfsync-on-rewrite no</span><br><span class="line"></span><br><span class="line"># AOF 重写百分比</span><br><span class="line">auto-aof-rewrite-percentage 100</span><br><span class="line"></span><br><span class="line"># AOF 重写文件的最小大小</span><br><span class="line">auto-aof-rewrite-min-size 64mb</span><br><span class="line"></span><br><span class="line"># AOF 写入时可能存在错误（比如断电写入一半），yes会继续写入，no会恢复失败</span><br><span class="line">aof-load-truncated yes</span><br><span class="line"></span><br><span class="line"># 混合持久化（RDB和AOF同时启用）</span><br><span class="line">aof-use-rdb-preamble yes</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="创建-AOF-文件">创建 AOF 文件</h3>
+<p>AOF 只支持自动创建，不支持手动使用命令创建。</p>
+<p><strong>Redis 的写命令（插入、修改、删除）会先保存 AOF 缓冲区，再定期写入并同步到 AOF 文件。</strong></p>
+<p>实现分为三步，命令追加(append)、文件写入、文件同步</p>
+<ol>
+<li>
+<p>命令追加：</p>
+<p>服务器执行完一个写命令后，会把该命令追加到 AOF 缓冲区（也就是 aof_buf）的末尾。</p>
+</li>
+<li>
+<p>文件写入：</p>
+<p>系统将缓冲区（aof_buf）的内容写入到 AOF 文件中。</p>
+<blockquote>
+<p>类似于打开 txt 文件编辑内容，但是没有 ctrl + s 保存。</p>
+</blockquote>
+</li>
+<li>
+<p>文件同步：</p>
+<p>根据配置的策略（appendfsync），系统会自动将其保存到硬盘里。</p>
+<blockquote>
+<p>编辑好 txt 文件后，按下了  ctrl + s 成功保存到硬盘中。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="文件载入-2">文件载入</h3>
+<p><img src="https://raw.githubusercontent.com/LazyLutra/imgBed/main/AOF%E8%BD%BD%E5%85%A5.png" alt="AOF文件载入过程"></p>
+<h3 id="AOF-文件重写">AOF 文件重写</h3>
+<p>Redis 不断运行，AOF 文件会有以下两个问题：</p>
+<ol>
+<li>AOF 文件体积变大，耗尽磁盘可用空间</li>
+<li>如果 AOF 体积太大，则 Redis 重启后载入花费的时间会很长</li>
+</ol>
+<p>AOF 重写可以生成一个新的、体积更小的 AOF 文件，且与重写前的 AOF 文件保存的数据库状态一致。</p>
+<p>实现过程：<strong>依次读取数据库的每个键值，然后用新命令保存该键值对，代替之前可能存在的冗余命令。</strong></p>
+<p>配置文件  ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># AOF 重写百分比</span><br><span class="line">auto-aof-rewrite-percentage 100</span><br><span class="line"></span><br><span class="line"># AOF 重写文件的最小大小</span><br><span class="line">auto-aof-rewrite-min-size 64mb</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>后台重写</p>
+<p>使用 <strong>BGREWRITEAOF</strong> 命令会创建一个子进程进行重写的工作，与 <strong>BGSAVE</strong> 类似。</p>
+<ol>
+<li>
+<p>维护一个 <em>AOF重写缓冲区</em>，Redis 每次执行完一个写命令，就会将其发送给 <em>AOF缓冲区</em> 和 <em>AOF重写缓冲区</em>；</p>
+</li>
+<li>
+<p>由于不在同一个进程中，彼此互不干扰，因此两个 AOF 文件保存的数据库状态是一致的；</p>
+</li>
+<li>
+<p>服务器/使用新的文件代替旧的，完成重写。</p>
+</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/LazyLutra/imgBed/main/AOF%E9%87%8D%E5%86%99.png" alt="AOF重写"></p>
+<h2 id="优缺点和区别">优缺点和区别</h2>
+<h3 id="RDB-2">RDB</h3>
+<ul>
+<li>
+<p>优点</p>
+<ol>
+<li>文件紧凑，适合冷备份。可以自由选择备份的时间，比如每小时备份一次过去24小时的数据；</li>
+<li>性能最大化。快照保存 RDB 文件时，只需要 fork 一个子进程即可，父进程不需要别的操作；</li>
+<li>恢复大数据时比 AOF 更快。</li>
+</ol>
+</li>
+<li>
+<p>缺点</p>
+<ol>
+<li>如果发生故障，将会丢失最后一次创建快照后的数据；</li>
+<li>如果数据量很大，生成快照的时间也会很长。</li>
+</ol>
+</li>
+</ul>
+<h3 id="AOF-2">AOF</h3>
+<ul>
+<li>
+<p>优点</p>
+<ol>
+<li>发生故障时，丢失的数据比 RDB 少；</li>
+<li>如果因为故障、磁盘空间已满等原因，出现未完全执行写入命令时，可以使用 redis-check-aof 工具修复；</li>
+<li>可以使用重写压缩 AOF 文件体积；</li>
+<li>可读性强，如果误操作了 FLUSHALL 命令，只需要停止服务器，移除 AOF 文件末尾的 FLUSHALL 并重启，就可以恢复到执行前的状态。</li>
+</ol>
+</li>
+<li>
+<p>缺点</p>
+<ol>
+<li>文件体积通常大于 RDB 文件；</li>
+<li>恢复大量数据时，速度比 RDB 更慢。</li>
+</ol>
+</li>
+</ul>
+<h3 id="区别-2">区别</h3>
+<ol>
+<li>RDB 可以理解为全量更新；AOF 是增量更新；AOF 重写是先全量再增量；</li>
+<li>AOF 重写适合在 AOF 运行了很久的写命令之后执行。</li>
+</ol>
+<h2 id="如何选择">如何选择</h2>
+<ul>
+<li>如果可以承受数分钟内的数据丢失，可以只使用 RDB；</li>
+<li>如果不能承受数分钟内的数据丢失，可以使用 RDB 和 AOF。</li>
+<li>RDB 适合数据量小，写命令频繁的场景；</li>
+<li>AOF 适合数据量大，写命令少的场景。</li>
+</ul>
+<h2 id="参考-28">参考</h2>
+<ul>
+<li>
+<p>[1] <a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000013086338">redis aof_buf缓冲区写入aof文件和同步aof文件有什么区别？</a></p>
+</li>
+<li>
+<p>[2] <a target="_blank" rel="noopener" href="https://dunwu.github.io/db-tutorial/nosql/redis/redis-persistence.html">Redis 持久化</a></p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">huy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/62112.html">http://example.com/62112.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">征蓬</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Redis/">Redis</a></div><div class="post_share"><div class="social-share" data-image="/pics/scenery/04.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://jsdelivr.pai233.top/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://jsdelivr.pai233.top/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/53469.html" title="Redis主从复制"><img class="cover" src="/pics/scenery/09.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-10</div><div class="title">Redis主从复制</div></div></a></div><div><a href="/26216.html" title="Redis基础"><img class="cover" src="/pics/scenery/24.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-23</div><div class="title">Redis基础</div></div></a></div><div><a href="/33739.html" title="Redis安装和使用"><img class="cover" src="/pics/scenery/13.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-25</div><div class="title">Redis安装和使用</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#RDB"><span class="toc-number">1.</span> <span class="toc-text">RDB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="toc-number">1.1.</span> <span class="toc-text">配置文件内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-RDB-%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">创建 RDB 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E8%BD%BD%E5%85%A5"><span class="toc-number">1.3.</span> <span class="toc-text">文件载入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOF"><span class="toc-number">2.</span> <span class="toc-text">AOF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9-2"><span class="toc-number">2.1.</span> <span class="toc-text">配置文件内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-AOF-%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.</span> <span class="toc-text">创建 AOF 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E8%BD%BD%E5%85%A5-2"><span class="toc-number">2.3.</span> <span class="toc-text">文件载入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AOF-%E6%96%87%E4%BB%B6%E9%87%8D%E5%86%99"><span class="toc-number">2.4.</span> <span class="toc-text">AOF 文件重写</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9%E5%92%8C%E5%8C%BA%E5%88%AB"><span class="toc-number">3.</span> <span class="toc-text">优缺点和区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RDB-2"><span class="toc-number">3.1.</span> <span class="toc-text">RDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AOF-2"><span class="toc-number">3.2.</span> <span class="toc-text">AOF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BA%E5%88%AB-2"><span class="toc-number">3.3.</span> <span class="toc-text">区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9"><span class="toc-number">4.</span> <span class="toc-text">如何选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83-28"><span class="toc-number">5.</span> <span class="toc-text">参考</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('/pics/scenery/04.png')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By huy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script defer="defer" id="ribbon" src="https://jsdelivr.pai233.top/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="click-heart" src="https://jsdelivr.pai233.top/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="false"></script></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
