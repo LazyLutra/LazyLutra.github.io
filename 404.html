@@ -51,7 +51,7 @@
 <nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><span>博客</span></a><a class="nav-item" title="时间线" href="/shuoshuo/" style="color:#3DC550"><span>时间线</span></a><a class="nav-item" title="关于" href="/about/" style="color:#FA6400"><span>关于</span></a></nav>
 </div>
 <div class="widgets">
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/60549.html"><span class="title">复盘方法</span></a><a class="item title" href="/posts/51860.html"><span class="title">Hexo搭建静态博客流程</span></a><a class="item title" href="/posts/9977.html"><span class="title">MySQL</span></a><a class="item title" href="/posts/51728.html"><span class="title">敏捷开发流程</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/51860.html"><span class="title">Hexo搭建静态博客流程</span></a><a class="item title" href="/posts/60549.html"><span class="title">自我使用说明书</span></a><a class="item title" href="/posts/38943.html"><span class="title">Java基础常见面试题总结</span></a><a class="item title" href="/posts/9977.html"><span class="title">MySQL</span></a><a class="item title" href="/posts/51728.html"><span class="title">敏捷开发流程</span></a></div></widget>
 
 <widget class="widget-wrapper timeline"><div class="widget-header dis-select"><span class="name">近期动态</span></div><div class="widget-body fs14"><div class="tag-plugin timeline ds-memos" api="https://memos.xaox.cc/api/v1/memo?creatorId=1&limit=10" hide="user,footer"></div></div></widget>
 </div>
@@ -74,18 +74,6 @@
   <a class='button' id='back' href="/">返回主页</a>
 </article>
 
-
-  <div class="related-wrap md-text" id="comments">
-    <section class='header cmt-title cap theme'>
-      <p>快来参与讨论吧~</p>
-
-    </section>
-    <section class='body cmt-body twikoo'>
-      
-
-<div id="twikoo_container"><svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg></div>
-    </section>
-  </div>
 
 
 
@@ -417,22 +405,6 @@
 
 <!-- optional -->
 
-  <script type="module">
-  const el = document.getElementById('twikoo_container');
-  util.viewportLazyload(el, load_twikoo, false);
-
-  function load_twikoo() {
-    if (!el) return;
-    utils.js('https://gcore.jsdelivr.net/npm/twikoo@1.6.8/dist/twikoo.all.min.js', {defer: true}).then(function () {
-      const path = el.getAttribute('comment_id') ?? decodeURI(window.location.pathname);
-      twikoo.init(Object.assign({"js":"https://gcore.jsdelivr.net/npm/twikoo@1.6.8/dist/twikoo.all.min.js","envId":"https://zpzpzpzp123-blogtwikoo.hf.space"}, {
-        el: '#twikoo_container',
-        path: path,
-      }));
-    });
-  }
-</script>
-
 
 
 <script defer>
@@ -574,5 +546,5 @@
 
 
 <!-- inject -->
-
+<script type="text/javascript" src="/js/custom.js?1"></script><script src="/js/custom.js?1"></script>
 </div></body></html>
