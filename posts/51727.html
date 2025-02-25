@@ -22,9 +22,8 @@
   
   <meta name="description" content="Java的集合类主要由两个接口派生出来的：分别是：Collection、Map
 
+Java集合概述
 
-
-Java集合框架概述
 
 数组和集合的区别
 容纳元素的区别：
@@ -33,7 +32,8 @@ Java集合框架概述
 集合：只能存储引用数据类型（如果存储的是 int 类型，会自动封装为 Integer）。
 
 
-长度的区...">
+长度的区别：
+...">
   
   <meta name="keywords" content="面试,Java集合">
 
@@ -79,7 +79,7 @@ Java集合框架概述
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/posts/51727.html">面试相关</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-21T04:53:52.000Z">2025-01-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-02-19T08:27:30.502Z">2025-02-19</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：3.3k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：12分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/Java%E9%9B%86%E5%90%88/">Java集合</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>&nbsp</div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-21T04:53:52.000Z">2025-01-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-02-25T08:15:33.142Z">2025-02-25</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：5.6k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：21分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/Java%E9%9B%86%E5%90%88/">Java集合</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
@@ -92,9 +92,8 @@ Java集合框架概述
   </div>
   </div><article class="md-text content"><div class="tag-plugin colorful note" color="warning"><div class="body"><p>Java的集合类主要由两个接口派生出来的：分别是：<strong>Collection</strong>、<strong>Map</strong></p></div></div>
 
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://raw.githubusercontent.com/LazyLutra/imgBed/main/Java集合概述.png" alt="Java集合概述" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">Java集合概述</span></div></div>
 
-
-<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://raw.githubusercontent.com/LazyLutra/imgBed/refs/heads/main/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0.png" alt="Java集合框架概述" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">Java集合框架概述</span></div></div>
 
 <h2 id="数组和集合的区别"><a href="#数组和集合的区别" class="headerlink" title="数组和集合的区别"></a>数组和集合的区别</h2><ol>
 <li><p><strong>容纳元素的区别</strong>：</p>
@@ -210,6 +209,12 @@ Java集合框架概述
 <ul>
 <li>底层实现：基于红黑树（自平衡的排序二叉树）。</li>
 <li>特点：按键排序（自然顺序或自定义比较器）。</li>
+</ul>
+</li>
+<li><p><strong>ConcurrentMap</strong></p>
+<ul>
+<li>底层实现：基于分段锁（JDK 1.7）或 CAS + synchronized（JDK 1.8）优化的哈希表。</li>
+<li>特点：线程安全，性能优于 Hashtable，支持高并发操作，不允许存储 null 键和 null 值</li>
 </ul>
 </li>
 </ul>
@@ -494,11 +499,290 @@ Java集合框架概述
     </div>
     </div></li>
 </ul>
-<h3 id="为什么线程不安全"><a href="#为什么线程不安全" class="headerlink" title="为什么线程不安全"></a>为什么线程不安全</h3><h3 id="扩容过程是怎样的"><a href="#扩容过程是怎样的" class="headerlink" title="扩容过程是怎样的"></a>扩容过程是怎样的</h3><p>当 <code>HashMap</code> 的元素容量超过阈值（计算方式：当前数组长度 * 负载因子）时，就会触发扩容：</p>
+<h3 id="扩容过程是怎样的"><a href="#扩容过程是怎样的" class="headerlink" title="扩容过程是怎样的"></a>扩容过程是怎样的</h3><p>当 <code>HashMap</code> 的元素容量超过阈值（计算方式：当前数组长度 * 负载因子）时，就会触发扩容（<u>创建一个新数组，容量是原数组的两倍的</u>）：</p>
+<ol>
+<li><p>创建新数组：<br>  当前数组长度为 <code>16</code>，负载因子为 <code>0.75</code>，阈值为：16 * 0.75 &#x3D; 12，插入第 13 个元素时触发扩容，创建新数组。</p>
+</li>
+<li><p>重新分配键值对：<br>  重新计算原数组的键值对索引位置，并迁移到新数组，计算公式：<code>index = (n - 1)&amp; hash</code>。<br>  其中，<code>n</code> 是数组长度，<code>hash</code> 是键的哈希值</p>
+</li>
+</ol>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">其他问题</span><span class="empty"></span></p></div>
+
 <ul>
-<li>例如：<br>当前数组长度为 <code>16</code>，负载因子为 <code>0.75</code>，阈值为：16 * 0.75 &#x3D; 12，插入第 13 个元素时触发扩容。</li>
+<li><p><strong>为什么容量是原来的两倍？</strong></p>
+<u>因为 `HashMap` 要求数组长度必须是 2 的幂</u>，方便通过位运算快速计算索引（数组下标，也就是元素的存储位置），
+<p>如果容量不是 2 的幂，会导致哈希分布不均，增加冲突概率</p>
+<div class="tag-plugin colorful note" color="cyan"><div class="title"><strong>数组下标的计算方法</strong></div><div class="body"><p>计算公式为：<code>index = (n - 1)&amp; hash</code>。<br>当数组长度 n 是 2 的幂次方时，等价于 <code>hash &amp; n</code>，同时可以使用位运算取代取余操作，计算效率更高  </p></div></div>
+
+</li>
+<li><p><strong>扩容对红黑树的影响</strong><br>由于扩容后需要重新计算索引位置，红黑树的 8 个节点也是如此，<br>可能的结果：</p>
+<ol>
+<li>如果所有节点仍然映射在一个桶中，则红黑树不变</li>
+<li>如果部分节点被分配到其他桶中，则红黑树会分裂（分裂后节点数量小于 6，则会退化为链表）</li>
+</ol>
+</li>
 </ul>
-<h3 id="和-HashTbale-的区别"><a href="#和-HashTbale-的区别" class="headerlink" title="和 HashTbale 的区别"></a>和 HashTbale 的区别</h3>
+<h3 id="HashMap的-Key-可以是可变对象吗"><a href="#HashMap的-Key-可以是可变对象吗" class="headerlink" title="HashMap的 Key 可以是可变对象吗"></a>HashMap的 Key 可以是可变对象吗</h3><p><strong>可以使用，但是不推荐</strong></p>
+<p>常见的不可变对象：String、包装类（Integer、Double、Boolean等）、BigInteger、BigDecimal；</p>
+<p>常见的可变对象：StringBuilder、StringBuffer、集合类（如 ArrayList、HashMap）、自定义类。</p>
+<hr>
+<p><strong>不推荐的原因</strong></p>
+<emp>会破坏 HashMap 的数据结构和功能</emp>
+
+<p>前提：键对象发生变化后，<code>hashCode()</code> 会重新计算</p>
+<ol>
+<li><p>插入新的键值对时，会根据新的 <code>hashCode()</code> 计算存储位置，认为是一个新的键（逻辑上应该是同一个），<br>会导致重复插入实际上是同一个 <code>key</code> 的键值对，造成<u>数据冗余</u></p>
+</li>
+<li><p>由于 <code>hashCode()</code> 已经发生变化，原来的键值对可能被存储在不同位置，</p>
+<u>可能会导致查找或删除操作失败</u></li>
+</ol>
+<h3 id="为什么线程不安全？"><a href="#为什么线程不安全？" class="headerlink" title="为什么线程不安全？"></a>为什么线程不安全？</h3><ol>
+<li><p><strong>JDK 1.7 扩容死循环问题</strong><br>在 JDK 1.7 中的 HashMap 使用<strong>头插法</strong>迁移数据，多线程时扩容可能会导致<strong>环形链表</strong>的情况</p>
+<div class="tag-plugin colorful note" color="cyan"><div class="title"><strong>示例</strong></div><div class="body"><p> 线程 A 和 B，同时进行扩容操作，原链表顺序为 <code>A → B → NULL</code> ：</p><ol><li>线程 A 迁移后的链表变为：<code>B → A → NULL</code>（头插法反转）</li><li>线程 B 基于线程 A 的结果再次迁移，形成 <code>A → B → A</code> 的环状链表。</li></ol><p><strong>JDK 1.8 后修改为 尾插法，避免链表反转，解决了死循环问题</strong></p></div></div>
+</li>
+<li><p><strong>JDK 1.8 数据覆盖</strong><br>两个线程若同时进行 <code>put()</code> 操作，且计算出的哈希值指向同一个桶</p>
+<ul>
+<li><strong>桶为空</strong>，两个线程都认为该节点为空，并尝试插入，<u>最终只会有一个线程的写入生效，另一个线程写入的数据被覆盖</u></li>
+<li><strong>桶非空</strong>，两个线程同时修改链表或红黑树，<u>导致节点丢失或链表断裂</u></li>
+</ul>
+</li>
+</ol>
+<h3 id="put-方法的流程"><a href="#put-方法的流程" class="headerlink" title="put 方法的流程"></a>put 方法的流程</h3><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://raw.githubusercontent.com/LazyLutra/imgBed/main/HashMap的put方法流程.png" alt="put方法执行流程" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">put方法执行流程</span></div></div>
+
+<ol>
+<li>检查数组是否初始化<br>如果 table 未初始化，则进行懒加载（初始化数组）</li>
+<li>计算哈希值<br>使用 hash 算法 <code>index = (n - 1) &amp; hash</code>，计算 key 的索引</li>
+<li>插入逻辑<ul>
+<li>桶为空 ：直接插入新节点</li>
+<li>桶不为空 ：<br> 如果是链表节点，遍历链表并插入到尾部（JDK 1.8 后改为尾插法）<br> 如果是红黑树节点，插入到红黑树中</li>
+</ul>
+</li>
+<li>链表 → 红黑树<br>当链表长度 ≥ 8 且数组长度 ≥ 64 时，链表转为红黑树</li>
+<li>插入成功后检查是否需要扩容<br>扩容时，重新分配所有节点到新数组，如果红黑树节点数 ≤ 6，则退化为链表</li>
+</ol>
+<h3 id="和-HashTbale-的异同"><a href="#和-HashTbale-的异同" class="headerlink" title="和 HashTbale 的异同"></a>和 HashTbale 的异同</h3><div class="tag-plugin colorful note" color="warning"><div class="title"><strong>注意</strong></div><div class="body"><p>除了有强一致性需求（遍历时不允许修改集合结构）外，<br>不推荐使用 <strong>HashTable</strong>，推荐使用 <strong>ConcurrentHashMap</strong></p></div></div>
+
+
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>HashMap</strong></th>
+<th><strong>Hashtable</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>底层数据结构</strong></td>
+<td>数组 + 链表&#x2F;红黑树（Java 8+ 优化）</td>
+<td>数组 + 链表</td>
+</tr>
+<tr>
+<td><strong>null键&#x2F;值</strong></td>
+<td>允许一个<code>null</code>键和多个<code>null</code>值</td>
+<td>键和值均不允许<code>null</code>，<br>否则抛出<code>NullPointerException</code></td>
+</tr>
+<tr>
+<td><strong>访问速度</strong></td>
+<td>无同步锁，读取速度快</td>
+<td>方法级同步（<code>synchronized</code>），<br>读取速度较慢</td>
+</tr>
+<tr>
+<td><strong>插入&#x2F;删除性能</strong></td>
+<td>无锁机制，性能较高</td>
+<td>同步锁导致性能较低</td>
+</tr>
+<tr>
+<td><strong>扩容方式</strong></td>
+<td>按需扩容（默认负载因子0.75），<br>重新哈希并迁移元素</td>
+<td>按需扩容（默认负载因子0.75），<br>重新哈希并迁移元素</td>
+</tr>
+<tr>
+<td><strong>内存开销</strong></td>
+<td>较小（无同步开销）</td>
+<td>较大（同步机制和额外对象）</td>
+</tr>
+<tr>
+<td><strong>线程安全</strong></td>
+<td>非线程安全，<br>需手动同步或使用<code>ConcurrentHashMap</code></td>
+<td>线程安全，<br>所有方法通过<code>synchronized</code>实现同步</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>单线程环境或无需同步的场景，追求高性能</td>
+<td>多线程需线程安全的场景，<br>但推荐优先使用<code>ConcurrentHashMap</code></td>
+</tr>
+</tbody></table>
+<h2 id="ConcurrentMap"><a href="#ConcurrentMap" class="headerlink" title="ConcurrentMap"></a>ConcurrentMap</h2><ul>
+<li><p>底层实现：<br> 数组 + 链表&#x2F;红黑树</p>
+</li>
+<li><p>线程安全实现：<br>  CAS（无锁操作） 和 synchronized</p>
+</li>
+</ul>
+<p>synchronized 只锁定当前链表或红黑树的首节点，锁粒度更小，支持更高并发。</p>
+<h3 id="和-HashTable-的异同"><a href="#和-HashTable-的异同" class="headerlink" title="和 HashTable 的异同"></a>和 HashTable 的异同</h3><table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>Hashtable</strong></th>
+<th><strong>ConcurrentHashMap</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>线程安全机制</strong></td>
+<td>全局锁（<code>synchronized</code>）</td>
+<td>分段锁（JDK 1.7）或 CAS + 细粒度锁（JDK 1.8）</td>
+</tr>
+<tr>
+<td><strong>性能</strong></td>
+<td>低（全局锁竞争激烈）</td>
+<td>高（锁粒度细化，支持并发）</td>
+</tr>
+<tr>
+<td><strong><code>null</code> 支持</strong></td>
+<td>不允许 <code>null</code> 键和值</td>
+<td>不允许 <code>null</code> 键，允许 <code>null</code> 值（JDK 1.8+）</td>
+</tr>
+<tr>
+<td><strong>迭代器一致性</strong></td>
+<td>强一致性（遍历时不允许修改）</td>
+<td>弱一致性（遍历时允许修改）</td>
+</tr>
+<tr>
+<td><strong>扩容效率</strong></td>
+<td>低（锁住整个表）</td>
+<td>高（支持多线程协作扩容）</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>遗留系统或低并发</td>
+<td>高并发场景</td>
+</tr>
+<tr>
+<td><strong>数据结构</strong></td>
+<td>数组 + 链表</td>
+<td>数组 + 链表&#x2F;红黑树（同 HashMap）</td>
+</tr>
+<tr>
+<td><strong>历史背景</strong></td>
+<td>Java 早期实现（JDK 1.0）</td>
+<td>现代实现（JDK 1.5+）</td>
+</tr>
+</tbody></table>
+<h3 id="怎样保证复合操作的原子性"><a href="#怎样保证复合操作的原子性" class="headerlink" title="怎样保证复合操作的原子性"></a>怎样保证复合操作的原子性</h3><ul>
+<li><p>怎样算是复合操作？</p>
+<p>即使 ConcurrentMap 的单个操作是线程安全的（<code>put</code>、<code>get</code>），<u>但多个操作的组合无法保证线程安全</u>，示例代码如下：</p>
+<figure class="highlight java"><figcaption><span>示例</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!map.containsKey(key)) &#123; <span class="comment">// 检查</span></span><br><span class="line">    map.put(key, value);      <span class="comment">// 修改</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>线程 A 执行 <code>containsKey</code>，结果返回 <code>false</code></li>
+<li>线程 B 在线程 A 检查后，抢先插入了相同的 key</li>
+<li>线程 A 继续执行 <code>put</code>，导致覆盖了线程 B 的数据，破坏了原子性</li>
+</ol>
+</li>
+<li><p>怎样保证复合操作的原子性？</p>
+<u>使用 ConcurrentMap 自带的原子方法，或显示同步 synchronized</u>，例如：
+
+<ul>
+<li><code>putIfAbsent(K key, V value)</code>，仅在键不存在时插入值</li>
+<li><code>remove(Object key, Object value)</code>，仅在键和值同时匹配时删除键值对</li>
+<li><code>replace(K key, V oldValue, V newValue)</code>，仅在键存在且旧值匹配时替换为新值</li>
+</ul>
+</li>
+</ul>
+<h2 id="迭代器-Iterator"><a href="#迭代器-Iterator" class="headerlink" title="迭代器 Iterator"></a>迭代器 Iterator</h2><p>Java 集合框架提供的接口，用于遍历集合元素，使用统一的方式访问集合元素，更加安全。</p>
+<h3 id="和-for-的对比"><a href="#和-for-的对比" class="headerlink" title="和 for 的对比"></a>和 for 的对比</h3><table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>Iterator</th>
+<th>for 循环</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>遍历适用范围</strong></td>
+<td>适用于所有集合类型，<br>提供统一接口进行遍历</td>
+<td>基于索引的遍历，<br>仅适用于数组或 List（如 ArrayList）</td>
+</tr>
+<tr>
+<td><strong>元素删除特点</strong></td>
+<td>支持在遍历时安全删除元素，<br>通过调用 <code>remove()</code> 方法实现</td>
+<td>直接删除元素可能会引发<br> <code>ConcurrentModificationException</code> 异常</td>
+</tr>
+</tbody></table>
+<h3 id="和-ListIterator-的对比"><a href="#和-ListIterator-的对比" class="headerlink" title="和 ListIterator 的对比"></a>和 ListIterator 的对比</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Iterator</th>
+<th>ListIterator</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>遍历方向</strong></td>
+<td>单向（从头到尾）</td>
+<td>双向（支持向前和向后遍历）</td>
+</tr>
+<tr>
+<td><strong>修改操作</strong></td>
+<td>仅支持删除（remove()）</td>
+<td>支持删除、添加（add()）、修改（set()）</td>
+</tr>
+<tr>
+<td><strong>适用范围</strong></td>
+<td>所有集合</td>
+<td>仅 List 类型<br>（如 ArrayList、LinkedList）</td>
+</tr>
+</tbody></table>
+<h3 id="fail-fast-和-fail-safe"><a href="#fail-fast-和-fail-safe" class="headerlink" title="fail-fast 和 fail-safe"></a>fail-fast 和 fail-safe</h3><ul>
+<li><p><strong>fail-fast</strong><br>错误检测机制，当发现可能导致数据不一致的操作时，抛出异常：<code>ConcurrentModificationException</code>。</p>
+<div class="tag-plugin colorful note" color="cyan"><div class="title">实现原理</div><div class="body"><p>集合内部维护了一个修改计数器：modCount，集合创建时记录当前的modCount，每次迭代时进行检查，如果有变化就抛出异常</p></div></div>
+
+<p>在单线程或多线程环境下，迭代过程中的集合结构被修改：</p>
+<figure class="highlight java"><figcaption><span>触发场景</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list.add(<span class="string">&quot;A&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;B&quot;</span>);</span><br><span class="line"></span><br><span class="line">Iterator&lt;String&gt; iterator = list.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">item</span> <span class="operator">=</span> iterator.next();</span><br><span class="line">    <span class="keyword">if</span> (item.equals(<span class="string">&quot;A&quot;</span>)) &#123;</span><br><span class="line">        list.remove(item); <span class="comment">// 抛出 ConcurrentModificationException</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>fail-safe</strong><br>在迭代过程中，即使集合被修改，<u>也不会抛出异常：`ConcurrentModificationException`</u>。</p>
+<div class="tag-plugin colorful note" color="cyan"><div class="title">实现原理</div><div class="body"><p>集合实际上遍历的是旧副本（快照），而不是实时数据，修改操作也不会影响到已经存在的迭代器</p></div></div></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>Fail-Fast（快速失败）</strong></th>
+<th><strong>Fail-Safe（安全失败）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>异常抛出</strong></td>
+<td>迭代期间修改集合会抛出<br><code>ConcurrentModificationException</code></td>
+<td>不会抛出异常</td>
+</tr>
+<tr>
+<td><strong>实现原理</strong></td>
+<td>检查 <code>modCount</code> 计数器变化</td>
+<td>遍历集合的快照或弱一致性视图</td>
+</tr>
+<tr>
+<td><strong>性能</strong></td>
+<td>高（无额外开销）</td>
+<td>较低（需要维护快照或同步机制）</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>单线程或手动同步的多线程环境</td>
+<td>高并发场景（如多线程读写）</td>
+</tr>
+<tr>
+<td><strong>典型集合类</strong></td>
+<td><code>ArrayList</code>、<code>HashMap</code>、<code>TreeMap</code></td>
+<td><code>ConcurrentHashMap</code>、<br><code>CopyOnWriteArrayList</code></td>
+</tr>
+<tr>
+<td><strong>迭代器行为</strong></td>
+<td>直接操作集合的实时数据</td>
+<td>操作集合的旧副本或弱一致性数据</td>
+</tr>
+</tbody></table>
+
 <div class="article-footer fs14">
     <section id="license">
       <div class="header"><span>许可协议</span></div>
@@ -521,7 +805,7 @@ Java集合框架概述
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%92%8C%E9%9B%86%E5%90%88%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">数组和集合的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#List%E3%80%81Set%E3%80%81Queue%E3%80%81Map-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">List、Set、Queue、Map 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-List"><span class="toc-text">1. List</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Set"><span class="toc-text">2. Set</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Queue"><span class="toc-text">3. Queue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Map"><span class="toc-text">4. Map</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#List"><span class="toc-text">List</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayList%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6"><span class="toc-text">ArrayList扩容机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E5%9C%A8%E9%81%8D%E5%8E%86ArrayList%E6%97%B6%E7%A7%BB%E9%99%A4%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="toc-text">怎么在遍历ArrayList时移除一个元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayList%E5%92%8CLinkedList"><span class="toc-text">ArrayList和LinkedList</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set"><span class="toc-text">Set</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Set%E7%9A%84%E6%97%A0%E5%BA%8F%E5%92%8C%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D"><span class="toc-text">Set的无序和不可重复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%EF%BC%9AComparable-%E5%92%8C-Comparator"><span class="toc-text">排序：Comparable 和 Comparator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HashSet%E3%80%81LinkedHashSet%E3%80%81TreeSet"><span class="toc-text">HashSet、LinkedHashSet、TreeSet</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap"><span class="toc-text">HashMap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%92%8C%E7%89%B9%E7%82%B9"><span class="toc-text">实现和特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%92%8C%E7%BA%A2%E9%BB%91%E6%A0%91%E5%88%87%E6%8D%A2%E6%9C%BA%E5%88%B6"><span class="toc-text">链表和红黑树切换机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-text">哈希冲突的解决方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8"><span class="toc-text">为什么线程不安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9%E8%BF%87%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84"><span class="toc-text">扩容过程是怎样的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%92%8C-HashTbale-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">和 HashTbale 的区别</span></a></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%92%8C%E9%9B%86%E5%90%88%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">数组和集合的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#List%E3%80%81Set%E3%80%81Queue%E3%80%81Map-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">List、Set、Queue、Map 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-List"><span class="toc-text">1. List</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Set"><span class="toc-text">2. Set</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Queue"><span class="toc-text">3. Queue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Map"><span class="toc-text">4. Map</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#List"><span class="toc-text">List</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayList%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6"><span class="toc-text">ArrayList扩容机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E5%9C%A8%E9%81%8D%E5%8E%86ArrayList%E6%97%B6%E7%A7%BB%E9%99%A4%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="toc-text">怎么在遍历ArrayList时移除一个元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayList%E5%92%8CLinkedList"><span class="toc-text">ArrayList和LinkedList</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set"><span class="toc-text">Set</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Set%E7%9A%84%E6%97%A0%E5%BA%8F%E5%92%8C%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D"><span class="toc-text">Set的无序和不可重复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%EF%BC%9AComparable-%E5%92%8C-Comparator"><span class="toc-text">排序：Comparable 和 Comparator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HashSet%E3%80%81LinkedHashSet%E3%80%81TreeSet"><span class="toc-text">HashSet、LinkedHashSet、TreeSet</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap"><span class="toc-text">HashMap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%92%8C%E7%89%B9%E7%82%B9"><span class="toc-text">实现和特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%92%8C%E7%BA%A2%E9%BB%91%E6%A0%91%E5%88%87%E6%8D%A2%E6%9C%BA%E5%88%B6"><span class="toc-text">链表和红黑树切换机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-text">哈希冲突的解决方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9%E8%BF%87%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84"><span class="toc-text">扩容过程是怎样的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HashMap%E7%9A%84-Key-%E5%8F%AF%E4%BB%A5%E6%98%AF%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1%E5%90%97"><span class="toc-text">HashMap的 Key 可以是可变对象吗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%EF%BC%9F"><span class="toc-text">为什么线程不安全？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#put-%E6%96%B9%E6%B3%95%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-text">put 方法的流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%92%8C-HashTbale-%E7%9A%84%E5%BC%82%E5%90%8C"><span class="toc-text">和 HashTbale 的异同</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ConcurrentMap"><span class="toc-text">ConcurrentMap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%92%8C-HashTable-%E7%9A%84%E5%BC%82%E5%90%8C"><span class="toc-text">和 HashTable 的异同</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%8E%E6%A0%B7%E4%BF%9D%E8%AF%81%E5%A4%8D%E5%90%88%E6%93%8D%E4%BD%9C%E7%9A%84%E5%8E%9F%E5%AD%90%E6%80%A7"><span class="toc-text">怎样保证复合操作的原子性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8-Iterator"><span class="toc-text">迭代器 Iterator</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%92%8C-for-%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-text">和 for 的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%92%8C-ListIterator-%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-text">和 ListIterator 的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fail-fast-%E5%92%8C-fail-safe"><span class="toc-text">fail-fast 和 fail-safe</span></a></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
