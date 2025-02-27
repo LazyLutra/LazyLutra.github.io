@@ -79,7 +79,7 @@ Java集合概述
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/posts/51727.html">面试相关</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-21T04:53:52.000Z">2025-01-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-02-25T08:15:33.142Z">2025-02-25</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：5.6k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：21分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/Java%E9%9B%86%E5%90%88/">Java集合</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>&nbsp</div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-21T04:53:52.000Z">2025-01-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-02-27T07:37:58.014Z">2025-02-27</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：5.6k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：21分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/Java%E9%9B%86%E5%90%88/">Java集合</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
@@ -223,10 +223,10 @@ Java集合概述
 <li><p>手动扩容，需要提前知道数据的大概长度</p>
   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list.ensureCapacity(<span class="number">1000</span>); <span class="comment">// 提前扩容到至少 1000 个元素的容量</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>自动扩容<br>  计算出新的扩容数组的长度后实例化，并将原有数组的内容复制到新数组中去。<u>默认情况下，新的容量是原有容量的1.5倍</u></p>
+<li><p>自动扩容<br>  计算出新的扩容数组的长度后实例化，并将原有数组的内容复制到新数组中去。<u>默认情况下，新的数组容量是原有容量的1.5倍</u></p>
 </li>
 </ul>
-<h3 id="怎么在遍历ArrayList时移除一个元素"><a href="#怎么在遍历ArrayList时移除一个元素" class="headerlink" title="怎么在遍历ArrayList时移除一个元素"></a>怎么在遍历ArrayList时移除一个元素</h3><div class="tag-plugin colorful note" color="warning"><div class="body"><p>不能使用forEach()遍历，会导致记录修改次数的modCount对不上号，从而报错（快速失败）</p></div></div>
+<h3 id="怎么在遍历ArrayList时移除一个元素"><a href="#怎么在遍历ArrayList时移除一个元素" class="headerlink" title="怎么在遍历ArrayList时移除一个元素"></a>怎么在遍历ArrayList时移除一个元素</h3><div class="tag-plugin colorful note" color="warning"><div class="body"><p>只要在遍历过程中修改了集合的结构，就会导致记录修改次数的modCount对不上号，从而报错（快速失败）</p></div></div>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list.add(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;b&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;c&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误示例，异常信息：ConcurrentModificationException</span></span><br><span class="line">list.forEach(item -&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (item.equals(<span class="string">&quot;b&quot;</span>)) &#123;</span><br><span class="line">            list.remove(item);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确移除元素，推荐使用迭代器</span></span><br><span class="line"><span class="type">Iterator</span> <span class="variable">iterator</span> <span class="operator">=</span> list.iterator();</span><br><span class="line"><span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">    <span class="keyword">if</span> (iterator.next().equals(<span class="string">&quot;b&quot;</span>)) &#123;</span><br><span class="line">        iterator.remove();</span><br><span class="line">        System.out.println(<span class="string">&quot;b被移除&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -252,18 +252,18 @@ Java集合概述
 </tr>
 <tr>
 <td><strong>插入&#x2F;删除性能</strong></td>
-<td>插入和删除操作较慢，<br>尤其是在中间位置进行插入&#x2F;删除时<br>（需要移动元素）</td>
-<td>在头尾插入&#x2F;删除较快，<br>在中间插入&#x2F;删除时相对较慢<br>（需要遍历链表）</td>
+<td><u>尾部</u>插入&#x2F;删除较快，<br><u>中间/头部</u>插入&#x2F;删除较慢<br>（需要移动元素）</td>
+<td><u>头尾</u>插入&#x2F;删除较快，<br><u>中间</u>插入&#x2F;删除时相对较慢<br>（需要遍历链表）</td>
 </tr>
 <tr>
 <td><strong>扩容方式</strong></td>
-<td>数组扩容（默认1.5倍扩容）</td>
+<td>创建新数组并复制原数组<br>（默认容量为原数组1.5倍）</td>
 <td>不需要扩容，链表节点动态增加</td>
 </tr>
 <tr>
 <td><strong>内存开销</strong></td>
-<td>只存储数据本身，占用较少内存</td>
-<td>存储每个元素时需要额外存储<br>前后节点的引用，<br>因此内存开销较大</td>
+<td>只存储数据本身和未使用的容量，<br>占用较少内存</td>
+<td>存储数据和前后节点引用，<br>因此内存开销较大</td>
 </tr>
 <tr>
 <td><strong>线程安全</strong></td>
@@ -284,7 +284,7 @@ Java集合概述
 </ul>
 <h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><h3 id="Set的无序和不可重复"><a href="#Set的无序和不可重复" class="headerlink" title="Set的无序和不可重复"></a>Set的无序和不可重复</h3><ul>
 <li><p>无序性</p>
-<p>  只有 <code>HashSet</code> 无序，不等于随机性，指的是存储的数据在底层数组中不是按照数组索引顺序添加，</p>
+<p>  只有 <code>HashSet</code> 无序，不等于元素顺序是随机的，指的是存储的数据在底层数组中不是按照数组索引顺序添加，</p>
   <u>而是根据数据的哈希值决定顺序</u>。
 </li>
 <li><p>不可重复性</p>
