@@ -1,0 +1,677 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1" theme-name="Stellar" theme-version="1.29.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>MySQL 索引补充 - traveller</title>
+
+  
+  <meta name="description" content="索引其他知识补充，包括选择、优化等。">
+  
+  <meta name="keywords" content="MySQL">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.29.1">
+
+  
+    <link rel="shortcut icon" href="/pics/other/avatar.jpg">
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/pics/other/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">traveller</div><div class="sub cap">答案在路上，自由在风里。</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><span>博客</span></a><a class="nav-item" title="时间线" href="/shuoshuo/" style="color:#3DC550"><span>时间线</span></a><a class="nav-item" title="关于" href="/about/" style="color:#FA6400"><span>关于</span></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/51857.html"><span class="title">MySQL 索引补充</span></a><a class="item title" href="/posts/26960.html"><span class="title">MySQL常用</span></a><a class="item title" href="/posts/7044.html"><span class="title">MySQL实战 基础篇（五）</span></a><a class="item title" href="/posts/55610.html"><span class="title">MySQL实战 基础篇（四）</span></a><a class="item title" href="/posts/47099.html"><span class="title">MySQL实战 基础篇（三）</span></a><a class="item title" href="/posts/11256.html"><span class="title">MySQL实战 基础篇（一）</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a><a class="item title" href="/posts/36556.html"><span class="title">【面试相关】数据库</span></a><a class="item title" href="/posts/51727.html"><span class="title">【面试相关】Java集合</span></a><a class="item title" href="/posts/33833.html"><span class="title">【面试相关】Spring</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/other/banner_bg1.png">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/MySQL/">MySQL</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2021-09-01T07:40:05.000Z">2021-09-01</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-19T17:12:05.941Z">2025-03-20</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：2.3k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：8分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/MySQL/">MySQL</a>&nbsp</div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>MySQL 索引补充</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="索引类型"><a href="#索引类型" class="headerlink" title="索引类型"></a>索引类型</h2><p>这部分可以参考之前的内容：<a href="/posts/47099.html" title="MySQL实战 基础篇（三）">MySQL实战 基础篇（三）</a></p>
+<h2 id="普通索引和唯一索引"><a href="#普通索引和唯一索引" class="headerlink" title="普通索引和唯一索引"></a>普通索引和唯一索引</h2><h3 id="查询过程的区别"><a href="#查询过程的区别" class="headerlink" title="查询过程的区别"></a>查询过程的区别</h3><ul>
+<li><p>普通索引<br>   查询到第一个符合条件的记录后，继续查询，在碰到第一个不符合条件的记录时停止。</p>
+</li>
+<li><p>唯一索引<br>   查询到第一个符合条件的记录后，停止查询。</p>
+</li>
+</ul>
+<h3 id="更新过程的区别"><a href="#更新过程的区别" class="headerlink" title="更新过程的区别"></a>更新过程的区别</h3><p>需要分两种情况：要更新的目标页在内存中，或者不在内存中。</p>
+<ol>
+<li>目标页在内存中<ul>
+<li>普通索引：找到 3 到 5 之间的位置，插入记录，结束；</li>
+<li>唯一索引：找到 3 到 5 之间的位置，判断是否有冲突，插入记录，结束。</li>
+</ul>
+</li>
+<li>要更新的目标页不在内存中<ul>
+<li>普通索引：将记录更新到 change buffer 中，结束；</li>
+<li>唯一索引：读取数据页到内存，判断是否有冲突，插入记录，结束。</li>
+</ul>
+</li>
+</ol>
+<h3 id="如何选择和使用"><a href="#如何选择和使用" class="headerlink" title="如何选择和使用"></a>如何选择和使用</h3><p>如果业务可以接受（业务代码保证不会写入重复数据），优先使用普通索引，change buffer 优化效果明显。</p>
+<p>如果业务要求数据库对字段进行约束，就只能选择唯一索引。</p>
+<ul>
+<li>查询<br>  二者区别不大，仅有一些特殊情况（例如：索引在数据页的末尾，需要读下一页进行判断时，但是MySQL有预读机制）。</li>
+<li>插入、更新<ul>
+<li>尽量选择 <strong>普通索引</strong></li>
+<li>如果有更新后立即查询的场景，也使用 <strong>普通索引</strong>，并关闭 change buffer</li>
+<li>change buffer 和 <strong>普通索引</strong> 搭配使用时，对大数据量的表和使用机械硬盘存储的优化效果明显</li>
+</ul>
+</li>
+<li>备注<ul>
+<li>如果碰上大量插入数据慢、内存命中率低时，可以根据索引排查原因。</li>
+</ul>
+</li>
+</ul>
+<h2 id="为什么会选择错误的索引"><a href="#为什么会选择错误的索引" class="headerlink" title="为什么会选择错误的索引"></a>为什么会选择错误的索引</h2><p>如果在 SQL 语句中没有指定索引，就会由优化器选择，有时本可以执行很快的语句，却因为错误索引导致执行速度变慢。</p>
+<p>优化器在选择索引时主要考虑以下几个因素:</p>
+<ol>
+<li>是否需要排序</li>
+<li>是否使用临时表</li>
+<li>扫描行数</li>
+</ol>
+<h3 id="如何判断扫描行数"><a href="#如何判断扫描行数" class="headerlink" title="如何判断扫描行数"></a>如何判断扫描行数</h3><p>扫描行数根据索引的选择性进行判断，索引上不同的值越多，选择性越高，不同值的个数称为基数（cardinality）。</p>
+<div class="tag-plugin colorful note" color="cyan"><div class="title"><strong>举例</strong></div><div class="body"><p>表 t 有 100 条记录，在字段 a 上建立索引：</p><p>如果 a 的值是 1 ~ 100，则 a 有 100 个不同值，<strong>基数高</strong>（很快可以查出主键ID，再回表查询记录），选择性好；</p><p>如果 a 的值都是 1，则字段 a 只有一个值，<strong>基数很低</strong>，选择性很差，a 索引就没有意义。</p></div></div>
+
+
+<h4 id="索引的选择性"><a href="#索引的选择性" class="headerlink" title="索引的选择性"></a>索引的选择性</h4><p>索引的选择性是指 <strong>不重复的索引值（基数） 和 数据表记录总数的比值</strong>。</p>
+<p>选择性越高，查询效率越高，因为可以过滤更多的行。唯一索引的选择性为 1，是最高的索引选择性，查询效率也是最高的。</p>
+<p>可以用以下语句计算</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> b)<span class="operator">/</span><span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> t;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="基数（cardinality）"><a href="#基数（cardinality）" class="headerlink" title="基数（cardinality）"></a>基数（cardinality）</h4><ul>
+<li>如何获取基数？<br>使用 <strong>随机采样统计</strong> 的方法估算行数；<br>如果逐行进行统计，得到的结果精确，但是代价太高。</li>
+<li>自动触发索引统计<br> 统计信息会随着记录变更而修改，当变更行数超过 1&#x2F;m 时，就会自动重新统计。<br> 例如：表 t 有 100 行数据，变更超过 10 行时，就会自动触发重新统计。</li>
+</ul>
+<div class="tag-plugin colorful note" color="cyan"><div class="title"><strong>基数的计算过程</strong></div><div class="body"><p>选择 N 个数据页，统计数据页上的不同值，得到这些不同值的平均值，再乘索引页面数。</p><p>选择 3 个数据页（page1、page2、page3），假设有 10 个索引页，<br>数据页的不同值分别为，page1：10、page2：20、page3：15；</p><p>则索引基数为：基数 &#x3D; (10 + 20 + 15)&#x2F;3 * 10 &#x3D; 150</p></div></div>
+
+
+<p>在 MySQL 中，有两种存储索引统计的方式，可以通过设置参数 innodb_stats_persistent 的值来选择：<br>N：数据页的数量；M：变更行数的比例。</p>
+<ul>
+<li>设置为 on 的时候，表示统计信息会持久化存储。这时，默认的 N 是 20，M 是 10。</li>
+<li>设置为 off 的时候，表示统计信息只存储在内存中。这时，默认的 N 是 8，M 是 16。</li>
+</ul>
+<h3 id="选择异常时如何处理"><a href="#选择异常时如何处理" class="headerlink" title="选择异常时如何处理"></a>选择异常时如何处理</h3><h4 id="强制指定"><a href="#强制指定" class="headerlink" title="强制指定"></a>强制指定</h4><p>使用 <em>force index</em> 强制指定索引，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> t force index(a) <span class="keyword">where</span> a <span class="keyword">between</span> <span class="number">100</span> <span class="keyword">and</span> <span class="number">20000</span> <span class="keyword">order</span> <span class="keyword">by</span> b;</span><br></pre></td></tr></table></figure>
+
+<p>使用该方法时，MySQL 将不会评估其他索引的执行效率，将会直接使用指定的索引。</p>
+<p>但是这种方法很不方便，如果索引名称变更，则 sql 语句也需要修改；如果迁移数据库，也可能不支持该方法。</p>
+<h4 id="引导优化器使用正确的索引"><a href="#引导优化器使用正确的索引" class="headerlink" title="引导优化器使用正确的索引"></a>引导优化器使用正确的索引</h4><p>这个方法也需要修改语句，添加其他条件引导优化器，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 修改前</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> t force index(a) <span class="keyword">where</span> a <span class="keyword">between</span> <span class="number">100</span> <span class="keyword">and</span> <span class="number">2000</span> <span class="keyword">and</span> b <span class="keyword">between</span> <span class="number">3000</span> <span class="keyword">and</span> <span class="number">5000</span> <span class="keyword">order</span> <span class="keyword">by</span> b;</span><br><span class="line"><span class="comment">--修改后</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> t force index(a) <span class="keyword">where</span> a <span class="keyword">between</span> <span class="number">100</span> <span class="keyword">and</span> <span class="number">2000</span> <span class="keyword">and</span> b <span class="keyword">between</span> <span class="number">3000</span> <span class="keyword">and</span> <span class="number">5000</span> <span class="keyword">order</span> <span class="keyword">by</span> b, a;</span><br></pre></td></tr></table></figure>
+
+<p>修改前使用 b 索引，可以避免重新排序，只要遍历，所以优化器采用了 b 索引。</p>
+<p>修改后使用 b, a 两字段进行排序，意味着需要将两个索引都需要排序，这时候，扫描行数就成为选择索引的关键条件。</p>
+<p>这种方法也不太好用，不仅没有通用性，还难以维护。</p>
+<h4 id="新建或者删除索引"><a href="#新建或者删除索引" class="headerlink" title="新建或者删除索引"></a>新建或者删除索引</h4><p>既然当前索引不合适，可以选择新建一个索引，提供给优化器做选择；或者删除掉误用或者没有必要的索引，帮助优化器排除错误选项。</p>
+<p>这种方法简单粗暴好用。</p>
+<h2 id="如何创建高性能的索引"><a href="#如何创建高性能的索引" class="headerlink" title="如何创建高性能的索引"></a>如何创建高性能的索引</h2><h3 id="查询时使用独立列"><a href="#查询时使用独立列" class="headerlink" title="查询时使用独立列"></a>查询时使用独立列</h3><p>独立的列是指：索引列不能作为表达式的一部分，也不能是函数的参数。</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/索引补充-示例图1.png" alt="索引列参与运算时" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">索引列参与运算时</span></div></div>
+
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/索引补充-示例图2.png" alt="正常使用索引" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">正常使用索引</span></div></div>
+
+<p>使用 explan 命令很容易看出，作为表达式的一部分时，没有使用索引。</p>
+<p>使用中应该简化 where 条件，始终将索引列单独放在比较符号的一边。</p>
+<h3 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h3><p>有时需要在很长的字符串上建立索引，例如：邮箱、身份证号等，字符串长度过长会影响索引速度。</p>
+<p>可以索引开始的部分字符，降低索引长度，提高效率，但是也会降低索引的选择性（选择性可以参考本文中 <strong>索引的选择性</strong>）。</p>
+<p>一般情况下，某个列的前缀选择性可以满足查询性能的。对于 BLOB、TEXT、很长的 VARCHAR 列，必须使用前缀索引。</p>
+<div class="tag-plugin colorful note" color="cyan"><div class="title"><strong>举例</strong></div><div class="body"><p>使用邮箱登录的系统中建立用户表，id 为自增主键，email 列上也需要建立索引。</p><p>如果使用整个字符串，则占用的空间更多；如果使用前缀索引，则扫描次数更多。</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 该索引包含每个记录 email 字段的全部字符串</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> user_info <span class="keyword">add</span> index index1(email);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 该索引包含每个记录 email 字段的前 6 个字符</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> user_info <span class="keyword">add</span> index index2(email(<span class="number">6</span>));</span><br></pre></td></tr></table></figure><p><strong>如何确定前缀索引的的长度呢？</strong><br>需要关注索引的选择性，选择性越高，则重复的值越少，可以参考本文中的：索引的选择性。</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">  <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">left</span>(email, <span class="number">4</span>))<span class="operator">/</span><span class="built_in">COUNT</span>(<span class="operator">*</span>),</span><br><span class="line">  <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">left</span>(email, <span class="number">5</span>))<span class="operator">/</span><span class="built_in">COUNT</span>(<span class="operator">*</span>),</span><br><span class="line">  <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> <span class="keyword">left</span>(email, <span class="number">6</span>))<span class="operator">/</span><span class="built_in">COUNT</span>(<span class="operator">*</span>)</span><br><span class="line"> <span class="keyword">FROM</span> t;</span><br></pre></td></tr></table></figure><p><strong>执行顺序：</strong></p>  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> username, email <span class="keyword">FROM</span> user_info <span class="keyword">WHERE</span> email <span class="operator">=</span> <span class="string">&#x27;12345678@gmail.com&#x27;</span>;</span><br></pre></td></tr></table></figure><ul><li><p>index1（即 email 整个字符串的索引结构）</p><ol><li>index1 索引树找到满足索引值为 <a href="mailto:&#x31;&#50;&#51;&#52;&#53;&#54;&#55;&#56;&#64;&#x67;&#109;&#97;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#109;">&#x31;&#50;&#51;&#52;&#53;&#54;&#55;&#56;&#64;&#x67;&#109;&#97;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#109;</a> 的记录，并获取主键 id；</li><li>为了获取 username 的值，需要用 id 回主键表查询记录，将这行记录加入结果集；</li><li>因为是普通索引，需要取 index1 索引树上的下一条记录，发现条件不满足 <a href="mailto:&#49;&#50;&#x33;&#x34;&#x35;&#x36;&#x37;&#x38;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#111;&#x6d;">&#49;&#50;&#x33;&#x34;&#x35;&#x36;&#x37;&#x38;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#111;&#x6d;</a>，循环结束。</li></ol>   <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/索引补充-前缀索引-index1.png" alt="email索引结构图" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">email索引结构图</span></div></div></li><li><p>index2（即 email(6) 索引结构）</p><ol><li>在 index2 索引树上查找满足 123456 的结果，id 为1；</li><li>回主键表，查询 id &#x3D; 1 的记录，验证 email 是否为 <a href="mailto:&#49;&#50;&#x33;&#52;&#x35;&#x36;&#x37;&#56;&#64;&#x67;&#x6d;&#97;&#x69;&#108;&#x2e;&#x63;&#x6f;&#x6d;">&#49;&#50;&#x33;&#52;&#x35;&#x36;&#x37;&#56;&#64;&#x67;&#x6d;&#97;&#x69;&#108;&#x2e;&#x63;&#x6f;&#x6d;</a>，如果不是则弃用，继续循环；</li><li>假设 index2 查询到下一条记录的索引仍是 12346，则取出 id，回表，校验 email，结果一致时加入结果集；</li><li>重复上述循环，直到 index2 上取得索引不是 123456，返回结果集。</li></ol>   <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/索引补充-前缀索引-index2.png" alt="email(6)索引结构图" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">email(6)索引结构图</span></div></div></li></ul><p>这个过程可以看出，前缀索引的扫描次数要多于普通索引。</p><p>优点：<strong>如果能控制好前缀索引的长度，可以做到既省空间、又不额外增加查询成本。</strong></p><p>缺点：<strong>增加扫描次数，不能使用覆盖索引。</strong></p></div></div>
+
+
+<h2 id="建表语句"><a href="#建表语句" class="headerlink" title="建表语句"></a>建表语句</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `t` (</span><br><span class="line">  `id` <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `a` <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `b` <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`id`),</span><br><span class="line">  KEY `a` (`a`),</span><br><span class="line">  KEY `b` (`b`)</span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB；</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">delimiter ;;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">procedure</span> idata()</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="keyword">declare</span> i <span class="type">int</span>;</span><br><span class="line">  <span class="keyword">set</span> i<span class="operator">=</span><span class="number">1</span>;</span><br><span class="line">  while(i<span class="operator">&lt;=</span><span class="number">100000</span>)do</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> t <span class="keyword">values</span>(i, i, i);</span><br><span class="line">    <span class="keyword">set</span> i<span class="operator">=</span>i<span class="operator">+</span><span class="number">1</span>;</span><br><span class="line">  <span class="keyword">end</span> while;</span><br><span class="line"><span class="keyword">end</span>;;</span><br><span class="line">delimiter ;</span><br><span class="line"><span class="keyword">call</span> idata();</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/posts/60549.html">自我使用说明书</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/26960.html">MySQL常用</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a href="/">None</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about">关于本站</a></div></div><div class="text"><p>本博客所有文章除特别声明外均为原创，本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B"><span class="toc-text">索引类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E7%B4%A2%E5%BC%95%E5%92%8C%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95"><span class="toc-text">普通索引和唯一索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">查询过程的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">更新过程的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="toc-text">如何选择和使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E9%80%89%E6%8B%A9%E9%94%99%E8%AF%AF%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="toc-text">为什么会选择错误的索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E6%89%AB%E6%8F%8F%E8%A1%8C%E6%95%B0"><span class="toc-text">如何判断扫描行数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E9%80%89%E6%8B%A9%E6%80%A7"><span class="toc-text">索引的选择性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%95%B0%EF%BC%88cardinality%EF%BC%89"><span class="toc-text">基数（cardinality）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E5%BC%82%E5%B8%B8%E6%97%B6%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86"><span class="toc-text">选择异常时如何处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E6%8C%87%E5%AE%9A"><span class="toc-text">强制指定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%AF%BC%E4%BC%98%E5%8C%96%E5%99%A8%E4%BD%BF%E7%94%A8%E6%AD%A3%E7%A1%AE%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="toc-text">引导优化器使用正确的索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E6%88%96%E8%80%85%E5%88%A0%E9%99%A4%E7%B4%A2%E5%BC%95"><span class="toc-text">新建或者删除索引</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E9%AB%98%E6%80%A7%E8%83%BD%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="toc-text">如何创建高性能的索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E6%97%B6%E4%BD%BF%E7%94%A8%E7%8B%AC%E7%AB%8B%E5%88%97"><span class="toc-text">查询时使用独立列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95"><span class="toc-text">前缀索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E8%A1%A8%E8%AF%AD%E5%8F%A5"><span class="toc-text">建表语句</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.29.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    }
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+<script type="text/javascript" src="/js/custom.js?1"></script><script src="/js/custom.js?1"></script>
+</div></body></html>

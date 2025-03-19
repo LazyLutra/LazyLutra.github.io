@@ -1,0 +1,771 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1" theme-name="Stellar" theme-version="1.29.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>MySQL实战 基础篇（三） - traveller</title>
+
+  
+  <meta name="description" content="基础篇三：索引。">
+  
+  <meta name="keywords" content="MySQL">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.29.1">
+
+  
+    <link rel="shortcut icon" href="/pics/other/avatar.jpg">
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/pics/other/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">traveller</div><div class="sub cap">答案在路上，自由在风里。</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><span>博客</span></a><a class="nav-item" title="时间线" href="/shuoshuo/" style="color:#3DC550"><span>时间线</span></a><a class="nav-item" title="关于" href="/about/" style="color:#FA6400"><span>关于</span></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/51857.html"><span class="title">MySQL 索引补充</span></a><a class="item title" href="/posts/26960.html"><span class="title">MySQL常用</span></a><a class="item title" href="/posts/7044.html"><span class="title">MySQL实战 基础篇（五）</span></a><a class="item title" href="/posts/55610.html"><span class="title">MySQL实战 基础篇（四）</span></a><a class="item title" href="/posts/47099.html"><span class="title">MySQL实战 基础篇（三）</span></a><a class="item title" href="/posts/11256.html"><span class="title">MySQL实战 基础篇（一）</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a><a class="item title" href="/posts/36556.html"><span class="title">【面试相关】数据库</span></a><a class="item title" href="/posts/51727.html"><span class="title">【面试相关】Java集合</span></a><a class="item title" href="/posts/33833.html"><span class="title">【面试相关】Spring</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/other/banner_bg1.png">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/MySQL/">MySQL</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2021-05-12T07:45:48.000Z">2021-05-12</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-19T17:10:00.937Z">2025-03-20</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：3k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：11分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/MySQL/">MySQL</a>&nbsp</div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>MySQL实战 基础篇（三）</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><blockquote>
+<p>该系列是极客时间林晓斌的 MySQL实战45讲 课程笔记。</p>
+</blockquote>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p>索引的出现是为了提高查询效率，有很多种实现方式，也就引入了索引模型的概念。</p>
+<h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><p>哈希表是以键值对（key - value）的形式存储，输入待查找的 key，就可以找到对应的 value。</p>
+<p>实现思路： 将 value 放在一个数组里，然后使用哈希函数将 key 换算成数组中确定的位置，把 value 保存在该位置上。</p>
+<p>哈希冲突：多个 key 值经过哈希函数换算后，会出现值相同的情况。为了处理这种情况，需要拉出一个链表进行存储。（这里使用的是拉链法，还有其他解决方式）</p>
+<hr>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/哈希表示意图.png" alt="哈希表存储示意图" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">哈希表存储示意图</span></div></div>
+
+<p>以上图为例，<strong>ID_CARD_2</strong> 和 <strong>ID_CARD_4</strong> 根据哈希函数换算出的值都是 N。为了解决这个问题，将其都保存到 N 的链表中。</p>
+<p>如果需要查找 ID_CARD_2，处理过程是这样的：</p>
+<ol>
+<li><p>将 ID_CARD_2 通过哈希函数得出 N；</p>
+</li>
+<li><p>在链表中按照顺序遍历，找到 USER2。</p>
+</li>
+</ol>
+<p>图中四个 ID_CRAD_N 的值不是递增的，这样的好处是，在增加新的 USER 时速度很快，只需要按照顺序在后面追加即可。</p>
+<p>也不是没有缺点，因为这样是无序排列的，所以区间查询的速度很慢，例如：需要查找 [ID_CARD_X, ID_CARD_Y] 之间的的所有 USER，就必须全部扫描。</p>
+<u>哈希表只适用于等值查询的场景，例如：Memcached、Redis 等 NoSQL 引擎。</u>
+
+
+<h3 id="有序数组"><a href="#有序数组" class="headerlink" title="有序数组"></a>有序数组</h3><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/有序数组示意图.png" alt="有序数组存储示意图" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">有序数组存储示意图</span></div></div>
+
+<p>如果使用有序数组实现保存并查找身份证、用户名的功能，假设保存的身份证号不重复，这个数组就是按照递增的顺序保存。</p>
+<p>在查询 ID_CARD_2 时，使用二分法就能快速得到结果，时间复杂度是 O(log(N))。</p>
+<p>这个索引结果也支持范围查询，假设需要查找范围在 [ID_CARD_X, ID_CARD_Y] 区间的 User，先用二分法找到 ID_CARD_X（如果 ID_CARD_X 不存在，就找大于它的第一个 User），然后向右遍历，直到查询出第一个大于 ID_CARD_Y 的值，退出循环。</p>
+<p>在查询效率来说，有序数组是最好的数据结构。</p>
+<p>但是，在更新数据时就非常麻烦，往中间插入一条记录，就需要挪动后面的全部记录。</p>
+<u>有序数组只适用于静态存储引擎，例如：保存某年的全部城市人口信息。这类不需要修改的数据。</u>
+
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/二叉树示意图.png" alt="二叉树示意图" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">二叉树示意图</span></div></div>
+
+<p>二叉树的特点是：</p>
+<ol>
+<li><p>父节点左子树 所有节点值<strong>小于</strong>父节点的值</p>
+</li>
+<li><p>父节点右子树 所有节点值<strong>大于</strong>父节点的值</p>
+</li>
+</ol>
+<p>按照示意图，如果要查询 ID_CARD_2，则搜索顺序为：USER A -&gt; USER C -&gt; USER F -&gt; USER 2，时间复杂度为 O(log(N))。</p>
+<p>为了维持 O(log(N)) 的查询复杂度，就必须保证这是颗平衡二叉树。平衡更新的时间复杂度是 O(log(N))。</p>
+<div class="tag-plugin colorful note" color="cyan"><div class="title"><strong>二叉树是搜索效率最高的，但是实际上大多数的数据库存储却并不使用二叉树。</strong></div><div class="body"><p>假设一颗平衡二叉树需要保存 100 万数据，树高为 20，一次查询需要访问二十个数据块。</p><p>使用机械硬盘随机读一个数据块大概需要 10ms 左右的寻址时间，如果访问 100 万行的表，单独访问一行大概需要 20 * 10ms。时间非常慢。</p></div></div>
+
+
+<h4 id="N叉树"><a href="#N叉树" class="headerlink" title="N叉树"></a>N叉树</h4><p>为了让查询尽可能少的访问磁盘，就必须少访问数据块，就应该使用 N叉树，这里的 N 取决于数据块的大小。</p>
+<p>以 InnoDB 的整数字段为例，N 差不多是 1200，树高 4 层的时候，就可以保存 1200 的数据，大概有 17 亿。</p>
+<p>考虑到树根的数据块总是在内存中的，一个 10 亿行的表上一个整数字段的索引，查找一个值最多只需要访问 3 次磁盘。其实，树的第二层也有很大概率在内存中，那么访问磁盘的平均次数就更少了。</p>
+<h2 id="InnoDB索引模型"><a href="#InnoDB索引模型" class="headerlink" title="InnoDB索引模型"></a>InnoDB索引模型</h2><p>InnoDB 的索引使用 B+ 树索引模型，所有数据都保存在 B+ 树中。</p>
+<p>每张表都是多个 B+ 树：一个主键索引树和多个非主键索引树。树节点的 key 就是某行的主键，value 是该行的其他数据。</p>
+<p>每个索引都对应一颗 B+ 树，新建索引就是新建一个 B+ 树，如果查询不走索引，则遍历主 B+ 树。</p>
+<hr>
+<blockquote>
+<p>这部分参考了《MySQL的InnoDB索引原理详解》 第二节 Mysql 的存储引擎和索引。<br>原文中还对比了 MyISM 的非聚簇索引。</p>
+</blockquote>
+<p>假设有下面这个表，主键列为 ID，有字段 Name、Company，且字段 Name 上有索引。</p>
+<p>建表语句为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> user_info(</span><br><span class="line">  id <span class="type">int</span> <span class="keyword">primary</span> key,</span><br><span class="line">  name <span class="type">varchar</span>(<span class="number">16</span>),</span><br><span class="line">  company <span class="type">varchar</span>(<span class="number">32</span>),</span><br><span class="line">  index (name)</span><br><span class="line">)engine <span class="operator">=</span> InnoDB;</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> user_info (id, name, company) <span class="keyword">values</span> (<span class="string">&#x27;5&#x27;</span>,<span class="string">&#x27;王钢蛋&#x27;</span>,<span class="string">&#x27;公司A&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> user_info (id, name, company) <span class="keyword">values</span> (<span class="string">&#x27;8&#x27;</span>,<span class="string">&#x27;小明&#x27;</span>,<span class="string">&#x27;公司B&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> user_info (id, name, company) <span class="keyword">values</span> (<span class="string">&#x27;13&#x27;</span>,<span class="string">&#x27;小刚&#x27;</span>,<span class="string">&#x27;公司C&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> user_info (id, name, company) <span class="keyword">values</span> (<span class="string">&#x27;16&#x27;</span>,<span class="string">&#x27;小红&#x27;</span>,<span class="string">&#x27;公司D&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Company</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5</td>
+<td>王钢蛋</td>
+<td>公司A</td>
+</tr>
+<tr>
+<td>8</td>
+<td>小明</td>
+<td>公司B</td>
+</tr>
+<tr>
+<td>13</td>
+<td>小红</td>
+<td>公司C</td>
+</tr>
+<tr>
+<td>16</td>
+<td>小刚</td>
+<td>公司D</td>
+</tr>
+</tbody></table>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/InnoDB索引组织结构示意图.png" alt="InnoDB 索引组织结构图" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">InnoDB 索引组织结构图</span></div></div>
+
+<p>InnoDB 使用的是 聚簇索引（<em>主键索引也被称为聚簇索引</em>），将主键放在一颗 B+ 树中，行数据保存在叶子节点上。</p>
+<ul>
+<li><p>如果使用 id &#x3D; ‘8’ 的条件查找主键，按照 B+ 树的算法即可找到对应的叶子节点，然后获得行数据。</p>
+</li>
+<li><p>如果使用 name &#x3D; ‘小刚’ 的条件查询，则有两个步骤：</p>
+<ol>
+<li><p>在辅助键索引的 B+ 树中检索 Name，并获得对应的主键；</p>
+</li>
+<li><p>使用该主键在主键索引的 B+ 树再次执行检索操作，最终到达叶子节点，获取该行数据。</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>也就是说，如果使用非主键索引进行查询，会触发一次回表操作，比主键查询要多扫描一颗 B+ 树。因此，尽量多使用主键索引。</p>
+<article class="message is-danger"><div class="message-header">
+
+</div><div class="message-body">
+<ol>
+<li>因为行数据和叶子节点存储在一起，这样主键和行数据会一起加载进内存。<br>&nbsp;&nbsp;&nbsp;找到叶子节点后可以立刻返回行数据。如果按照主键 ID 组织数据，查询速度会更快。<br><br></li>
+<li>辅助索引使用主键作为“指针”，不使用地址值作为“指针”的优点是：<br>&nbsp;&nbsp;&nbsp;(1)&nbsp;&nbsp;减少了当出现行移动或者数据页分裂时索引的维护工作。<br>&nbsp;&nbsp;&nbsp;(2)&nbsp;&nbsp;InnoDB在移动行时，无需更新辅助索引中的“指针”,行的位置会随着数据的修改而发生变化；<br>&nbsp;&nbsp;&nbsp;如果使用聚簇索引，则不管主键 B+ 树如何改变，辅助索引树都不受影响。</div></article></li>
+</ol>
+<div class="tag-plugin colorful note" color="cyan"><div class="title"><strong>聚簇索引的优势在哪？</strong></div><div class="body"><ol><li><p>因为行数据和叶子节点存储在一起，这样主键和行数据会一起加载进内存。<br>找到叶子节点后可以立刻返回行数据。如果按照主键 ID 组织数据，查询速度会更快。</p></li><li><p>辅助索引使用主键作为“指针”，不使用地址值作为“指针”的优点是：<br>减少了当出现行移动或者数据页分裂时索引的维护工作。</p><p>InnoDB在移动行时，无需更新辅助索引中的“指针”,行的位置会随着数据的修改而发生变化；<br>如果使用聚簇索引，则不管主键 B+ 树如何改变，辅助索引树都不受影响。</p></li></ol></div></div>
+
+
+<h2 id="索引的几个概念"><a href="#索引的几个概念" class="headerlink" title="索引的几个概念"></a>索引的几个概念</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> user_info (</span><br><span class="line">	ID <span class="type">int</span> <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">   idCard <span class="type">varchar</span>(<span class="number">32</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">	userName <span class="type">varchar</span>(<span class="number">16</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">	age <span class="type">varchar</span>(<span class="number">6</span>),</span><br><span class="line">   isMale tinyint(<span class="number">1</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span>,</span><br><span class="line">	INDEX userName(userName)</span><br><span class="line">) ENGINE <span class="operator">=</span> InnoDB;</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> user_info</span><br><span class="line"><span class="keyword">VALUES</span> (<span class="number">100</span>, <span class="string">&#x27;1234&#x27;</span>, <span class="string">&#x27;王钢蛋&#x27;</span>, <span class="string">&#x27;23&#x27;</span>, <span class="string">&#x27;0&#x27;</span>),</span><br><span class="line">	(<span class="number">200</span>, <span class="string">&#x27;1221&#x27;</span>, <span class="string">&#x27;小明&#x27;</span>, <span class="string">&#x27;15&#x27;</span>, <span class="string">&#x27;1&#x27;</span>),</span><br><span class="line">	(<span class="number">300</span>, <span class="string">&#x27;1529&#x27;</span>, <span class="string">&#x27;小红&#x27;</span>, <span class="string">&#x27;20&#x27;</span>, <span class="string">&#x27;0&#x27;</span>),</span><br><span class="line">	(<span class="number">500</span>, <span class="string">&#x27;4326&#x27;</span>, <span class="string">&#x27;小刚&#x27;</span>, <span class="string">&#x27;18&#x27;</span>, <span class="string">&#x27;1&#x27;</span>),</span><br><span class="line">	(<span class="number">600</span>, <span class="string">&#x27;2341&#x27;</span>, <span class="string">&#x27;于老二&#x27;</span>, <span class="string">&#x27;32&#x27;</span>, <span class="string">&#x27;1&#x27;</span>),</span><br><span class="line">	(<span class="number">700</span>, <span class="string">&#x27;7584&#x27;</span>, <span class="string">&#x27;斧子&#x27;</span>, <span class="string">&#x27;24&#x27;</span>, <span class="string">&#x27;0&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>以上面这个表为例，如果我想查询年龄在 15 ~ 20 之间的用户，可以使用这个语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> userName <span class="keyword">FROM</span> user_info <span class="keyword">WHERE</span> age <span class="keyword">BETWEEN</span> <span class="string">&#x27;15&#x27;</span> <span class="keyword">AND</span> <span class="string">&#x27;20&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>在执行的过程中，需要执行几次树的搜索操作，会扫描多少行？</p>
+<p>先过一遍这个语句的执行流程：</p>
+<ol>
+<li>在 Name 索引树上查询 age &#x3D; 15 的记录，得到 ID &#x3D; 200；</li>
+<li>根据 ID &#x3D; 200，在 ID 索引树中获取对应的行数据；</li>
+<li>在 Name 索引树上取下一个值 age &#x3D; 20 ，得到 ID &#x3D; 300；</li>
+<li>再回到 ID 索引树中，根据 ID &#x3D; 300 获取对应的行数据；</li>
+<li>Name 索引树取下一个值 age &#x3D; 21，不满足条件，循环结束。</li>
+</ol>
+<p>在这个过程中，<strong>回到主键索引树搜索的过程，被称为回表</strong>。</p>
+<p>可以看到，这条查询语句一共读了 Name 索引树的 3 条记录（步骤1、3、5），回表两次（步骤2、4）。</p>
+<p>可以进行索引优化，避免回表过程，如下：</p>
+<h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><p>如果查询的语句是：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ID <span class="keyword">FROM</span> user_info <span class="keyword">WHERE</span> age <span class="keyword">BETWEEN</span> <span class="string">&#x27;15&#x27;</span> <span class="keyword">AND</span> <span class="string">&#x27;20&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>这时只会查询 ID，命中 age 索引树，叶子节点保存了 ID 值，可以直接返回数据，不需要回表。</p>
+<p>在这个查询中，索引 age 已经覆盖了查询需求，被称为 <strong>覆盖索引</strong>[^6]。</p>
+<div class="tag-plugin colorful note" color="cyan"><div class="body"><p>由于覆盖索引可以显著减少树的搜索次数、提升查询性能，也是常用的性能提升手段。</p></div></div>
+
+<h3 id="最左前缀原则"><a href="#最左前缀原则" class="headerlink" title="最左前缀原则"></a>最左前缀原则</h3><p>B+ 树这种数据结构，可以使用索引的“最左前缀”，定位记录。</p>
+<p>为了直观说明这个问题，以上面的 user_info 表为例，使用 userName、age 建立联合索引：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/联合索引.png" alt="联合索引.png" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">联合索引.png</span></div></div>
+
+<p>当查询条件为 userName &#x3D; ‘小刚’，可以快速定位到 ID &#x3D; 500；<br>当查询条件为 userName like ‘王%’，查找到第一个符合条件的记录 ID &#x3D; 100，再向后遍历，直到不满足条件。</p>
+<p><strong>只要满足最左前缀，就可以利用索引加速，包括最左的几个字符或者字段</strong>：</p>
+<ul>
+<li>字符：userName like ‘王%’;</li>
+<li>字段：userName &#x3D; ‘斧子’ and age &#x3D; ‘24’;</li>
+</ul>
+<div class="tag-plugin colorful note" color="cyan"><div class="title"><strong>如何安排联合索引内的字段顺序？</strong></div><div class="body"><p><strong>这里的标准是：索引的复用能力。</strong></p><ul><li><p>第一原则：通过调整顺序可以减少索引数量，则优先采用。<br> 如果使用 (idCard, userName) 建立联合索引，就可以不用建立 idCard 字段的索引。<br> 如果既有联合索引 (idCard, userName)，又需要根据 userName 单独查询呢？</p></li><li><p>第二原则：空间。<br> idCard字段要大于userName字段，则推荐建立联合索引 (idCard, userName)和单字段索引(userName)。</p></li></ul></div></div>
+
+
+<h3 id="索引下推"><a href="#索引下推" class="headerlink" title="索引下推"></a>索引下推</h3><p>这是 MySQL 5.6 版本引入的，可以在索引遍历的过程中，对索引包含的字段先做判断，过滤掉不满足条件的记录，减少回表次数。</p>
+<p>在 MySQL 5.6 版本之前，只能根据顺序回表，在主键索引上找到相应的数据行，然后比对字段值。</p>
+<p>以该语句为例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> user_info <span class="keyword">WHERE</span> userName <span class="keyword">LIKE</span> <span class="string">&#x27;于%&#x27;</span> <span class="keyword">AND</span> age <span class="operator">=</span> <span class="string">&#x27;20&#x27;</span> <span class="keyword">AND</span> isMale <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/%E6%97%A0%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8.png" alt="无索引下推.png"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8.png" alt="有索引下推.png"></p>
+<p>图中每个箭头表示回表一次。</p>
+<ul>
+<li>无索引下推：因为不需要比对，特意去掉了 age 的值，会按照顺序查找 ID 再回表取出记录。<strong>回表 4 次</strong></li>
+<li>有索引下推：在索引内部就比对了 age，不满足 age &#x3D; ‘20’ 的记录直接跳过，只对 ID6、ID9 的数据回表。<strong>回表 2 次</strong></li>
+</ul>
+
+<div class="article-footer fs14">
+    <section id="references">
+      <div class="header"><span>参考资料</span></div>
+      <div class="body">
+        <ul>
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/95156642">来吧！一文彻底搞定哈希表！</a></p>
+
+        </li>
+        
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/s-b-b/p/6208565.html">数据结构之哈希（hash）表</a></p>
+
+        </li>
+        
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/fyj13925475957/article/details/104700747">B树与多叉树</a></p>
+
+        </li>
+        
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/czydream/article/details/104354295">多叉树、多路查找树、B树、B+树、B*树介绍</a></p>
+
+        </li>
+        
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/williamjie/p/11081081.html">MySQL的InnoDB索引原理详解</a></p>
+
+        </li>
+        
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/heyanan/p/13570033.html">MySQL索引覆盖与回表</a></p>
+
+        </li>
+        </ul>
+      </div>
+    </section>
+    
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/posts/55610.html">MySQL实战 基础篇（四）</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/48002.html">MySQL实战 基础篇（二）</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a href="/">None</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about">关于本站</a></div></div><div class="text"><p>本博客所有文章除特别声明外均为原创，本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-text">数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="toc-text">哈希表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E6%95%B0%E7%BB%84"><span class="toc-text">有序数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-text">二叉树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#N%E5%8F%89%E6%A0%91"><span class="toc-text">N叉树</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#InnoDB%E7%B4%A2%E5%BC%95%E6%A8%A1%E5%9E%8B"><span class="toc-text">InnoDB索引模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%87%A0%E4%B8%AA%E6%A6%82%E5%BF%B5"><span class="toc-text">索引的几个概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95"><span class="toc-text">覆盖索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%B7%A6%E5%89%8D%E7%BC%80%E5%8E%9F%E5%88%99"><span class="toc-text">最左前缀原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8"><span class="toc-text">索引下推</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.29.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    }
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+<script type="text/javascript" src="/js/custom.js?1"></script><script src="/js/custom.js?1"></script>
+</div></body></html>

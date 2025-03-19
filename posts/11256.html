@@ -1,0 +1,862 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1" theme-name="Stellar" theme-version="1.29.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>MySQL实战 基础篇（一） - traveller</title>
+
+  
+  <meta name="description" content="基础篇一：查询、更新语句的执行流程，事物隔离级别的现象和实现，长事物的风险。">
+  
+  <meta name="keywords" content="MySQL">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.29.1">
+
+  
+    <link rel="shortcut icon" href="/pics/other/avatar.jpg">
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/pics/other/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">traveller</div><div class="sub cap">答案在路上，自由在风里。</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><span>博客</span></a><a class="nav-item" title="时间线" href="/shuoshuo/" style="color:#3DC550"><span>时间线</span></a><a class="nav-item" title="关于" href="/about/" style="color:#FA6400"><span>关于</span></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/51857.html"><span class="title">MySQL 索引补充</span></a><a class="item title" href="/posts/26960.html"><span class="title">MySQL常用</span></a><a class="item title" href="/posts/7044.html"><span class="title">MySQL实战 基础篇（五）</span></a><a class="item title" href="/posts/55610.html"><span class="title">MySQL实战 基础篇（四）</span></a><a class="item title" href="/posts/47099.html"><span class="title">MySQL实战 基础篇（三）</span></a><a class="item title" href="/posts/11256.html"><span class="title">MySQL实战 基础篇（一）</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a><a class="item title" href="/posts/36556.html"><span class="title">【面试相关】数据库</span></a><a class="item title" href="/posts/51727.html"><span class="title">【面试相关】Java集合</span></a><a class="item title" href="/posts/33833.html"><span class="title">【面试相关】Spring</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top"><img class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/other/banner_bg1.png">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/MySQL/">MySQL</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2021-04-16T23:55:08.000Z">2021-04-17</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-19T17:09:37.017Z">2025-03-20</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：4.8k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：17分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/MySQL/">MySQL</a>&nbsp</div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>MySQL实战 基础篇（一）</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><blockquote>
+<p>该系列是极客时间林晓斌的 MySQL实战45讲 课程笔记。</p>
+</blockquote>
+<h2 id="MySQL逻辑架构图"><a href="#MySQL逻辑架构图" class="headerlink" title="MySQL逻辑架构图"></a>MySQL逻辑架构图</h2><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/逻辑架构图.png" alt="MySQL 逻辑架构图" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">MySQL 逻辑架构图</span></div></div>
+
+
+<h2 id="查询语句的执行过程"><a href="#查询语句的执行过程" class="headerlink" title="查询语句的执行过程"></a>查询语句的执行过程</h2><p>大体来说，MySQL可以分为两部分：Server层和存储引擎层。</p>
+<ul>
+<li><p>Server层</p>
+<p> 包括连接器、查询缓存、分析器、优化器、执行器等，涵盖MySQL大多数核心服务功能，以及所有内置函数（例如：日期、时间、数学和加密函数等）。</p>
+<p> 所有跨存储引擎的功能都在这一层实现，比如：存储过程、触发器、视图等。</p>
+</li>
+<li><p>存储引擎层</p>
+<p> 负责数据的存储和提取。</p>
+<p> 架构模式是插件式的，支持 InnoDB、MyISAM、Memory 等多个存储引擎。</p>
+<p> 现在最常用的存储引擎是 InnoDB，它从 MySQL 5.5.5 版本开始成为了默认存储引擎。</p>
+<p> 也就是说，如果执行 CREATE TABLE 建表的时候，如果不指定引擎类型，默认是用 InnoDB。也可以在建表语句中使用 engine &#x3D; memory，指定使用内存引擎创建表。</p>
+<p> 不同存储引擎的表数据存取方式、支持的功能不同。</p>
+</li>
+</ul>
+<p>从图中可以看出，不同存储引擎共同一个 <strong>Server层</strong>。</p>
+<p>下面以这条查询语句为例，了解执行流程和每个组件的作用：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">TABLE</span> <span class="keyword">WHERE</span> ID <span class="operator">=</span> <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="连接器"><a href="#连接器" class="headerlink" title="连接器"></a>连接器</h3><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">第一步：通过连接器连接数据库。<br>连接器负责与客户端建立连接、获取权限、维持和管理连接。</span><span class="empty"></span></p></div>
+
+
+<p>连接命令如下，其中，mysql是客户端工具，用来和服务端建立连接；-h 指定IP；-P 指定端口；-u 指定用户名；p指定密码。：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql <span class="operator">-</span>h$ip <span class="operator">-</span>P$port <span class="operator">-</span>u$<span class="keyword">user</span> <span class="operator">-</span>p</span><br></pre></td></tr></table></figure>
+
+<p>在完成TCP握手后，连接器使用输入的用户名和密码验证身份：</p>
+<ul>
+<li><p>如果用户名或密码错误，会收到一个”Access denied for user”的错误，然后客户端程序结束执行。</p>
+</li>
+<li><p>如果用户名密码认证通过，连接器会到权限表里面查出你拥有的权限。之后，这个连接里面的权限判断逻辑，都将依赖于此时读到的权限。</p>
+<p>如果权限发生变化，将会在下次重新连接后生效。</p>
+</li>
+</ul>
+<p>可以使用 show processlist 命令查看空闲的连接，如果长时间没有操作，连接器会自动断开，是由参数 wait_timeout 控制的，默认值是 8 小时。</p>
+<p>连接断开后如果继续发起请求，会收到错误提示：Lost connection to MySQL server during query。如果要继续请求，重新建立连接后执行就可以了。</p>
+<hr>
+<ul>
+<li><p>长链接：连接成功后，如果客户端持续有请求，则一直使用同一个连接。</p>
+</li>
+<li><p>短连接：每次执行完很少的几次查询就断开连接，下一次查询再重新建立连接。</p>
+</li>
+</ul>
+<p><strong>长连接太多会占用内存，可能导致内存占用过多，被系统杀进程（MySQL异常重启）。</strong></p>
+<p><strong>短连接频繁建立耗时</strong></p>
+<p>尽量使用长连接，上述问题的解决方法可以参考下列两种方式：</p>
+<ol>
+<li><p>定期断开长连接。使用过一段时间后，或者程序里执行内存较大的操作后，断开连接，之后要查询再重连。</p>
+</li>
+<li><p>MySQL 5.7 或更新版本，可以执行 mysql_reset_connection 初始化连接资源。不需要重新连接和权限校验。</p>
+</li>
+</ol>
+<h3 id="查询缓存"><a href="#查询缓存" class="headerlink" title="查询缓存"></a>查询缓存</h3><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">第二步：查询缓存。<br>建立连接后就可以执行SQL语句，会先查询缓存。</span><span class="empty"></span></p></div>
+
+
+<p>MySQL拿到一个查询请求后，会先在缓存中查找，是否执行过该语句。</p>
+<p>之前执行结果是以 key-value 形式保存的，key是查询语句，value是查询结果。如果能根据语句找到key，就会将value直接返回给客户端。</p>
+<p>如果语句不在缓存中，则继续执行后面的阶段，执行完成后将结果存入缓存。</p>
+<hr>
+<p><strong>查询缓存弊大于利，且MySQL 8.0后删除了该功能。</strong></p>
+<ol>
+<li><p>查询缓存时，需要语句和参数与缓存中的key完全相同。</p>
+</li>
+<li><p>表更新后，该表的全部缓存会被情况。除非是系统配置表，或者静态码表，否则不推荐使用缓存。</p>
+</li>
+</ol>
+<p>对于需要查询的语句，可以设置参数进行查询（MySQL 8.0后删除）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> SQL_CACHE <span class="keyword">FROM</span> <span class="keyword">TABLE</span> <span class="keyword">WHERE</span> ID <span class="operator">=</span> <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="分析器"><a href="#分析器" class="headerlink" title="分析器"></a>分析器</h3><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">第三步：对SQL语句进行解析。<br>如果缓存没有命中，分析器会解析SQL语句，了解用户意图。</span><span class="empty"></span></p></div>
+
+
+<p>这一步会判断语句是否正确，表、列是否存在等。</p>
+<p>分析器会按照词法、语法的步骤分析传入的SQL语句：</p>
+<ol>
+<li><p>词法分析</p>
+<p>将输入语句中的 select 关键字识别出来，是查询语句。把字符串 TABLE 识别为 表名TABLE，字符串 ID 识别为 列ID。</p>
+</li>
+<li><p>语法分析</p>
+</li>
+</ol>
+<p> 分析器根据词法分析的结果，判断查询语句是否符合MySQL的语法要求。</p>
+<p> 如果出现语法错误，会收到提示，例如：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ELECT <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">TABLE</span> <span class="keyword">WHERE</span> ID<span class="operator">=</span><span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">ERROR <span class="number">1064</span> (<span class="number">42000</span>): You have an error <span class="keyword">in</span> your <span class="keyword">SQL</span> syntax; <span class="keyword">check</span> the manual that corresponds <span class="keyword">to</span> your MySQL server version <span class="keyword">for</span> the <span class="keyword">right</span> syntax <span class="keyword">to</span> use near <span class="string">&#x27;ELECT * FROM TABLE WHERE ID=1&#x27;</span> <span class="keyword">at</span> line <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p> 语法错误通常会提示第一个出现错误的位置，只需要关注 user near 后的内容。</p>
+<h3 id="优化器"><a href="#优化器" class="headerlink" title="优化器"></a>优化器</h3><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">第四步：对SQL语句进行优化，选择处理方式。<br>执行前的最后一步，这一步将决定SQL语句的执行方案。</span><span class="empty"></span></p></div>
+
+
+<p>优化器是在表里有多个索引时，决定使用哪一个索引；或者在多表关联查询时，决定各个表的连接顺序。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> TABLE1 t1 <span class="keyword">JOIN</span> TABLE2 t2 <span class="keyword">USING</span>(ID) <span class="keyword">WHERE</span> t1.C <span class="operator">=</span> <span class="number">10</span> <span class="keyword">and</span> t2.D <span class="operator">=</span> <span class="number">20</span>;</span><br></pre></td></tr></table></figure>
+
+<p>以这条查询语句为例：</p>
+<ul>
+<li><p>可以先TABLE1中取出 C &#x3D; 10 的记录，再根据 ID 关联到TABLE2，再判断TABLE2中 D 的值是否为 20；</p>
+</li>
+<li><p>也可以TABLE2中取出 D &#x3D; 20 的记录，再根据 ID 关联到TABLE1，再判断TABLE1中 C 的值是否为 10.</p>
+</li>
+</ul>
+<p>这两种执行方案的逻辑结果相同，但是执行效率不同，优化器的作用就是决定使用哪一个方案。</p>
+<h3 id="执行器"><a href="#执行器" class="headerlink" title="执行器"></a>执行器</h3><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">第五步：执行SQL语句。<br>最后一步，确定了意图和方案后，开始执行语句。</span><span class="empty"></span></p></div>
+
+
+<p>开始执行前，会先判断用户对这个表是否有操作的权限，如果没有，就会返回权限错误。</p>
+<p><strong>限验证不止在执行器中，在分析器中和缓存结果返回前都会进行验证。</strong></p>
+<p>判断用户有该表的权限后，语句会打开表继续执行。打开表时，执行器根据表的引擎定义，调用这个引擎的相关接口。</p>
+<p>在这条语句中，如果ID字段没有索引，执行器的流程如下：</p>
+<ol>
+<li><p>调用 InnoDB 引擎接口，取这个表的第一行，判断ID是否为10，如果不是则跳过，如果是就把这行结果存到结果集中；</p>
+</li>
+<li><p>调用引擎接口取下一行，进行相同的逻辑判断，直到这个表的最后一行；</p>
+</li>
+<li><p>执行器将上述遍历过程中，所有满足条件的结果行组成记录，作为结果集返回给客户端。</p>
+</li>
+</ol>
+<p>至此，这个查询语句就执行完了。</p>
+<p>如果ID字段有索引，执行的逻辑也差不多：</p>
+<ol>
+<li><p>第一次调用的是 “取满足条件的第一行” 这个接口；</p>
+</li>
+<li><p>循环调用 “取满足条件的下一行” 接口；</p>
+</li>
+<li><p>遍历完成后返回给客户端。</p>
+</li>
+</ol>
+<p>数据库的慢查询日志中有一个 rows_examined 的字段，表示这条语句在执行过程中扫描了多少行。这个值是在执行器每次调用引擎获取数据行时累加的。</p>
+<p>有些场景下，执行器调用一次，在内部引擎扫描了多行，因此引擎扫描行数和 rows_examined 不是完全相同的。</p>
+<p>总结：</p>
+<ol>
+<li>引擎层各种获取数据的方法都是定义好的，是静态方法；</li>
+<li>优化器生成的执行计划，决定了执行器会选择存储引擎的哪个方法获取数据；</li>
+<li>InnoDB存储引擎层的优化措施很多，对执行器来说是一个黑箱，只要调用即可。</li>
+</ol>
+<h2 id="更新语句的执行过程"><a href="#更新语句的执行过程" class="headerlink" title="更新语句的执行过程"></a>更新语句的执行过程</h2><p>以下面这条更新语句为例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> <span class="keyword">TABLE</span> <span class="keyword">SET</span> B <span class="operator">=</span> B <span class="operator">+</span> <span class="number">1</span> <span class="keyword">WHERE</span> ID <span class="operator">=</span> <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p>和查询语句类似，通过连接器和数据库建立连接。</p>
+<p>这条更新语句会表 TABLE 的缓存全部清空，这也是不推荐使用缓存查询的原因。</p>
+<p>然后按照分析器、优化器、执行器的流程继续执行。</p>
+<p>与查询流程不一样的出，除了上述部分，更新语句还涉及到两个重要的日志模块：</p>
+<ol>
+<li><p>redo log （重做日志）</p>
+</li>
+<li><p>binlog （归档日志）</p>
+</li>
+</ol>
+<p>客户端在执行下列语句时，数据库服务端会涉及到 redo log 和 binlog 两个日志文件的更新：</p>
+<p>DDL（create）<br>DML（insert, update, delete）<br>DCL（grant, revoke）</p>
+<h3 id="redo-log"><a href="#redo-log" class="headerlink" title="redo log"></a>redo log</h3><div class="tag-plugin colorful note" color="cyan"><div class="title"><strong>举例</strong></div><div class="body"><p>不知道你还记不记得《孔乙己》这篇文章，酒店掌柜有一个黑板，专门用来记录客人的赊账记录。<br>如果赊账的人不多，那么他可以把顾客名和账目写在板上。但如果赊账的人多了，黑板总会有记不下的时候，这个时候掌柜一定还有一个专门记录赊账的账本。<br>如果有人要赊账或者还账的话，掌柜一般有两种做法：</p><p>一：直接把账本翻出来，把这次赊的账加上去或者扣除掉；<br>二：先在黑板上记下这次的账，等打烊以后再把账本翻出来核算。</p><p>在生意红火柜台很忙时，掌柜一定会选择后者，因为前者操作实在是太麻烦了。</p><p>首先，你得找到这个人的赊账总额那条记录。你想想，密密麻麻几十页，掌柜要找到那个名字，可能还得带上老花镜慢慢找，找到之后再拿出算盘计算，最后再将结果写回到账本上。<br>这整个过程想想都麻烦。相比之下，还是先在黑板上记一下方便。<br>你想想，如果掌柜没有黑板的帮助，每次记账都得翻账本，效率是不是低得让人难以忍受？</p></div></div>
+
+
+<p>MySQL中也是如此，如果每次更新操作都需要写进磁盘，磁盘找到对应记录再更新，整个IO成本和查找成本都很高。MySQL也使用了类似酒店掌柜黑板的思路来解决这个问题。</p>
+<p>黑板和账本配合的过程，就是MySQL中长水的 WAL技术（Write-Ahead logging），先写日志，再写磁盘（先写到黑板上，再更新账本）。</p>
+<p>具体而言，需要更新一条记录时，InnoDB会先把记录写到 redo log 中，并更新内存，这时更新就算完成了。在空闲的时候，InnoDB会把这条操作记录更新到磁盘里面。</p>
+<hr>
+<p>如果今天需要更新的数据特别多怎么办？</p>
+<p>InnoDB的 redo log 大小是固定的，比如一组四个文件，每个文件大小是1GB，那这块“黑板”就可以记录4GB的操作。从头开始写，写到末尾就回到开头循环。</p>
+<p> <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/redoLog%E8%AF%BB%E5%86%99%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="redoLog读写示意图"></p>
+<ul>
+<li><p>write pos：是当前记录的位置，一边写一边后移，写到 logFile-3的末尾就会回到logFile-0的开头，继续操作。</p>
+</li>
+<li><p>check point：是当前要擦除的位置，往后推移并循环，擦除前需要把记录更新到数据文件。</p>
+</li>
+<li><p>write pos 和 check point 之间：表示还空着的部分，可以记录新的操作。如果write pos追上的话，则不能执行新的更新，需要暂时停止，擦除记录后继续操作。</p>
+</li>
+</ul>
+<p>有了 redo log，InnoDB才能保证，即使数据库发生异常重启，之前提交的记录也不会丢失，这个功能被称为<strong>crash-safe</strong>。</p>
+<div class="tag-plugin colorful note" color="orange"><div class="title"><strong>总结</strong></div><div class="body"><ol><li>redo log 是 InnoDB 特有的，属于存储引擎层；</li><li>redo log保存在内存和硬盘中，分为 redo log buffer（日志缓冲，易丢失）和 redo log file（持久的）；</li><li>redo log 记录的不是数据页更新后的状态，而是数据页的改动。</li></ol></div></div>
+
+
+<h3 id="binlog"><a href="#binlog" class="headerlink" title="binlog"></a>binlog</h3><div class="tag-plugin colorful note" color="warning"><div class="title"><strong>注意</strong></div><div class="body"><p>MySQL 5.7 版本的 binlog 默认关闭</p><p>需要使用命令：<code>show variables like &#39;log_bin%&#39;</code> 手动开启后查看。</p></div></div>
+
+
+<p>最开始没有 InnoDB 引擎，MySQL 自带的引擎是 MyISAM，但是 MyISAM 没有 crash-safe 的能力，binlog 日志只能用于归档。所以 InnoDB 使用另外一套日志系统——也就是 redo log 来实现 crash-safe 能力。</p>
+<ol>
+<li>binlog 是在MySQL的Server层实现；</li>
+<li>binlog 是逻辑日志，记录的是这个语句的原始逻辑，例如：给 ID &#x3D; 10 这一行的 B 字段 + 1；</li>
+<li>binlog 存储空间不固定，也就是说一个 binlog 文件写到一定大小后，会自动切换到下一个，不会覆盖以前的日志。</li>
+</ol>
+<div class="tag-plugin colorful note" color="cyan"><div class="title"><strong>注意</strong></div><div class="body"><p>为什么binlog记录了操作却不支持crash-safe？</p><ol><li>redo log 记录的是没有写入磁盘的日志，写入磁盘的日志会被删除；而 binlog 记录的是全量日志；</li><li>假设数据库crash，想将未写入磁盘但是已写入 redo log 和 binlog 中的数据恢复到内存中，<br>binlog无法恢复，因为没有类似 check point 的记录，不能明确哪些数据已经写入到磁盘，哪些数据还没有写入。</li></ol></div></div>
+
+<p>对这两个日志系统有一定了解后，再来看执行器和 InnoDB 引擎在执行这个简单的 update 语句时的内部流程。</p>
+<ol>
+<li>执行器先找引擎取 ID&#x3D;2 这一行。ID 是主键，引擎直接用树搜索找到这一行。如果 ID&#x3D;2 这一行所在的数据页本来就在内存中，就直接返回给执行器；否则，需要先从磁盘读入内存，然后再返回。</li>
+<li>执行器拿到引擎给的行数据，把这个值加上 1，比如原来是 N，现在就是 N+1，得到新的一行数据，再调用引擎接口写入这行新数据。</li>
+<li>引擎将这行新数据更新到内存中，同时将这个更新操作记录到 redo log 里面，此时 redo log 处于 prepare 状态。然后告知执行器执行完成了，随时可以提交事务。</li>
+<li>执行器生成这个操作的 binlog，并把 binlog 写入磁盘。</li>
+<li>执行器调用引擎的提交事务接口，引擎把刚刚写入的 redo log 改成提交（commit）状态，更新完成。</li>
+</ol>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/update执行流程.png" alt="update执行流程示意图" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">update执行流程示意图</span></div></div>
+
+<p>在示意图中最后三步，将 redo log 的提交拆分成了两步，prepare 和 commit，这就是<strong>两阶段提交</strong>。</p>
+<h3 id="两阶段提交"><a href="#两阶段提交" class="headerlink" title="两阶段提交"></a>两阶段提交</h3><p>因为 redo log 和 binlog 是完全不同的逻辑，如果先写 redo log 再写 binlog，或者使用反过来的顺序，很容易出现问题。</p>
+<p>以上面的更新语句为例，假设当前 ID &#x3D; 10 的这一行，字段 B 的数值为0，需要将其 +1；执行update的过程中，在写入完第一个日志后，还没有开始写入第二个日志前，发生了crash。</p>
+<ol>
+<li><p>redo log 写入完成，binlog 尚未写入<br>假设此时数据库crash，只凭借 redo log 也可以恢复数据，字段 B 的数值已经变为1。<br>但是 binlog 没有写入就发生日常，这一条语句不会出现在 binlog 的备份日志中，如果日后需要使用 binlog 恢复数据，恢复后的字段 B 仍为0，与原库的数据不符。</p>
+</li>
+<li><p>redo log 没有写入，binlog 写入成功<br>因为 redo log 还没有写入就发生异常，重启后判断这个事物无效，将会回滚这次操作，字段 B 的值仍为0。<br>但是 binlog 已经保存了这次操作，之后使用 binlog 恢复数据时，会把字段 B 改为1，与原库中的数据不符。</p>
+</li>
+</ol>
+<p>可以看出，如果不使用两阶段提交，很容易出现恢复数据时前后两次数据不一致的情况。</p>
+<p>这个情况不止出现在恢复数据时，数据库扩容通常使用全量备份 + binlog 实现，如果出现恢复时，前后两次数据不一致的情况，就会导致线上的主从数据库不一致。</p>
+<p>redo log 和 binlog 都可以表示事物的提交状态，两阶段提交是为了保证逻辑上的相同。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ol>
+<li><p>怎样让数据库恢复到半个月内任意一秒的状态？</p>
+<p>binlog 记录了全部的逻辑操作，如果要恢复误删除的数据，就必须要有一个时间段内的全部 binlog，比如要恢复半个月内的任意一次操作，那必须有半个月内全部 binlog 备份。</p>
+<p>例如：某天上午十点有一次误删表的操作，应该如何恢复呢？</p>
+<ul>
+<li>首先，找到最近一次的全量备份，将其恢复到临时库；</li>
+<li>然后从备份的时间点开始，取出 binlog，一直到误删的前一时刻；</li>
+<li>就可以按需将临时库的数据恢复到正式库中。</li>
+</ul>
+</li>
+<li><p>redo log和binlog的区别：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>redo log</th>
+<th>binlog</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>所在层级不同</td>
+<td>引擎层，InnoDB特有的</td>
+<td>Server层</td>
+</tr>
+<tr>
+<td>记录内容不同</td>
+<td>物理日志：<br>在某个数据页上做了什么修改</td>
+<td>逻辑日志：<br>记录原始逻辑，给id&#x3D;2这一行的c字段+1</td>
+</tr>
+<tr>
+<td>写入文件、<br>方式不同</td>
+<td>写入的空间固定，循环写</td>
+<td>空间不固定，追加写入。<br>文件写完后会自动切换到下一个文件，<br>不覆盖之前的日志。</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>两阶段提交</p>
+<p>是跨系统维持数据库逻辑一致性的常用方案。</p>
+</li>
+<li><p>相关参数设置</p>
+<ul>
+<li><p>innodb_flush_log_at_trx_commit &#x3D; 1</p>
+<p>  表示每次事物的 redo log 都会持久化到磁盘中，可以保证数据库异常重启后，数据不丢失。</p>
+</li>
+<li><p>sync_binlog &#x3D; 1</p>
+<p>  表示每次事物的 binlog 都会持久化到磁盘中，可以保证数据库异常重启后，binlog 不丢失。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p><a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/68633">02 | 日志系统：一条SQL更新语句是如何执行的？-极客时间 (geekbang.org)</a><br>网页搜索 WL，评论区</p>
+<h3 id="redo-log的概念是什么-为什么会存在"><a href="#redo-log的概念是什么-为什么会存在" class="headerlink" title="redo log的概念是什么?为什么会存在"></a>redo log的概念是什么?为什么会存在</h3><p>redo log 是 InnoDB 特有的，在存储引擎层，包含两部分：</p>
+<ol>
+<li>内存中的 日志缓冲 redo log buffer</li>
+<li>硬盘中的 日志文件 redo log file</li>
+</ol>
+<h3 id="什么是WAL-write-ahead-log-机制-好处是什么"><a href="#什么是WAL-write-ahead-log-机制-好处是什么" class="headerlink" title="什么是WAL(write-ahead log)机制, 好处是什么"></a>什么是WAL(write-ahead log)机制, 好处是什么</h3><h3 id="redo-log-为什么可以保证crash-safe机制"><a href="#redo-log-为什么可以保证crash-safe机制" class="headerlink" title="redo log 为什么可以保证crash safe机制"></a>redo log 为什么可以保证crash safe机制</h3><h3 id="binlog的概念是什么-起到什么作用-可以做crash-safe吗"><a href="#binlog的概念是什么-起到什么作用-可以做crash-safe吗" class="headerlink" title="binlog的概念是什么, 起到什么作用, 可以做crash safe吗?"></a>binlog的概念是什么, 起到什么作用, 可以做crash safe吗?</h3><h3 id="binlog和redolog的不同点有哪些"><a href="#binlog和redolog的不同点有哪些" class="headerlink" title="binlog和redolog的不同点有哪些?"></a>binlog和redolog的不同点有哪些?</h3><h3 id="物理一致性和逻辑一直性各应该怎么理解"><a href="#物理一致性和逻辑一直性各应该怎么理解" class="headerlink" title="物理一致性和逻辑一直性各应该怎么理解?"></a>物理一致性和逻辑一直性各应该怎么理解?</h3><h3 id="执行器和innoDB在执行update语句时候的流程是什么样的"><a href="#执行器和innoDB在执行update语句时候的流程是什么样的" class="headerlink" title="执行器和innoDB在执行update语句时候的流程是什么样的?"></a>执行器和innoDB在执行update语句时候的流程是什么样的?</h3><h3 id="如果数据库误操作-如何执行数据恢复"><a href="#如果数据库误操作-如何执行数据恢复" class="headerlink" title="如果数据库误操作, 如何执行数据恢复?"></a>如果数据库误操作, 如何执行数据恢复?</h3><h3 id="什么是两阶段提交-为什么需要两阶段提交-两阶段提交怎么保证数据库中两份日志间的逻辑一致性-什么叫逻辑一致性"><a href="#什么是两阶段提交-为什么需要两阶段提交-两阶段提交怎么保证数据库中两份日志间的逻辑一致性-什么叫逻辑一致性" class="headerlink" title="什么是两阶段提交, 为什么需要两阶段提交, 两阶段提交怎么保证数据库中两份日志间的逻辑一致性(什么叫逻辑一致性)?"></a>什么是两阶段提交, 为什么需要两阶段提交, 两阶段提交怎么保证数据库中两份日志间的逻辑一致性(什么叫逻辑一致性)?</h3><h3 id="如果不是两阶段提交-先写redo-log和先写bin-log两种情况各会遇到什么问题"><a href="#如果不是两阶段提交-先写redo-log和先写bin-log两种情况各会遇到什么问题" class="headerlink" title="如果不是两阶段提交, 先写redo log和先写bin log两种情况各会遇到什么问题?"></a>如果不是两阶段提交, 先写redo log和先写bin log两种情况各会遇到什么问题?</h3>
+<div class="article-footer fs14">
+    <section id="references">
+      <div class="header"><span>参考资料</span></div>
+      <div class="body">
+        <ul>
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42366095/article/details/113435651">mysql undo log位置_MySQL 日志(redo log 和 undo log) 都是什么鬼？</a></p>
+
+        </li>
+        
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6860252224930070536#heading-0">必须了解的mysql三大日志-binlog、redo log和undo log - 掘金 (juejin.cn)</a></p>
+
+        </li>
+        
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/QLnbpRNKd9TqPHDSsioKwg">MySQL的redo log和binlog日志</a></p>
+
+        </li>
+        
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_34342578/article/details/86251449">什么是WAL</a></p>
+
+        </li>
+        </ul>
+      </div>
+    </section>
+    
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/posts/48002.html">MySQL实战 基础篇（二）</a></div><div class="item" id="next"></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a href="/">None</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about">关于本站</a></div></div><div class="text"><p>本博客所有文章除特别声明外均为原创，本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL%E9%80%BB%E8%BE%91%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="toc-text">MySQL逻辑架构图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">查询语句的执行过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E5%99%A8"><span class="toc-text">连接器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E7%BC%93%E5%AD%98"><span class="toc-text">查询缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E5%99%A8"><span class="toc-text">分析器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E5%99%A8"><span class="toc-text">优化器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%99%A8"><span class="toc-text">执行器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">更新语句的执行过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#redo-log"><span class="toc-text">redo log</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#binlog"><span class="toc-text">binlog</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4"><span class="toc-text">两阶段提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#redo-log%E7%9A%84%E6%A6%82%E5%BF%B5%E6%98%AF%E4%BB%80%E4%B9%88-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%AD%98%E5%9C%A8"><span class="toc-text">redo log的概念是什么?为什么会存在</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFWAL-write-ahead-log-%E6%9C%BA%E5%88%B6-%E5%A5%BD%E5%A4%84%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">什么是WAL(write-ahead log)机制, 好处是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#redo-log-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AF%E4%BB%A5%E4%BF%9D%E8%AF%81crash-safe%E6%9C%BA%E5%88%B6"><span class="toc-text">redo log 为什么可以保证crash safe机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#binlog%E7%9A%84%E6%A6%82%E5%BF%B5%E6%98%AF%E4%BB%80%E4%B9%88-%E8%B5%B7%E5%88%B0%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8-%E5%8F%AF%E4%BB%A5%E5%81%9Acrash-safe%E5%90%97"><span class="toc-text">binlog的概念是什么, 起到什么作用, 可以做crash safe吗?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#binlog%E5%92%8Credolog%E7%9A%84%E4%B8%8D%E5%90%8C%E7%82%B9%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="toc-text">binlog和redolog的不同点有哪些?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E4%B8%80%E8%87%B4%E6%80%A7%E5%92%8C%E9%80%BB%E8%BE%91%E4%B8%80%E7%9B%B4%E6%80%A7%E5%90%84%E5%BA%94%E8%AF%A5%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3"><span class="toc-text">物理一致性和逻辑一直性各应该怎么理解?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%99%A8%E5%92%8CinnoDB%E5%9C%A8%E6%89%A7%E8%A1%8Cupdate%E8%AF%AD%E5%8F%A5%E6%97%B6%E5%80%99%E7%9A%84%E6%B5%81%E7%A8%8B%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84"><span class="toc-text">执行器和innoDB在执行update语句时候的流程是什么样的?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%AF%E6%93%8D%E4%BD%9C-%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D"><span class="toc-text">如果数据库误操作, 如何执行数据恢复?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4-%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E4%B8%A4%E4%BB%BD%E6%97%A5%E5%BF%97%E9%97%B4%E7%9A%84%E9%80%BB%E8%BE%91%E4%B8%80%E8%87%B4%E6%80%A7-%E4%BB%80%E4%B9%88%E5%8F%AB%E9%80%BB%E8%BE%91%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-text">什么是两阶段提交, 为什么需要两阶段提交, 两阶段提交怎么保证数据库中两份日志间的逻辑一致性(什么叫逻辑一致性)?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E4%B8%8D%E6%98%AF%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4-%E5%85%88%E5%86%99redo-log%E5%92%8C%E5%85%88%E5%86%99bin-log%E4%B8%A4%E7%A7%8D%E6%83%85%E5%86%B5%E5%90%84%E4%BC%9A%E9%81%87%E5%88%B0%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-text">如果不是两阶段提交, 先写redo log和先写bin log两种情况各会遇到什么问题?</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.29.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    }
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+<script type="text/javascript" src="/js/custom.js?1"></script><script src="/js/custom.js?1"></script>
+</div></body></html>
