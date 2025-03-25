@@ -21,11 +21,10 @@
 
   
   <meta name="description" content="一、索引机制与B+树涵盖B+树结构、索引实现原理、查询逻辑及优化场景，包括平衡树对比、回表、覆盖索引等核心机制。
-
 001.MySQL如何实现的索引机制
 004.说一下B+树索引实现原理（数据结构）
 005.聚簇索引与非聚簇索引b+树实现有什么区别？
-006.说一下B+树中聚簇索引的查找（匹配...">
+006.说一下B+树中聚簇索引的查找（匹配）...">
   
   <meta name="keywords" content="MySQL,面试,数据库">
 
@@ -58,7 +57,7 @@
 <div class="widgets">
 <widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">专栏：面试相关</span></div><div class="widget-body"><a class="item" href="/posts/33833.html"><span class="title">【面试相关】其他问题</span></a><a class="item" href="/posts/33833.html"><span class="title">【面试相关】Spring</span></a><a class="item active" href="/posts/36556.html"><span class="title">【面试相关】MySQL</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item" href="/posts/51727.html"><span class="title">【面试相关】Java集合</span></a><a class="item" href="/posts/38943.html"><span class="title">【面试相关】Java基础</span></a></div></widget>
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/11256.html"><span class="title">MySQL实战 基础篇（一）</span></a><a class="item title" href="/posts/33833.html"><span class="title">【面试相关】其他问题</span></a><a class="item title" href="/posts/33833.html"><span class="title">【面试相关】Spring</span></a><a class="item title" href="/posts/36556.html"><span class="title">【面试相关】MySQL</span></a><a class="item title" href="/posts/51857.html"><span class="title">MySQL 索引补充</span></a><a class="item title" href="/posts/26960.html"><span class="title">MySQL常用</span></a><a class="item title" href="/posts/7044.html"><span class="title">MySQL实战 基础篇（五）</span></a><a class="item title" href="/posts/55610.html"><span class="title">MySQL实战 基础篇（四）</span></a><a class="item title" href="/posts/47099.html"><span class="title">MySQL实战 基础篇（三）</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/36556.html"><span class="title">【面试相关】MySQL</span></a><a class="item title" href="/posts/47099.html"><span class="title">MySQL实战 基础篇（三）</span></a><a class="item title" href="/posts/51857.html"><span class="title">MySQL 索引补充</span></a><a class="item title" href="/posts/11256.html"><span class="title">MySQL实战 基础篇（一）</span></a><a class="item title" href="/posts/33833.html"><span class="title">【面试相关】其他问题</span></a><a class="item title" href="/posts/33833.html"><span class="title">【面试相关】Spring</span></a><a class="item title" href="/posts/26960.html"><span class="title">MySQL常用</span></a><a class="item title" href="/posts/7044.html"><span class="title">MySQL实战 基础篇（五）</span></a><a class="item title" href="/posts/55610.html"><span class="title">MySQL实战 基础篇（四）</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -71,7 +70,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/posts/33833.html">面试相关</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-21T04:53:52.000Z">2025-01-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-20T06:21:04.956Z">2025-03-20</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：2.1k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：7分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/MySQL/">MySQL</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>&nbsp</div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-21T04:53:52.000Z">2025-01-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-25T07:45:30.980Z">2025-03-25</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：2.1k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：7分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/MySQL/">MySQL</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
@@ -83,138 +82,165 @@
     
   </div>
   </div><article class="md-text content"><h2 id="一、索引机制与B-树"><a href="#一、索引机制与B-树" class="headerlink" title="一、索引机制与B+树"></a>一、索引机制与B+树</h2><p>涵盖B+树结构、索引实现原理、查询逻辑及优化场景，包括平衡树对比、回表、覆盖索引等核心机制。</p>
-<ul>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">001.MySQL如何实现的索引机制</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">004.说一下B+树索引实现原理（数据结构）</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">005.聚簇索引与非聚簇索引b+树实现有什么区别？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">006.说一下B+树中聚簇索引的查找（匹配）逻辑</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">007.说一下B+树中非聚簇索引的查找（匹配）逻辑</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">008.平衡二叉树，红黑树，B树和B+树的区别是什么？都有哪些应用场景？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">009.一个b+树中大概能存放多少条索引记录？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">010.使用B+树存储的索引crud执行效率如何？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">012.什么是2-3树2-3-4树？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">017.如果是大段文本内容，如何创建（优化）索引？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">023.什么是回表操作？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">024.什么是覆盖索引？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">025.非聚集索引一定回表查询吗</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">026.为什么要回表查询？直接存储数据不可以吗？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">028.什么是联合索引，组合索引，复合索引？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">029.复合索引创建时字段顺序不一样使用效果一样吗？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">034.什么是索引下推？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">035.有哪些情况会导致索引失效？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">036.为什么LIKE以%开头索引会失效？ ## 二、聚簇索引与非聚簇索引 聚焦聚簇/非聚簇索引的实现差异、特性及使用限制，如数据存储方式、回表机制等。 - {% quot 002.InnoDB索引与MyISAM索引实现的区别是什么？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">018.什么是聚簇索引？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">019.一个表中可以有多个（非）聚簇索引吗？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">020.聚簇索引与非聚集索引的特点是什么？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">021.CRUD时聚簇索引与非聚簇索引的区别是什么？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">022.非聚簇索引为什么不存数据地址值而存储主键？</span><span class="empty"></span></p></div></li>
-</ul>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">001.MySQL如何实现的索引机制</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">004.说一下B+树索引实现原理（数据结构）</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">005.聚簇索引与非聚簇索引b+树实现有什么区别？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">006.说一下B+树中聚簇索引的查找（匹配）逻辑</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">007.说一下B+树中非聚簇索引的查找（匹配）逻辑</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">008.平衡二叉树，红黑树，B树和B+树的区别是什么？都有哪些应用场景？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">009.一个b+树中大概能存放多少条索引记录？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">010.使用B+树存储的索引crud执行效率如何？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">012.什么是2-3树2-3-4树？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">017.如果是大段文本内容，如何创建（优化）索引？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">023.什么是回表操作？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">024.什么是覆盖索引？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">025.非聚集索引一定回表查询吗</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">026.为什么要回表查询？直接存储数据不可以吗？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">028.什么是联合索引，组合索引，复合索引？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">029.复合索引创建时字段顺序不一样使用效果一样吗？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">034.什么是索引下推？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">035.有哪些情况会导致索引失效？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">036.为什么LIKE以%开头索引会失效？</span><span class="empty"></span></p></div>
+
+
+
+<h2 id="二、聚簇索引与非聚簇索引"><a href="#二、聚簇索引与非聚簇索引" class="headerlink" title="二、聚簇索引与非聚簇索引"></a>二、聚簇索引与非聚簇索引</h2><p>聚焦聚簇&#x2F;非聚簇索引的实现差异、特性及使用限制，如数据存储方式、回表机制等。</p>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">002.InnoDB索引与MyISAM索引实现的区别是什么？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">018.什么是聚簇索引？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">019.一个表中可以有多个（非）聚簇索引吗？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">020.聚簇索引与非聚集索引的特点是什么？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">021.CRUD时聚簇索引与非聚簇索引的区别是什么？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">022.非聚簇索引为什么不存数据地址值而存储主键？</span><span class="empty"></span></p></div>
+
+
+
 <h2 id="三、主键与自增"><a href="#三、主键与自增" class="headerlink" title="三、主键与自增"></a>三、主键与自增</h2><p>探讨自增主键与字符串主键的差异、主键删除影响及自增ID分配逻辑。</p>
-<ul>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">013.说一下自增主键和字符串类型主键的区别和影响</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">014.使用int自增主键后最大id是10，删除id10和9，再添加一条记录，最后添加的id是几？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">027.如果把一个InnoDB表的主键删掉，是不是就没有主键，就没办法进行回表查询了？</span><span class="empty"></span></p></div></li>
-</ul>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">013.说一下自增主键和字符串类型主键的区别和影响</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">014.使用int自增主键后最大id是10，删除id10和9，再添加一条记录，最后添加的id是几？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">027.如果把一个InnoDB表的主键删掉，是不是就没有主键，就没办法进行回表查询了？</span><span class="empty"></span></p></div>
+
+
+
 <h2 id="四、索引优化与使用场景"><a href="#四、索引优化与使用场景" class="headerlink" title="四、索引优化与使用场景"></a>四、索引优化与使用场景</h2><p>分析索引的优缺点、唯一索引影响、适用场景及索引选择策略。</p>
-<ul>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">015.索引的优缺点是什么？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">016.使用索引一定能提升效率吗？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">030.什么是唯一索引？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">031.唯一索引是否影响性能？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">032.什么时候使用唯一索引？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">033.什么时候适合创建索引，什么时候不适合创建索引？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">037.一个表有多个索引的时候，能否手动选择使用哪个索引？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">040.多个索引优先级是如何匹配的？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">045.如果表中有字段为null，又被经常查询该不该给这个字段创建索引？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">046.有字段为null索引是否会失效？</span><span class="empty"></span></p></div></li>
-</ul>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">015.索引的优缺点是什么？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">016.使用索引一定能提升效率吗？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">030.什么是唯一索引？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">031.唯一索引是否影响性能？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">032.什么时候使用唯一索引？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">033.什么时候适合创建索引，什么时候不适合创建索引？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">037.一个表有多个索引的时候，能否手动选择使用哪个索引？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">040.多个索引优先级是如何匹配的？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">045.如果表中有字段为null，又被经常查询该不该给这个字段创建索引？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">046.有字段为null索引是否会失效？</span><span class="empty"></span></p></div>
+
+
+
 <h2 id="五、存储引擎与表结构"><a href="#五、存储引擎与表结构" class="headerlink" title="五、存储引擎与表结构"></a>五、存储引擎与表结构</h2><p>对比存储引擎特性（如InnoDB&#x2F;MyISAM）、表结构设计及修改风险。</p>
-<ul>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">003.一个表中如果没有创建索引，那么还会创建B+树吗？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">050.MySQL内部有哪些核心模块组成，作用是什么？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">054.MySQL支持哪些存储引擎？默认使用哪个？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">055.MySQL8.0自带哪些存储引擎？分别是做什么的？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">056.MySQL存储引擎架构了解吗？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">057.能否单独为一张表设置存储引擎？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">059.MyISAM和InnoDB的区别是什么？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">060.具体说一下如何做技术选型</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">149.MySQL线上修改表结构有哪些风险</span><span class="empty"></span></p></div></li>
-</ul>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">003.一个表中如果没有创建索引，那么还会创建B+树吗？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">050.MySQL内部有哪些核心模块组成，作用是什么？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">054.MySQL支持哪些存储引擎？默认使用哪个？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">055.MySQL8.0自带哪些存储引擎？分别是做什么的？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">056.MySQL存储引擎架构了解吗？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">057.能否单独为一张表设置存储引擎？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">059.MyISAM和InnoDB的区别是什么？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">060.具体说一下如何做技术选型</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">149.MySQL线上修改表结构有哪些风险</span><span class="empty"></span></p></div>
+
+
+
 <h2 id="六、事务与隔离级别"><a href="#六、事务与隔离级别" class="headerlink" title="六、事务与隔离级别"></a>六、事务与隔离级别</h2><p>事务ACID特性、并发问题解决方案（MVCC、锁机制）及隔离级别实现原理。</p>
-<ul>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">061.什么是数据库事务？事务的特性是什么？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">062.什么是ACID？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">063.并发事务会有哪些问题？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">064-068.并发事务会有哪些问题？脏读丢失修改不可重复读幻读</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">069-073.MySQL是如何避免事物并发问题的？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">074.MySQL事务隔离是如何实现的？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">075.什么是一致性非锁定读和锁定读？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">076.说一下MVCC内部细节</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">077-078.MySQL事务一致性，原子性，持久性是如何实现的？</span><span class="empty"></span></p></div></li>
-</ul>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">061.什么是数据库事务？事务的特性是什么？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">062.什么是ACID？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">063.并发事务会有哪些问题？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">064-068.并发事务会有哪些问题？脏读丢失修改不可重复读幻读</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">069-073.MySQL是如何避免事物并发问题的？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">074.MySQL事务隔离是如何实现的？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">075.什么是一致性非锁定读和锁定读？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">076.说一下MVCC内部细节</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">077-078.MySQL事务一致性，原子性，持久性是如何实现的？</span><span class="empty"></span></p></div>
+
+
+
 <h2 id="七、锁机制"><a href="#七、锁机制" class="headerlink" title="七、锁机制"></a>七、锁机制</h2><p>表锁与行锁的区别、死锁处理及<code>SELECTFORUPDATE</code>的作用。</p>
-<ul>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">079-085.表级锁和行级锁相关面试题？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">090.是否使用过selectforupdate？会产生哪些操作？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">091.说一下MySQL死锁的原因和处理方法</span><span class="empty"></span></p></div></li>
-</ul>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">079-085.表级锁和行级锁相关面试题？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">090.是否使用过selectforupdate？会产生哪些操作？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">091.说一下MySQL死锁的原因和处理方法</span><span class="empty"></span></p></div>
+
+
+
 <h2 id="八、日志机制"><a href="#八、日志机制" class="headerlink" title="八、日志机制"></a>八、日志机制</h2><p>日志类型（undo&#x2F;redo&#x2F;binlog）、刷盘机制及数据恢复原理。</p>
-<ul>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">092.MySQL会产生几种日志？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">093-095.undologredologbinlog的作用是什么？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">096-097.MySQL日志是否实时写入磁盘？binlog刷盘机制是如何实现的</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">098-099.redolog，undolog刷盘机制是如何实现的？数据脏页</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">100.MySQL的binlog有几种录入格式？分别有什么区别？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">101.MySQL集群同步时为什么使用binlog？优缺点是什么？</span><span class="empty"></span></p></div></li>
-</ul>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">092.MySQL会产生几种日志？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">093-095.undologredologbinlog的作用是什么？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">096-097.MySQL日志是否实时写入磁盘？binlog刷盘机制是如何实现的</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">098-099.redolog，undolog刷盘机制是如何实现的？数据脏页</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">100.MySQL的binlog有几种录入格式？分别有什么区别？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">101.MySQL集群同步时为什么使用binlog？优缺点是什么？</span><span class="empty"></span></p></div>
+
+
+
 <h2 id="九、查询优化与执行"><a href="#九、查询优化与执行" class="headerlink" title="九、查询优化与执行"></a>九、查询优化与执行</h2><p>查询执行流程、排序&#x2F;分组优化、慢SQL分析及分页处理。</p>
-<ul>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">041.使用OrderBy时能否通过索引排序？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">042.通过索引排序内部流程是什么？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">043.什么是双路排序和单路排序</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">044.groupby分组和orderby在索引使用上有什么区别？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">047.MySQL内部支持缓存查询吗？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">048.MySQL8为何废弃掉查询缓存？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">049.替代方案是什么？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">051.说一下MySQL执行一条查询语句的内部执行过程？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">052.MySQL提示“不存在此列”是执行到哪个节点报出的？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">053.如果一张表创建了多个索引，在哪个阶段或模块进行的索引选择？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">121-125.join多表关联与优化相关面试题</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">126-127.是否有过MySQL调优经验？用过哪些调优工具</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">128-129.如何监控线上环境中执行比较慢的sql？如何分析一条慢sql？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">130-132.如何查看当前sql使用了哪个索引？EXPLAIN关键字中的重要指标有哪些？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">133.MySQL数据库cpu飙升的话你会如何分析</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">147.如果有超大分页改怎么处理？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">146.count(列名)和count(星号)有什么区别</span><span class="empty"></span></p></div></li>
-</ul>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">041.使用OrderBy时能否通过索引排序？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">042.通过索引排序内部流程是什么？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">043.什么是双路排序和单路排序</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">044.groupby分组和orderby在索引使用上有什么区别？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">047.MySQL内部支持缓存查询吗？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">048.MySQL8为何废弃掉查询缓存？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">049.替代方案是什么？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">051.说一下MySQL执行一条查询语句的内部执行过程？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">052.MySQL提示“不存在此列”是执行到哪个节点报出的？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">053.如果一张表创建了多个索引，在哪个阶段或模块进行的索引选择？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">121-125.join多表关联与优化相关面试题</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">126-127.是否有过MySQL调优经验？用过哪些调优工具</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">128-129.如何监控线上环境中执行比较慢的sql？如何分析一条慢sql？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">130-132.如何查看当前sql使用了哪个索引？EXPLAIN关键字中的重要指标有哪些？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">133.MySQL数据库cpu飙升的话你会如何分析</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">147.如果有超大分页改怎么处理？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">146.count(列名)和count(星号)有什么区别</span><span class="empty"></span></p></div>
+
+
+
 <h2 id="十、数据类型与存储"><a href="#十、数据类型与存储" class="headerlink" title="十、数据类型与存储"></a>十、数据类型与存储</h2><p>数据类型选型（如IP、日期、文本）、存储优化及精度问题。</p>
-<ul>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">102-105.文件存储emoji相关面试题</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">106.如何存储ip地址？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">107-110.长文本如何存储如何设计表结构如何建立索引？等</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">111-114.日期，时间如何存取TIMESTAMP，DATETIME的区别为什么不使用字符串存储日期时间戳timestamp和int该如何选择？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">115.char与varchar的区别？如何选择？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">116.财务计算有没有出现过错乱？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">117-118.decimal与float,double的区别是什么？如何选型？</span><span class="empty"></span></p></div></li>
-</ul>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">102-105.文件存储emoji相关面试题</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">106.如何存储ip地址？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">107-110.长文本如何存储如何设计表结构如何建立索引？等</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">111-114.日期，时间如何存取TIMESTAMP，DATETIME的区别为什么不使用字符串存储日期时间戳timestamp和int该如何选择？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">115.char与varchar的区别？如何选择？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">116.财务计算有没有出现过错乱？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">117-118.decimal与float,double的区别是什么？如何选型？</span><span class="empty"></span></p></div>
+
+
+
 <h2 id="十一、分库分表与高可用"><a href="#十一、分库分表与高可用" class="headerlink" title="十一、分库分表与高可用"></a>十一、分库分表与高可用</h2><p>分库分表场景、工具实现思路及读写分离方案。</p>
-<ul>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">134-136.什么是分库分表？什么时候进行分库分表？有没有配合es使用经验？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">137-140.说一下实现分库分表工具的实现思路及读写分离方案</span><span class="empty"></span></p></div></li>
-</ul>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">134-136.什么是分库分表？什么时候进行分库分表？有没有配合es使用经验？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">137-140.说一下实现分库分表工具的实现思路及读写分离方案</span><span class="empty"></span></p></div>
+
+
+
 <h2 id="十二、其他高级特性"><a href="#十二、其他高级特性" class="headerlink" title="十二、其他高级特性"></a>十二、其他高级特性</h2><p>高级功能如预编译SQL、XA事务、自研存储引擎及进程管理。</p>
-<ul>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">011.什么是自适应哈希索引？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">038.如何查看一个表的索引？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">039.能否查看到索引选择的逻辑？是否使用过optimizer_trace？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">058.阿里、京东等大厂都有自研的存储引擎，如何开发一套自己的？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">086-089.什么是XA协议MySQLxa事务与普通事务区别是什么？2pc3pc的区别</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">119-120.预编译sql是什么好处是什么？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">141-144.视图，外键，存储过程，processlist相关面试题</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">145.某个表有数千万数据，查询比较慢，如何优化？说一下思路</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">148.MySQL服务器毫无规律的异常重启如何排查问题？</span><span class="empty"></span></p></div></li>
-<li><div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">150.什么是MySQL多实例部署？</span><span class="empty"></span></p></div></li>
-</ul>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">011.什么是自适应哈希索引？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">038.如何查看一个表的索引？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">039.能否查看到索引选择的逻辑？是否使用过optimizer_trace？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">058.阿里、京东等大厂都有自研的存储引擎，如何开发一套自己的？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">086-089.什么是XA协议MySQLxa事务与普通事务区别是什么？2pc3pc的区别</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">119-120.预编译sql是什么好处是什么？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">141-144.视图，外键，存储过程，processlist相关面试题</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">145.某个表有数千万数据，查询比较慢，如何优化？说一下思路</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">148.MySQL服务器毫无规律的异常重启如何排查问题？</span><span class="empty"></span></p></div>
+<div class="tag-plugin quot"><p class="content" type="text"><span class="empty"></span><span class="text">150.什么是MySQL多实例部署？</span><span class="empty"></span></p></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="article-footer fs14">
     <section id="license">
@@ -238,7 +264,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%B4%A2%E5%BC%95%E6%9C%BA%E5%88%B6%E4%B8%8EB-%E6%A0%91"><span class="toc-text">一、索引机制与B+树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%B8%BB%E9%94%AE%E4%B8%8E%E8%87%AA%E5%A2%9E"><span class="toc-text">三、主键与自增</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">四、索引优化与使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E4%B8%8E%E8%A1%A8%E7%BB%93%E6%9E%84"><span class="toc-text">五、存储引擎与表结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E4%BA%8B%E5%8A%A1%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-text">六、事务与隔离级别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E9%94%81%E6%9C%BA%E5%88%B6"><span class="toc-text">七、锁机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E6%97%A5%E5%BF%97%E6%9C%BA%E5%88%B6"><span class="toc-text">八、日志机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E4%B8%8E%E6%89%A7%E8%A1%8C"><span class="toc-text">九、查询优化与执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%98%E5%82%A8"><span class="toc-text">十、数据类型与存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E4%B8%8E%E9%AB%98%E5%8F%AF%E7%94%A8"><span class="toc-text">十一、分库分表与高可用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E5%85%B6%E4%BB%96%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="toc-text">十二、其他高级特性</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%B4%A2%E5%BC%95%E6%9C%BA%E5%88%B6%E4%B8%8EB-%E6%A0%91"><span class="toc-text">一、索引机制与B+树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95%E4%B8%8E%E9%9D%9E%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95"><span class="toc-text">二、聚簇索引与非聚簇索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%B8%BB%E9%94%AE%E4%B8%8E%E8%87%AA%E5%A2%9E"><span class="toc-text">三、主键与自增</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">四、索引优化与使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E4%B8%8E%E8%A1%A8%E7%BB%93%E6%9E%84"><span class="toc-text">五、存储引擎与表结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E4%BA%8B%E5%8A%A1%E4%B8%8E%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-text">六、事务与隔离级别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E9%94%81%E6%9C%BA%E5%88%B6"><span class="toc-text">七、锁机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E6%97%A5%E5%BF%97%E6%9C%BA%E5%88%B6"><span class="toc-text">八、日志机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E4%B8%8E%E6%89%A7%E8%A1%8C"><span class="toc-text">九、查询优化与执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%98%E5%82%A8"><span class="toc-text">十、数据类型与存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E4%B8%8E%E9%AB%98%E5%8F%AF%E7%94%A8"><span class="toc-text">十一、分库分表与高可用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E5%85%B6%E4%BB%96%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="toc-text">十二、其他高级特性</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
