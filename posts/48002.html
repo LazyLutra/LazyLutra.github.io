@@ -53,7 +53,7 @@
 <div class="widgets">
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/51857.html"><span class="title">MySQL 索引补充</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a><a class="item title" href="/posts/26960.html"><span class="title">MySQL常用</span></a><a class="item title" href="/posts/7044.html"><span class="title">MySQL实战 基础篇（五）</span></a><a class="item title" href="/posts/51860.html"><span class="title">Hexo搭建静态博客流程</span></a><a class="item title" href="/posts/36556.html"><span class="title">【面试相关】MySQL</span></a><a class="item title" href="/posts/51861.html"><span class="title">如何使用 DeepSeek 帮助学习</span></a><a class="item title" href="/posts/51728.html"><span class="title">敏捷开发流程</span></a><a class="item title" href="/posts/12977.html"><span class="title">常见设计模式</span></a><a class="item title" href="/posts/33833.html"><span class="title">【面试相关】中间件 常见面试题总结</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a><a class="item title" href="/posts/51857.html"><span class="title">MySQL 索引补充</span></a><a class="item title" href="/posts/26960.html"><span class="title">MySQL常用</span></a><a class="item title" href="/posts/7044.html"><span class="title">MySQL实战 基础篇（五）</span></a><a class="item title" href="/posts/51860.html"><span class="title">Hexo搭建静态博客流程</span></a><a class="item title" href="/posts/36556.html"><span class="title">【面试相关】MySQL</span></a><a class="item title" href="/posts/51861.html"><span class="title">如何使用 DeepSeek 帮助学习</span></a><a class="item title" href="/posts/51728.html"><span class="title">敏捷开发流程</span></a><a class="item title" href="/posts/12977.html"><span class="title">常见设计模式</span></a><a class="item title" href="/posts/33833.html"><span class="title">【面试相关】中间件 常见面试题总结</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -66,7 +66,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/MySQL/">MySQL</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2021-04-26T08:57:21.000Z">2021-04-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-03T00:34:30.295Z">2025-04-03</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：2.4k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：8分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/MySQL/">MySQL</a>&nbsp</div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2021-04-26T08:57:21.000Z">2021-04-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-06T18:14:49.547Z">2025-04-07</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：3.1k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：11分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/MySQL/">MySQL</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
@@ -80,7 +80,10 @@
   </div><article class="md-text content"><blockquote>
 <p>该系列是极客时间林晓斌的 MySQL实战45讲 基础篇 3、8 课程笔记。</p>
 </blockquote>
-<p><strong>事物就是要保证一组数据库操作，要么全部成功，要不全部失败</strong>。MySQL 的事物支持是在引擎层实现的，但不是所有引擎都支持事物，比如 MySQL 原生的 MyISAM 引擎就不支持事务，这也是 MyISAM 被 InnoDB 取代的重要原因之一。</p>
+<p><strong>事物就是要保证一组数据库操作，要么全部成功，要不全部失败</strong>。<br>MySQL 的事物支持是在引擎层实现的，但不是所有引擎都支持事物，比如 MySQL 原生的 MyISAM 引擎就不支持事务，这也是 MyISAM 被 InnoDB 取代的重要原因之一。</p>
+<div class="tag-plugin colorful note" color="amber"><div class="title"><strong>事物和 MVCC</strong></div><div class="body"><p>事物是数据库操作的逻辑单元，将多个操作打包为一个不可分割的原子性过程。<br><code>MVCC</code> 是实现事务隔离性的核心机制。</p></div></div>
+
+
 <p>事物的特性 ACID（Atomicity、Consistency、Isolation、Durability）：</p>
 <ul>
 <li><p><strong>原子性</strong>：<u>事物是一个不可分割的最小操作单元，事物中的操作要么全部成功提交，要么全部失败回滚</u></p>
@@ -150,15 +153,44 @@
 <p> MySQL 的默认隔离级别是 <strong>重复读</strong>，可以通过启动参数 <code>transaction-isolation</code> 进行隔离级别的设置，查看命令如下：</p>
  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> variables</span><br></pre></td></tr></table></figure>
 
-<h2 id="MVCC如何支撑事物隔离"><a href="#MVCC如何支撑事物隔离" class="headerlink" title="MVCC如何支撑事物隔离"></a>MVCC如何支撑事物隔离</h2><h3 id="MVCC实现原理"><a href="#MVCC实现原理" class="headerlink" title="MVCC实现原理"></a>MVCC实现原理</h3><p>主要由三部分组成：隐式字段、undo log、Read View（这里只是大概介绍）。</p>
+<h2 id="MVCC如何支撑事物隔离"><a href="#MVCC如何支撑事物隔离" class="headerlink" title="MVCC如何支撑事物隔离"></a>MVCC如何支撑事物隔离</h2><h3 id="当前读和快照读"><a href="#当前读和快照读" class="headerlink" title="当前读和快照读"></a>当前读和快照读</h3><p>两种不同的读取方式，区别主要在于 <u>是否读取最新版本数据</u> 以及 <u>是否加锁</u></p>
+<ul>
+<li><strong>当前读</strong> <div class="tag-plugin colorful note" color="cyan"><div class="body"><p>需要操作最新数据并保证数据一致性，常用于写操作依赖读的场景</p></div></div>
+<ul>
+<li><p>使用方式<br> 显示使用锁：<code>SELECT ... FOR UPDATE</code>、<code>SELECT ... LOCK IN SHARE MODE</code>；<br> 隐式触发：<code>UPDATE</code>、<code>DELETE</code>、<code>INSERT</code></p>
+</li>
+<li><p>实现机制<br> 锁</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>快照读</strong> <div class="tag-plugin colorful note" color="cyan"><div class="body"><p>仅需读取数据且不要求最新值，适合读多写少的业务</p></div></div>
+<ul>
+<li><p>使用方式<br> 普通 <code>SELECT</code> 语句</p>
+</li>
+<li><p>实现机制<br> MVCC</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="MVCC是什么"><a href="#MVCC是什么" class="headerlink" title="MVCC是什么"></a>MVCC是什么</h3><p>MySQL 的 Innodb 引擎下，隔离级别为 RR 或 RC，且快照读时，基于 MVCC 做数据的多版本并发控制。</p>
+<ul>
+<li>多版本：MySQL 维护着 <u>行数据的多个版本</u></li>
+<li>并发控制：<u>多个事物操作某一行记录时</u>，MySQL 控制返回<u>多个版本行记录的某个版本</u></li>
+</ul>
+<div class="tag-plugin colorful note" color="warning"><div class="body"><p>只有在<code>SELECT</code>时才会涉及到<code>MVCC</code>；<code>UPDATE</code>、<code>DELETE</code>、<code>INSERT</code>都使用锁解决</p></div></div>
+
+<h3 id="MVCC实现原理"><a href="#MVCC实现原理" class="headerlink" title="MVCC实现原理"></a>MVCC实现原理</h3><p>主要由三部分组成：隐式字段、undo log、Read View（这里只是大概介绍）。</p>
 <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/MySQL/记录状态变更.png" alt="记录状态变更示意图" data-fancybox="true"/></div><div class="image-meta"><span class="image-caption center">记录状态变更示意图</span></div></div>
 
 <h4 id="隐式字段"><a href="#隐式字段" class="headerlink" title="隐式字段"></a>隐式字段</h4><ol>
 <li><p>DB_TRX_ID</p>
-<p>记录 创建 或 最后一次修改该记录的<strong>事务ID</strong>。</p>
+<p>创建 或 最后一次修改该记录的<strong>事务ID</strong>。</p>
 </li>
 <li><p>DB_ROLL_PTR</p>
-<p><strong>回滚指针</strong>，配合 undo 日志，指向这条记录的上一个版本。</p>
+<p><strong>回滚指针</strong>，配合 undo log，指向这条记录的上一个版本，形成一个链表。</p>
 </li>
 <li><p>DB_ROW_ID</p>
 <p><strong>隐藏的自增主键</strong>，数据库默认为该记录生成的唯一隐式主键。</p>
@@ -170,42 +202,81 @@
 <p>事务在 insert 时产生的 undo log。只在回滚时需要；事务提交后可被立即丢弃。</p>
 </li>
 <li><p>update undo log</p>
-<p>在 update 或 delete 时产生的 undo log。在回滚、快照读时需要。只有在回滚或者快照读不涉及该日志时，对应的日志会被 purge 统一清除。</p>
+<p>在 <code>update</code> 或 <code>delete</code> 时产生的 undo log。在回滚、快照读时需要。只有在回滚或者快照读不涉及该日志时，对应的日志会被 purge 统一清除。</p>
 </li>
 </ul>
 <p>对MVCC 有帮助的是 <strong>update undo log</strong>。</p>
 <h4 id="Read-View"><a href="#Read-View" class="headerlink" title="Read View"></a>Read View</h4><p>Read View 就是事务进行 快照读 时产生的 读视图（Read View）。</p>
 <p>在该事务执行快照的一刻，生成当前数据库系统的一个快照，记录并维护<strong>当前活跃事务的ID</strong>。</p>
 <p>当前活跃事务的 ID 就是事务开始时被分配的 ID，具有唯一性且严格递增。</p>
-<p>Read View 具有三个属性：</p>
+<div class="tag-plugin colorful note" color="warning"><div class="body"><p>Read View 的四个属性结合 版本链数据访问规则（undo log）</p></div></div>
+
+<p>Read View 具有四个属性：</p>
 <ol>
-<li><p><strong>trx_list</strong>（名字随便取的）</p>
-<p>用来保存 Read View 生成时，系统内活跃的事务 ID。</p>
+<li><p><strong>creator_trx_id</strong></p>
+<p>创建该 Read View 的事物 ID（也就是当前事物的 ID）。</p>
+</li>
+<li><p><strong>trx_ids</strong></p>
+<p>一个数组，用来保存 Read View 生成时，系统内所有其他活跃事物的事务 ID。</p>
 </li>
 <li><p><strong>up_limit_id</strong></p>
-<p>是数组中事务最小的 ID。</p>
+<p>所有活跃事物的 <strong>最小事物 ID</strong>。</p>
 </li>
 <li><p><strong>low_limit_id</strong></p>
-<p> Read View 生成时，系统尚未分配的下一个事务 ID，即已出现过的事务 ID 最大值 + 1。</p>
+<p>系统中已分配的 <strong>最大事物 ID</strong>，<u>任何新事物 ID，都会从 `low_limit_id + 1` 开始分配</u>。</p>
 </li>
 </ol>
 <hr>
-<p><strong>🌟事务可见性的判断</strong></p>
+<p><strong>版本链数据访问规则（事务可见性的判断）</strong></p>
+<p><code>trx_id</code>，代表的是当前事物 ID</p>
 <ol>
-<li><p>DB_TRX_ID &lt; up_limit_id ？</p>
-<p>如果小于，则<strong>当前事务可以看到 <em>DB_TRX_ID</em> 所在的记录</strong>；</p>
-<p>如果大于等于，进入下一个判断。</p>
+<li><p><code>trx_id == creator_trx_id</code></p>
+<p>可以访问该版本。</p>
+<p>说明数据是由当前这个事物更改的。</p>
 </li>
-<li><p>DB_TRX_ID &gt;&#x3D; low_limit_id ？</p>
-<p>如果大于等于，则说明 <em>DB_TRX_ID</em> 所在的记录是 Read View 生成后出现的，<strong>对当前事务不可见</strong>；</p>
-<p>如果小于，进入下一个判断。</p>
+<li><p><code>trx_id &lt; up_limit_id</code></p>
+<p>可以访问该版本。</p>
+<p>说明数据已经提交了。</p>
 </li>
-<li><p>DB_TRX_ID ⊆ trx_list ？</p>
-<p>如果在该数组中，则表示生成 Read View 时，该事务仍然活跃，没有提交，<strong>修改的数据对于当前事务不可见</strong>；</p>
-<p>如果不在数组中，则说明这个事务在生成 Read View 前已经提交，<strong>当前事务可见</strong>。</p>
+<li><p><code>trx_id &gt; low_limit_id</code></p>
+<p>不可以访问该版本。</p>
+<p>说明该事物是在 Read View 生成后才开启的。</p>
+</li>
+<li><p><code>up_limit_id &lt;= trx_id &lt;= low_limit_id</code></p>
+<p>如果 <code>trx_id</code> 不在 <code>trx_ids</code> 中，可以访问该版本。</p>
+<p>说明数据已经提交。</p>
 </li>
 </ol>
+<h3 id="在-RC-和-RR-下的不同表现"><a href="#在-RC-和-RR-下的不同表现" class="headerlink" title="在 RC 和 RR 下的不同表现"></a>在 RC 和 RR 下的不同表现</h3><p>在同一个事物内，进行两次快照读：</p>
+<ol>
+<li><strong>RR</strong>，返回的是<u>相同版本</u></li>
+<li><strong>RC</strong>，返回的是<u>不同版本记录</u></li>
+</ol>
+<p>为什么 <strong>RC</strong> 有不可重复读的问题，<strong>RR</strong> 是可重复读</p>
+<h4 id="RC-和-RR-的实现"><a href="#RC-和-RR-的实现" class="headerlink" title="RC 和 RR 的实现"></a>RC 和 RR 的实现</h4><p><strong>可重复读 RR</strong> 的核心就是 <strong>一致性读</strong>，事务更新时只能使用当前读，如果行锁被其他事务占用，就进入锁等待。</p>
+<p><strong>读提交 RC</strong> 也是用 <strong>一致性读</strong> 实现的。</p>
+<p>二者的区别在于，一致性视图的创建时机不同（也是出现不同表现的原因）：</p>
+<ul>
+<li><p><strong>可重复读 RR</strong></p>
+<p> 只在事务开始时创建 Read View，之后该事务的查询共用</p>
+</li>
+<li><p><strong>读提交 RC</strong></p>
+<p> 每个语句执行前都会生成一个新的 Read View</p>
+</li>
+</ul>
 <hr>
+<h4 id="RR、RC-总结"><a href="#RR、RC-总结" class="headerlink" title="RR、RC 总结"></a>RR、RC 总结</h4><p><strong>可重复读 RR</strong>：查询时，只承认事务启动前提交的数据</p>
+<p><strong>读提交 RC</strong>：查询时，只承认语句启动前提交的数据</p>
+<h3 id="解决了什么问题"><a href="#解决了什么问题" class="headerlink" title="解决了什么问题"></a>解决了什么问题</h3><ol>
+<li><p>解决了读写阻塞的问题</p>
+<p><code>SELECT ... FOR UPDATE</code>、<code>SELECT ... LOCK IN SHARE MODE</code> 都是当前读，会独占写锁；</p>
+<p>这样对读锁和写锁是互斥的，这两个事物都会被阻塞。</p>
+<p>普通的 <code>SELECT</code> 语句就不会涉及到锁，底层使用 MVCC 实现的，有效避免了被阻塞。</p>
+</li>
+<li><p>在 RR 隔离下，在快照读方面避免出现幻读</p>
+<p>并没有完全解决，实际还是要依靠间隙锁盒临键锁解决。</p>
+</li>
+</ol>
 <h2 id="长事物的风险"><a href="#长事物的风险" class="headerlink" title="长事物的风险"></a>长事物的风险</h2><p>MySQL 中，每条记录在更新时都会在 undo log 中记录一条回滚操作，通过该记录可以得到前一个状态的值。</p>
 <u>undo log 的作用就是为了回滚，所以记录是反向的。</u>比如事务的操作时把1改成2，undo log 的记录就是将2改成1，这样是为了方便回滚。
 
@@ -227,11 +298,11 @@
 <li>COMMIT : 提交事物</li>
 </ul>
 <p>在执行到之后第一个操作 InnoDB 表的语句时，事务才真正启动（一致性视图在第一个快照读语句创建）：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">begin</span><span class="operator">/</span><span class="keyword">start</span> transaction;</span><br><span class="line">···</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION</span><br><span class="line">···</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>第二种：</p>
 <p>立刻启动一个事务（一致性视图在执行时就创建）：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> transaction <span class="keyword">with</span> consistent snapshot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> TRANSACTION <span class="keyword">WITH</span> consistent SNAPSHOT;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>自动提交<br>通过参数配置，改变自动提交模式</p>
 <ul>
@@ -269,6 +340,11 @@
           <p><a target="_blank" rel="noopener" href="https://tech.meituan.com/2014/08/20/innodb-lock.html">Innodb中的事务隔离级别和锁的关系</a></p>
 
         </li>
+        
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Yc411N7tK">10分钟带你深刻理解MySQL中的MVCC机制</a></p>
+
+        </li>
         </ul>
       </div>
     </section>
@@ -294,7 +370,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E7%89%A9%E7%9A%84%E9%9A%94%E7%A6%BB%E6%80%A7%E5%92%8C%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-text">事物的隔离性和隔离级别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MVCC%E5%A6%82%E4%BD%95%E6%94%AF%E6%92%91%E4%BA%8B%E7%89%A9%E9%9A%94%E7%A6%BB"><span class="toc-text">MVCC如何支撑事物隔离</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MVCC%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-text">MVCC实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%90%E5%BC%8F%E5%AD%97%E6%AE%B5"><span class="toc-text">隐式字段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undo-log"><span class="toc-text">undo log</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Read-View"><span class="toc-text">Read View</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%95%BF%E4%BA%8B%E7%89%A9%E7%9A%84%E9%A3%8E%E9%99%A9"><span class="toc-text">长事物的风险</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E7%89%A9%E7%9A%84%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F%E5%92%8C%E8%AE%BE%E7%BD%AE"><span class="toc-text">事物的启动方式和设置</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E7%89%A9%E7%9A%84%E9%9A%94%E7%A6%BB%E6%80%A7%E5%92%8C%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-text">事物的隔离性和隔离级别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MVCC%E5%A6%82%E4%BD%95%E6%94%AF%E6%92%91%E4%BA%8B%E7%89%A9%E9%9A%94%E7%A6%BB"><span class="toc-text">MVCC如何支撑事物隔离</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E8%AF%BB%E5%92%8C%E5%BF%AB%E7%85%A7%E8%AF%BB"><span class="toc-text">当前读和快照读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVCC%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">MVCC是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVCC%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-text">MVCC实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%90%E5%BC%8F%E5%AD%97%E6%AE%B5"><span class="toc-text">隐式字段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#undo-log"><span class="toc-text">undo log</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Read-View"><span class="toc-text">Read View</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8-RC-%E5%92%8C-RR-%E4%B8%8B%E7%9A%84%E4%B8%8D%E5%90%8C%E8%A1%A8%E7%8E%B0"><span class="toc-text">在 RC 和 RR 下的不同表现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RC-%E5%92%8C-RR-%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text">RC 和 RR 的实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RR%E3%80%81RC-%E6%80%BB%E7%BB%93"><span class="toc-text">RR、RC 总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-text">解决了什么问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%95%BF%E4%BA%8B%E7%89%A9%E7%9A%84%E9%A3%8E%E9%99%A9"><span class="toc-text">长事物的风险</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E7%89%A9%E7%9A%84%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F%E5%92%8C%E8%AE%BE%E7%BD%AE"><span class="toc-text">事物的启动方式和设置</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
