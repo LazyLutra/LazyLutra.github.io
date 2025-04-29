@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1" theme-name="Stellar" theme-version="1.29.1">
-  <meta name="robots" content="noindex,follow">
+  
   <meta name="generator" content="Hexo 7.3.0">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
   
@@ -17,12 +17,12 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>标签：Springboot - traveller</title>
+  <title>Ubuntu 常用操作和环境搭建 - traveller</title>
 
   
-  <meta name="description" content="">
+  <meta name="description" content="Oracle JDK 17为什么是 Oracle JDK 而不是 Open JDKNacos 2.3.2 开启鉴权后控制台无论使用什么密码登录都显示账户密码错误Nacos踩坑记录：配置鉴权后控制台无法登录,返回 Invalid key: javax.crypto.spec.SecretKeyS...">
   
-  
+  <meta name="keywords" content="Hexo">
 
   <!-- feed -->
   
@@ -39,7 +39,7 @@
 </head>
 <body>
 
-<div class="l_body s:aa index tech" id="start" layout="undefined" ><aside class="l_left"><div class="leftbar-container">
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
 
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/pics/other/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">traveller</div><div class="sub cap">答案在路上，自由在风里。</div></a></div></header>
@@ -51,28 +51,97 @@
 <nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><span>博客</span></a><a class="nav-item" title="时间线" href="/shuoshuo/" style="color:#3DC550"><span>时间线</span></a><a class="nav-item" title="关于" href="/about/" style="color:#FA6400"><span>关于</span></a></nav>
 </div>
 <div class="widgets">
+
+
 <widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/51863.html"><span class="title">【面试相关】面试遇到的问题</span></a><a class="item title" href="/posts/44612.html"><span class="title">【面试相关】中间件 常见面试题总结</span></a><a class="item title" href="/posts/13792.html"><span class="title">SpringCloud Alibaba 搭建过程 01</span></a><a class="item title" href="/posts/40641.html"><span class="title">SpringCloud Alibaba 搭建过程 02</span></a><a class="item title" href="/posts/18381.html"><span class="title">Ubuntu 常用操作和环境搭建</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a><a class="item title" href="/posts/38943.html"><span class="title">【面试相关】Java基础</span></a><a class="item title" href="/posts/11250.html"><span class="title">目录</span></a><a class="item title" href="/posts/51729.html"><span class="title">SpringBoot 中如何使用 Caffeine 本地缓存</span></a><a class="item title" href="/posts/63404.html"><span class="title">MySQL 优化实践</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
 
-<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/pics/other/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">traveller</div><div class="sub cap">答案在路上，自由在风里。</div></a></div></header>
-
- 
 
 
 
 
-<div class="navbar top"><nav class="post"><a href="/">最新</a><a href="/categories">分类</a><a class="active" href="/tags">标签：Springboot</a><a href="/topic">专栏</a><a href="/archives">归档</a></nav></div>
-<div class="post-list post"><a class="post-card post" href="/posts/51729.html">
-<article class="md-text"><h2 class="post-title">SpringBoot 中如何使用 Caffeine 本地缓存</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta"><svg style="margin-bottom:2px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M6.94 2c.416 0 .753.324.753.724v1.46c.668-.012 1.417-.012 2.26-.012h4.015c.842 0 1.591 0 2.259.013v-1.46c0-.4.337-.725.753-.725s.753.324.753.724V4.25c1.445.111 2.394.384 3.09 1.055c.698.67.982 1.582 1.097 2.972L22 9H2v-.724c.116-1.39.4-2.302 1.097-2.972c.697-.67 1.645-.944 3.09-1.055V2.724c0-.4.337-.724.753-.724"/><path fill="currentColor" d="M22 14v-2c0-.839-.004-2.335-.017-3H2.01c-.013.665-.01 2.161-.01 3v2c0 3.771 0 5.657 1.172 6.828C4.343 22 6.228 22 10 22h4c3.77 0 5.656 0 6.828-1.172C22 19.658 22 17.772 22 14" opacity=".5"/><path fill="currentColor" d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><time datetime="2025-04-15T11:54:47.000Z">2025-04-15</time></span><span class="cap breadcrumb"><svg style="margin-bottom:1px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6.95c0-.883 0-1.324.07-1.692A4 4 0 0 1 5.257 2.07C5.626 2 6.068 2 6.95 2c.386 0 .58 0 .766.017a4 4 0 0 1 2.18.904c.144.119.28.255.554.529L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .848.352C14.098 6 14.675 6 15.828 6h.374c2.632 0 3.949 0 4.804.77c.079.07.154.145.224.224c.77.855.77 2.172.77 4.804V14c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14z" opacity=".5"/><path fill="currentColor" d="M20 6.238c0-.298-.005-.475-.025-.63a3 3 0 0 0-2.583-2.582C17.197 3 16.965 3 16.5 3H9.988c.116.104.247.234.462.45L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .849.352C14.098 6 14.675 6 15.829 6h.373c1.78 0 2.957 0 3.798.238"/><path fill="currentColor" fill-rule="evenodd" d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg><span>Springboot</span></span></div></article>
-</a></div>
+<div class="article banner top"><img class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/pics/other/banner_bg7.png">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-28T16:13:50.000Z">2025-04-29</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-29T01:54:22.780Z">2025-04-29</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：594字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：2分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/Hexo/">Hexo</a>&nbsp</div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>Ubuntu 常用操作和环境搭建</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="Oracle-JDK-17"><a href="#Oracle-JDK-17" class="headerlink" title="Oracle JDK 17"></a>Oracle JDK 17</h2><div class="tag-plugin colorful note" color="warning"><div class="title"><strong>为什么是 Oracle JDK 而不是 Open JDK</strong></div><div class="body"><p><a target="_blank" rel="noopener" href="https://github.com/alibaba/nacos/issues/12097">Nacos 2.3.2 开启鉴权后控制台无论使用什么密码登录都显示账户密码错误</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/7288624193955315749">Nacos踩坑记录：配置鉴权后控制台无法登录,返回 Invalid key: javax.crypto.spec.SecretKeySpec</a></p></div></div>
+
+
+<ol>
+<li>切换到 root<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> su</span><br></pre></td></tr></table></figure></li>
+<li>创建安装目录，并且把下载的安装包上传到该目录下<br><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html">Oracle jdk 17</a><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /usr/lib/jvm</span><br></pre></td></tr></table></figure></li>
+<li>解压安装包<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tar -zxvf jdk-17.0.15_linux-x64_bin.tar.gz -C /usr/lib/jvm</span><br></pre></td></tr></table></figure></li>
+<li>配置环境变量（全局配置），打开 <code>/etc/profile</code> 文件<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/profile</span><br></pre></td></tr></table></figure></li>
+<li><code>/etc/profile</code> 文件末尾添加内容（保存：<kbd>Ctrl</kbd> + <kbd>o</kbd>，退出：<kbd>Ctrl</kbd> + <kbd>x</kbd>），<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/lib/jvm/jdk-17.0.15</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure></li>
+<li>刷新全局配置文件<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure></li>
+<li>验证环境变量、Java 命令（和步骤三结果相同）<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$JAVA_HOME</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line"></span><br><span class="line">java -version</span><br><span class="line">javac -version</span><br></pre></td></tr></table></figure>
+<div class="tag-plugin colorful note" color="green"><div class="title"><strong>预期输出</strong></div><div class="body"><figure class="highlight shell"><figcaption><span>java -version</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java version &quot;17.0.15&quot; 2025-04-15 LTS</span><br><span class="line">Java(TM) SE Runtime Environment (build 17.0.15+9-LTS-241)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 17.0.15+9-LTS-241, mixed mode, sharing)</span><br></pre></td></tr></table></figure><figure class="highlight shell"><figcaption><span>javac -version</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac 17.0.15</span><br></pre></td></tr></table></figure></div></div></li>
+</ol>
+<h2 id="Nacos-2-3-2"><a href="#Nacos-2-3-2" class="headerlink" title="Nacos 2.3.2"></a>Nacos 2.3.2</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cnskylee/article/details/137640113">【Nacos】Nacos 2.3.2版本安装配置过程记录和踩坑分享</a></p>
+<ol>
+<li><p>下载压缩包：<a target="_blank" rel="noopener" href="https://github.com/alibaba/nacos/releases">nacos github releases</a></p>
+</li>
+<li><p>新建文件夹，并上传压缩包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt</span><br><span class="line"><span class="built_in">mkdir</span> nacos</span><br></pre></td></tr></table></figure></li>
+<li><p>解压缩</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tar -zxvf nacos-server-2.3.2.tar.gz</span><br></pre></td></tr></table></figure></li>
+<li><p>导入数据库脚本，路径：&#x2F;opt&#x2F;nacos&#x2F;conf&#x2F;mysql-schema.sql</p>
+</li>
+<li><p>修改配置文件</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### Count of DB:</span></span><br><span class="line"><span class="attr">db.num</span>=<span class="string">1</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">### Connect URL of DB:</span></span><br><span class="line"><span class="attr">db.url.0</span>=<span class="string">jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&amp;connectTimeout=1000&amp;socketTimeout=3000&amp;autoReconnect=true&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=UTC</span></span><br><span class="line"><span class="attr">db.user.0</span>=<span class="string">数据库用户名</span></span><br><span class="line"><span class="attr">db.password.0</span>=<span class="string">数据库密码</span></span><br></pre></td></tr></table></figure></li>
+<li><p>此处配置完成后可以启动了，但是会发现不需要账号密码就可以登陆<br>（记得放行端口）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt/nacos/bin</span><br><span class="line">./startup.sh -m standalone</span><br><span class="line"></span><br><span class="line">ps -ef| grep nacos| grep -v grep</span><br></pre></td></tr></table></figure></li>
+<li><p>鉴权配置<br>此处一定要把默认用户名和密码都设置为nacos，登录成功后在右上角修改密码，然后再登出重新登录使密码生效；</p>
+<p>密钥需要<strong>将一个不低于32位长度的字符串，转为base64编码</strong>   </p>
+<div class="tag-plugin colorful note" color="green"><div class="title"><strong>base64编码</strong></div><div class="body"><p><a target="_blank" rel="noopener" href="https://www.toolhelper.cn/EncodeDecode/Base64">Base64 编码&#x2F;解码</a></p><p>原字符串：<br>jL4iM8vX7vQ6lT8rX6aX5eB7nO6mW4jY</p><p>转为base64后：<br>akw0aU04dlg3dlE2bFQ4clg2YVg1ZUI3bk82bVc0alk&#x3D;   </p></div></div>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### If turn on auth system:</span></span><br><span class="line">nacos.core.auth.enabled=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 默认用户名和密码</span></span><br><span class="line">nacos.core.auth.server.identity.key=nacos</span><br><span class="line">nacos.core.auth.server.identity.value=nacos</span><br><span class="line"></span><br><span class="line"><span class="comment">### 密钥</span></span><br><span class="line">nacos.core.auth.plugin.nacos.token.secret.key=eEo1ZlkybVIxY001b1Y1ckszZVkweFE2YVMwbkw5eFk=</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加命名空间</p>
+</li>
+<li><p>为当前用户绑定权限</p>
+</li>
+</ol>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/40641.html">SpringCloud Alibaba 搭建过程 02</a></div></section></div>
+
+
+
+
 
 
 <footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a href="/">None</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about">关于本站</a></div></div><div class="text"><p>本博客所有文章除特别声明外均为原创，本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel blur'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle-JDK-17"><span class="toc-text">Oracle JDK 17</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nacos-2-3-2"><span class="toc-text">Nacos 2.3.2</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>

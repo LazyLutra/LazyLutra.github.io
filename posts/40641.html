@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1" theme-name="Stellar" theme-version="1.29.1">
-  <meta name="robots" content="noindex,follow">
+  
   <meta name="generator" content="Hexo 7.3.0">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
   
@@ -17,12 +17,12 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>标签：Springboot - traveller</title>
+  <title>SpringCloud Alibaba 搭建过程 02 - traveller</title>
 
   
-  <meta name="description" content="">
+  <meta name="description" content="Nacos、Feign 整合">
   
-  
+  <meta name="keywords" content="SpringCloud Alibaba,微服务">
 
   <!-- feed -->
   
@@ -39,7 +39,7 @@
 </head>
 <body>
 
-<div class="l_body s:aa index tech" id="start" layout="undefined" ><aside class="l_left"><div class="leftbar-container">
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
 
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/pics/other/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">traveller</div><div class="sub cap">答案在路上，自由在风里。</div></a></div></header>
@@ -51,28 +51,73 @@
 <nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><span>博客</span></a><a class="nav-item" title="时间线" href="/shuoshuo/" style="color:#3DC550"><span>时间线</span></a><a class="nav-item" title="关于" href="/about/" style="color:#FA6400"><span>关于</span></a></nav>
 </div>
 <div class="widgets">
+
+
 <widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/51863.html"><span class="title">【面试相关】面试遇到的问题</span></a><a class="item title" href="/posts/44612.html"><span class="title">【面试相关】中间件 常见面试题总结</span></a><a class="item title" href="/posts/13792.html"><span class="title">SpringCloud Alibaba 搭建过程 01</span></a><a class="item title" href="/posts/40641.html"><span class="title">SpringCloud Alibaba 搭建过程 02</span></a><a class="item title" href="/posts/18381.html"><span class="title">Ubuntu 常用操作和环境搭建</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a><a class="item title" href="/posts/38943.html"><span class="title">【面试相关】Java基础</span></a><a class="item title" href="/posts/11250.html"><span class="title">目录</span></a><a class="item title" href="/posts/51729.html"><span class="title">SpringBoot 中如何使用 Caffeine 本地缓存</span></a><a class="item title" href="/posts/63404.html"><span class="title">MySQL 优化实践</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
 
-<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/pics/other/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">traveller</div><div class="sub cap">答案在路上，自由在风里。</div></a></div></header>
-
- 
 
 
 
 
-<div class="navbar top"><nav class="post"><a href="/">最新</a><a href="/categories">分类</a><a class="active" href="/tags">标签：Springboot</a><a href="/topic">专栏</a><a href="/archives">归档</a></nav></div>
-<div class="post-list post"><a class="post-card post" href="/posts/51729.html">
-<article class="md-text"><h2 class="post-title">SpringBoot 中如何使用 Caffeine 本地缓存</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta"><svg style="margin-bottom:2px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M6.94 2c.416 0 .753.324.753.724v1.46c.668-.012 1.417-.012 2.26-.012h4.015c.842 0 1.591 0 2.259.013v-1.46c0-.4.337-.725.753-.725s.753.324.753.724V4.25c1.445.111 2.394.384 3.09 1.055c.698.67.982 1.582 1.097 2.972L22 9H2v-.724c.116-1.39.4-2.302 1.097-2.972c.697-.67 1.645-.944 3.09-1.055V2.724c0-.4.337-.724.753-.724"/><path fill="currentColor" d="M22 14v-2c0-.839-.004-2.335-.017-3H2.01c-.013.665-.01 2.161-.01 3v2c0 3.771 0 5.657 1.172 6.828C4.343 22 6.228 22 10 22h4c3.77 0 5.656 0 6.828-1.172C22 19.658 22 17.772 22 14" opacity=".5"/><path fill="currentColor" d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><time datetime="2025-04-15T11:54:47.000Z">2025-04-15</time></span><span class="cap breadcrumb"><svg style="margin-bottom:1px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6.95c0-.883 0-1.324.07-1.692A4 4 0 0 1 5.257 2.07C5.626 2 6.068 2 6.95 2c.386 0 .58 0 .766.017a4 4 0 0 1 2.18.904c.144.119.28.255.554.529L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .848.352C14.098 6 14.675 6 15.828 6h.374c2.632 0 3.949 0 4.804.77c.079.07.154.145.224.224c.77.855.77 2.172.77 4.804V14c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14z" opacity=".5"/><path fill="currentColor" d="M20 6.238c0-.298-.005-.475-.025-.63a3 3 0 0 0-2.583-2.582C17.197 3 16.965 3 16.5 3H9.988c.116.104.247.234.462.45L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .849.352C14.098 6 14.675 6 15.829 6h.373c1.78 0 2.957 0 3.798.238"/><path fill="currentColor" fill-rule="evenodd" d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg><span>Springboot</span></span></div></article>
-</a></div>
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/SpringCloud-Alibaba/">SpringCloud Alibaba</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-26T15:17:38.000Z">2025-04-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-29T03:37:22.317Z">2025-04-29</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：274字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：1分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/SpringCloud-Alibaba/">SpringCloud Alibaba</a>&nbsp; <a class="cap breadcrumb-link" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a>&nbsp</div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>SpringCloud Alibaba 搭建过程 02</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="nacos-安装和配置"><a href="#nacos-安装和配置" class="headerlink" title="nacos 安装和配置"></a>nacos 安装和配置</h2><p>参考：<a href="/posts/18381.html">Ubuntu 常用操作和环境搭建</a></p>
+<h2 id="nacos-项目内配置"><a href="#nacos-项目内配置" class="headerlink" title="nacos 项目内配置"></a>nacos 项目内配置</h2><ul>
+<li><p>两个子模块都需要添加依赖</p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- nacos服务注册发现 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-nacos-discovery<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- loadbalancer启动器 naocs2.2版本取消了自带的负载均衡器需要加这个 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-loadbalancer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件 <code>application.properties</code></p>
+  <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 服务名称</span></span><br><span class="line"><span class="attr">spring.application.name</span>=<span class="string">order-service</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring.cloud.loadbalancer.nacos.enabled</span>=<span class="string">true</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># ip地址和端口号</span></span><br><span class="line"><span class="attr">spring.cloud.nacos.discovery.server-addr</span>=<span class="string">ip地址:端口号</span></span><br><span class="line"><span class="attr">spring.cloud.nacos.discovery.username</span>=<span class="string">用户名</span></span><br><span class="line"><span class="attr">spring.cloud.nacos.discovery.password</span>=<span class="string">密码</span></span><br><span class="line"><span class="attr">spring.cloud.nacos.discovery.namespace</span>=<span class="string">public</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改 order 模块中的测试方法，确保服务可用</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/add&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">add</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;下单成功&quot;</span>);</span><br><span class="line">    <span class="comment">// 在order里面调用stock服务</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">msg</span> <span class="operator">=</span> restTemplate.getForObject(<span class="string">&quot;http://stock-service/stock/reduce&quot;</span>, String.class);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;下单成功&quot;</span> + msg;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动两个本地应用后，在nacos后台查看服务是否注册成功</p>
+   <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://raw.githubusercontent.com/LazyLutra/imgBed/main/项目搭建08.png" data-fancybox="true"/></div></div></li>
+</ul>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/posts/18381.html">Ubuntu 常用操作和环境搭建</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/13792.html">SpringCloud Alibaba 搭建过程 01</a></div></section></div>
+
+
+
+
 
 
 <footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a href="/">None</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about">关于本站</a></div></div><div class="text"><p>本博客所有文章除特别声明外均为原创，本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel blur'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#nacos-%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="toc-text">nacos 安装和配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nacos-%E9%A1%B9%E7%9B%AE%E5%86%85%E9%85%8D%E7%BD%AE"><span class="toc-text">nacos 项目内配置</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>

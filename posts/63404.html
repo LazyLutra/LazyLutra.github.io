@@ -17,7 +17,7 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>SQL 优化实践 - traveller</title>
+  <title>MySQL 优化实践 - traveller</title>
 
   
   <meta name="description" content="如何优化慢查询 SQL。">
@@ -53,7 +53,7 @@
 <div class="widgets">
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/38943.html"><span class="title">【面试相关】Java基础</span></a><a class="item title" href="/posts/51729.html"><span class="title">SpringBoot 中如何使用 Caffeine 本地缓存</span></a><a class="item title" href="/posts/44296.html"><span class="title">Redis</span></a><a class="item title" href="/posts/11250.html"><span class="title">目录</span></a><a class="item title" href="/posts/12977.html"><span class="title">常见设计模式</span></a><a class="item title" href="/posts/33833.html"><span class="title">【面试相关】中间件 常见面试题总结</span></a><a class="item title" href="/posts/51861.html"><span class="title">如何使用 DeepSeek 帮助学习</span></a><a class="item title" href="/posts/63404.html"><span class="title">SQL 优化实践</span></a><a class="item title" href="/posts/51728.html"><span class="title">敏捷开发流程</span></a><a class="item title" href="/posts/51860.html"><span class="title">Hexo搭建静态博客流程</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/51863.html"><span class="title">【面试相关】面试遇到的问题</span></a><a class="item title" href="/posts/44612.html"><span class="title">【面试相关】中间件 常见面试题总结</span></a><a class="item title" href="/posts/13792.html"><span class="title">SpringCloud Alibaba 搭建过程 01</span></a><a class="item title" href="/posts/40641.html"><span class="title">SpringCloud Alibaba 搭建过程 02</span></a><a class="item title" href="/posts/18381.html"><span class="title">Ubuntu 常用操作和环境搭建</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a><a class="item title" href="/posts/38943.html"><span class="title">【面试相关】Java基础</span></a><a class="item title" href="/posts/11250.html"><span class="title">目录</span></a><a class="item title" href="/posts/51729.html"><span class="title">SpringBoot 中如何使用 Caffeine 本地缓存</span></a><a class="item title" href="/posts/63404.html"><span class="title">MySQL 优化实践</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -66,12 +66,12 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/MySQL/">MySQL</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-13T08:28:30.000Z">2025-04-13</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-19T05:33:28.824Z">2025-04-19</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：1.1k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：4分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/MySQL/">MySQL</a>&nbsp</div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-13T08:28:30.000Z">2025-04-13</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-26T02:27:13.486Z">2025-04-26</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：1.5k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：5分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/MySQL/">MySQL</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>SQL 优化实践</span></h1>
+        <h1 class="text title"><span>MySQL 优化实践</span></h1>
         
       </div>
     </div>
@@ -234,7 +234,47 @@
 <ul>
 <li>业务分层，或者增加缓存中间件，减少数据库访问</li>
 </ul>
-<h3 id="数据库服务器实例性能配置差-提升服务器性能配置"><a href="#数据库服务器实例性能配置差-提升服务器性能配置" class="headerlink" title="数据库服务器实例性能配置差(提升服务器性能配置)"></a>数据库服务器实例性能配置差(提升服务器性能配置)</h3>
+<h3 id="数据库服务器实例性能配置差-提升服务器性能配置"><a href="#数据库服务器实例性能配置差-提升服务器性能配置" class="headerlink" title="数据库服务器实例性能配置差(提升服务器性能配置)"></a>数据库服务器实例性能配置差(提升服务器性能配置)</h3><h2 id="深分页问题"><a href="#深分页问题" class="headerlink" title="深分页问题"></a>深分页问题</h2><figure class="highlight sql"><figcaption><span>示例表</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t_user (</span><br><span class="line">    id <span class="type">BIGINT</span> UNSIGNED AUTO_INCREMENT <span class="keyword">PRIMARY</span> KEY,  </span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">255</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    gmt_create DATETIME <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    INDEX idx_time (gmt_create)  <span class="comment">-- 为 gmt_create 字段创建索引</span></span><br><span class="line">)ENGINE<span class="operator">=</span>InnoDB</span><br></pre></td></tr></table></figure>
+
+<p>假设有以下的查询语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查询第300000条记录起的10条记录</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> t_user <span class="keyword">ORDER</span> <span class="keyword">BY</span> gmt_create LIMIT <span class="number">300000</span>, <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>EXPLAIN</code> 后会发现走的是全表扫描：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>select_type</th>
+<th>table</th>
+<th>type</th>
+<th>key</th>
+<th>rows</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SIMPLE</td>
+<td>t_user</td>
+<td>ALL</td>
+<td></td>
+<td>904000</td>
+</tr>
+</tbody></table>
+<p>原因在于 <code>LIMIT offset, count</code> 分页查询步骤：</p>
+<ol>
+<li>需要扫描 <code>offset + count</code> 行数据</li>
+<li>然后丢弃掉前 <code>offset</code> 行</li>
+</ol>
+<p><strong>即使有索引，也会遍历索引节点，然后再回表查询</strong></p>
+<h3 id="解决方案1，延迟关联"><a href="#解决方案1，延迟关联" class="headerlink" title="解决方案1，延迟关联"></a>解决方案1，延迟关联</h3><p>适用场景：需要随机跳页（如直接跳转到第1000页）<br>不适用场景：超大数据量（如 offset &gt; 1亿）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> t1.<span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> t_user <span class="keyword">AS</span> t1,</span><br><span class="line">     (<span class="keyword">SELECT</span> id </span><br><span class="line">      <span class="keyword">FROM</span> t_user </span><br><span class="line">      <span class="keyword">ORDER</span> <span class="keyword">BY</span> gmt_create </span><br><span class="line">      LIMIT <span class="number">300000</span>, <span class="number">10</span>) <span class="keyword">AS</span> t2 </span><br><span class="line"><span class="keyword">WHERE</span> t1.id <span class="operator">=</span> t2.id;</span><br></pre></td></tr></table></figure>
+
+<p>使用子查询查询到主键 id，再用主键查询避免回表操作</p>
+<h3 id="解决方案2，游标查询"><a href="#解决方案2，游标查询" class="headerlink" title="解决方案2，游标查询"></a>解决方案2，游标查询</h3><p>适用场景：连续翻页（如无限滚动、实时数据流）<br>不适用场景：需要跳转到任意页</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> </span><br><span class="line"><span class="keyword">FROM</span> t_user </span><br><span class="line"><span class="keyword">WHERE</span> gmt_create <span class="operator">&gt;</span> &#123;last_gmt_create&#125;   <span class="comment">-- 或结合 id 避免重复</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> gmt_create </span><br><span class="line">LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p>基于 <code>gmt_create</code> 字段作为游标（<strong>前提是保证该字段唯一性</strong>），<br>每次分页时，记录最后一行的 <code>gmt_create</code> 和 <code>id</code>，作为下一次查询的起点</p>
+
 <div class="article-footer fs14">
     <section id="references">
       <div class="header"><span>参考资料</span></div>
@@ -252,6 +292,11 @@
         
         <li class="post-title">
           <p><a target="_blank" rel="noopener" href="https://www.xiaohongshu.com/explore/67fa4a1d000000001202d948?app_platform=android&ignoreEngage=true&app_version=8.78.1&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CBQ2O3m5kqUwcmF80XTZCsTUXeJMOg_I5-vfyhF-69QZo=&author_share=1&xhsshare=CopyLink&shareRedId=Nz5GNzc3SEA8SDtDP0EySj01Ojk6SzdB&apptime=1744508837&share_id=37bd3b4d5c984100a7fd96c44b616c9a&share_channel=copy_link">不是，还有人连慢SQL调优都不会答吗🙃</a></p>
+
+        </li>
+        
+        <li class="post-title">
+          <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Za5WzUEc8">和你彻底讲清楚数据库深分页问题</a></p>
 
         </li>
         </ul>
@@ -279,7 +324,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%BD%8D"><span class="toc-text">定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%85%A2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90%E5%92%8C%E4%BC%98%E5%8C%96"><span class="toc-text">慢的原因分析和优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E9%87%8F%E5%A4%AA%E5%A4%A7"><span class="toc-text">并发量太大</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E6%B2%A1%E6%9C%89%E4%BD%BF%E7%94%A8%E6%88%96%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%BD%93"><span class="toc-text">索引没有使用或使用不当</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E8%AF%AD%E5%8F%A5%E4%B9%A6%E5%86%99%E4%B8%8D%E5%BD%93"><span class="toc-text">SQL语句书写不当</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8D%E5%BD%93"><span class="toc-text">表结构设计不当</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E8%AE%BE%E8%AE%A1%E4%B8%8D%E5%90%88%E7%90%86"><span class="toc-text">业务设计不合理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%9E%E4%BE%8B%E6%80%A7%E8%83%BD%E9%85%8D%E7%BD%AE%E5%B7%AE-%E6%8F%90%E5%8D%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%80%A7%E8%83%BD%E9%85%8D%E7%BD%AE"><span class="toc-text">数据库服务器实例性能配置差(提升服务器性能配置)</span></a></li></ol></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%BD%8D"><span class="toc-text">定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%85%A2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90%E5%92%8C%E4%BC%98%E5%8C%96"><span class="toc-text">慢的原因分析和优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E9%87%8F%E5%A4%AA%E5%A4%A7"><span class="toc-text">并发量太大</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E6%B2%A1%E6%9C%89%E4%BD%BF%E7%94%A8%E6%88%96%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%BD%93"><span class="toc-text">索引没有使用或使用不当</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E8%AF%AD%E5%8F%A5%E4%B9%A6%E5%86%99%E4%B8%8D%E5%BD%93"><span class="toc-text">SQL语句书写不当</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8D%E5%BD%93"><span class="toc-text">表结构设计不当</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E8%AE%BE%E8%AE%A1%E4%B8%8D%E5%90%88%E7%90%86"><span class="toc-text">业务设计不合理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%9E%E4%BE%8B%E6%80%A7%E8%83%BD%E9%85%8D%E7%BD%AE%E5%B7%AE-%E6%8F%90%E5%8D%87%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%80%A7%E8%83%BD%E9%85%8D%E7%BD%AE"><span class="toc-text">数据库服务器实例性能配置差(提升服务器性能配置)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E5%88%86%E9%A1%B5%E9%97%AE%E9%A2%98"><span class="toc-text">深分页问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%881%EF%BC%8C%E5%BB%B6%E8%BF%9F%E5%85%B3%E8%81%94"><span class="toc-text">解决方案1，延迟关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%882%EF%BC%8C%E6%B8%B8%E6%A0%87%E6%9F%A5%E8%AF%A2"><span class="toc-text">解决方案2，游标查询</span></a></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>

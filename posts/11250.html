@@ -37,13 +37,10 @@ MySQL实战（4）.md
 
 MySQL实战（5）.md
 
-SQL 优化实践.md
+MySQL 优化实践.md
 
-索引补充.md
+MySQL 索引补充.md
 
-
-
-redis
 
 ...">
   
@@ -78,7 +75,7 @@ redis
 <div class="widgets">
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/38943.html"><span class="title">【面试相关】Java基础</span></a><a class="item title" href="/posts/51729.html"><span class="title">SpringBoot 中如何使用 Caffeine 本地缓存</span></a><a class="item title" href="/posts/44296.html"><span class="title">Redis</span></a><a class="item title" href="/posts/11250.html"><span class="title">目录</span></a><a class="item title" href="/posts/12977.html"><span class="title">常见设计模式</span></a><a class="item title" href="/posts/33833.html"><span class="title">【面试相关】中间件 常见面试题总结</span></a><a class="item title" href="/posts/51861.html"><span class="title">如何使用 DeepSeek 帮助学习</span></a><a class="item title" href="/posts/63404.html"><span class="title">SQL 优化实践</span></a><a class="item title" href="/posts/51728.html"><span class="title">敏捷开发流程</span></a><a class="item title" href="/posts/51860.html"><span class="title">Hexo搭建静态博客流程</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/51863.html"><span class="title">【面试相关】面试遇到的问题</span></a><a class="item title" href="/posts/44612.html"><span class="title">【面试相关】中间件 常见面试题总结</span></a><a class="item title" href="/posts/13792.html"><span class="title">SpringCloud Alibaba 搭建过程 01</span></a><a class="item title" href="/posts/40641.html"><span class="title">SpringCloud Alibaba 搭建过程 02</span></a><a class="item title" href="/posts/18381.html"><span class="title">Ubuntu 常用操作和环境搭建</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a><a class="item title" href="/posts/38943.html"><span class="title">【面试相关】Java基础</span></a><a class="item title" href="/posts/11250.html"><span class="title">目录</span></a><a class="item title" href="/posts/51729.html"><span class="title">SpringBoot 中如何使用 Caffeine 本地缓存</span></a><a class="item title" href="/posts/63404.html"><span class="title">MySQL 优化实践</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -91,7 +88,7 @@ redis
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-15T11:25:05.000Z">2025-04-15</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-20T01:47:46.066Z">2025-04-20</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：180字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：1分</span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-15T11:25:05.000Z">2025-04-15</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-26T06:59:11.719Z">2025-04-26</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：240字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：1分</span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -119,13 +116,16 @@ redis
 </li>
 <li><p>MySQL实战（5）.md</p>
 </li>
-<li><p>SQL 优化实践.md</p>
+<li><p>MySQL 优化实践.md</p>
 </li>
-<li><p>索引补充.md</p>
+<li><p>MySQL 索引补充.md</p>
 </li>
 </ul>
 </li>
 <li><p>redis</p>
+<ul>
+<li>Redis.md</li>
+</ul>
 </li>
 </ul>
 </li>
@@ -153,6 +153,8 @@ redis
 <li><p>中间件常见面试题总结.md</p>
 </li>
 <li><p>数据库常见面试题总结.md</p>
+</li>
+<li><p>场景题.md  # 新增内容</p>
 </li>
 </ul>
 </li>
@@ -196,6 +198,11 @@ redis
 <li><p>java</p>
 </li>
 <li><p>spring</p>
+<ul>
+<li>SpringBoot 中如何使用 Caffeine 本地缓存.md</li>
+</ul>
+</li>
+<li><p>springcloud alibaba</p>
 </li>
 <li><p>敏捷开发流程.md</p>
 </li>
@@ -207,7 +214,11 @@ redis
 <ul>
 <li>目录.md</li>
 </ul>
-<h2 id="网站"><a href="#网站" class="headerlink" title="网站"></a>网站</h2><p><a target="_blank" rel="noopener" href="https://learngitbranching.js.org/">learn git branching</a></p>
+<h2 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h2><p>目录树生成（到文件夹下执行）：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">tree</span> /F &quot;D:\personalProjects\travellerBlog\source\_posts&quot; &gt; folder_tree.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="网站"><a href="#网站" class="headerlink" title="网站"></a>网站</h2><p><a target="_blank" rel="noopener" href="https://learngitbranching.js.org/">Git学习 - learn git branching</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.xbgjw.com/wenben">在线文本对比</a></p>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -217,7 +228,7 @@ redis
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/posts/44296.html">Redis</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/63404.html">SQL 优化实践</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/posts/44296.html">Redis</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/63404.html">MySQL 优化实践</a></div></section></div>
 
 
 
@@ -231,7 +242,7 @@ redis
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9B%AE%E5%BD%95"><span class="toc-text">文件夹目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%AB%99"><span class="toc-text">网站</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9B%AE%E5%BD%95"><span class="toc-text">文件夹目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90"><span class="toc-text">生成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%AB%99"><span class="toc-text">网站</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
