@@ -68,7 +68,7 @@
 <div class="widgets">
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/51863.html"><span class="title">【面试相关】面试遇到的问题</span></a><a class="item title" href="/posts/44612.html"><span class="title">【面试相关】中间件 常见面试题总结</span></a><a class="item title" href="/posts/13792.html"><span class="title">SpringCloud Alibaba 搭建过程 01</span></a><a class="item title" href="/posts/40641.html"><span class="title">SpringCloud Alibaba 搭建过程 02</span></a><a class="item title" href="/posts/18381.html"><span class="title">Ubuntu 常用操作和环境搭建</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a><a class="item title" href="/posts/38943.html"><span class="title">【面试相关】Java基础</span></a><a class="item title" href="/posts/11250.html"><span class="title">目录</span></a><a class="item title" href="/posts/51729.html"><span class="title">SpringBoot 中如何使用 Caffeine 本地缓存</span></a><a class="item title" href="/posts/63404.html"><span class="title">MySQL 优化实践</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/40641.html"><span class="title">SpringCloud Alibaba 搭建过程 02</span></a><a class="item title" href="/posts/60549.html"><span class="title">自我使用说明书</span></a><a class="item title" href="/posts/51863.html"><span class="title">【面试相关】面试遇到的问题</span></a><a class="item title" href="/posts/13792.html"><span class="title">SpringCloud Alibaba 搭建过程 01</span></a><a class="item title" href="/posts/51728.html"><span class="title">Git 常用操作</span></a><a class="item title" href="/posts/18381.html"><span class="title">Ubuntu 常用操作和环境搭建</span></a><a class="item title" href="/posts/33833.html"><span class="title">【面试相关】Spring</span></a><a class="item title" href="/posts/44612.html"><span class="title">【面试相关】中间件 常见面试题总结</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a><a class="item title" href="/posts/38943.html"><span class="title">【面试相关】Java基础</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -626,7 +626,35 @@ MathJax.Hub.Queue(function() {
   }
 });
 </script>
+<script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/mermaid@v9/dist/mermaid.min.js"></script>
 <script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    var mermaid_config = {
+      startOnLoad: true,
+      theme:
+        "" == "auto" &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "neutral",
+      logLevel: 3,
+      themeVariables: {
+        darkMode: true
+      },
+      flowchart: {
+        useMaxWidth: false,
+        htmlLabels: true,
+        curve: "linear"
+      },
+      gantt: {
+        axisFormat: "%Y/%m/%d"
+      },
+      sequence: {
+        actorMargin: 50
+      }
+    }
+    mermaid.initialize(mermaid_config);
+  });
+</script><script>
   document.addEventListener('DOMContentLoaded', function () {
     window.codeElements = document.querySelectorAll('.code');
     if (window.codeElements.length > 0) {

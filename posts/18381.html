@@ -22,7 +22,7 @@
   
   <meta name="description" content="Oracle JDK 17为什么是 Oracle JDK 而不是 Open JDKNacos 2.3.2 开启鉴权后控制台无论使用什么密码登录都显示账户密码错误Nacos踩坑记录：配置鉴权后控制台无法登录,返回 Invalid key: javax.crypto.spec.SecretKeyS...">
   
-  <meta name="keywords" content="Hexo">
+  <meta name="keywords" content="Ubuntu">
 
   <!-- feed -->
   
@@ -53,7 +53,7 @@
 <div class="widgets">
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/51863.html"><span class="title">【面试相关】面试遇到的问题</span></a><a class="item title" href="/posts/44612.html"><span class="title">【面试相关】中间件 常见面试题总结</span></a><a class="item title" href="/posts/13792.html"><span class="title">SpringCloud Alibaba 搭建过程 01</span></a><a class="item title" href="/posts/40641.html"><span class="title">SpringCloud Alibaba 搭建过程 02</span></a><a class="item title" href="/posts/18381.html"><span class="title">Ubuntu 常用操作和环境搭建</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a><a class="item title" href="/posts/38943.html"><span class="title">【面试相关】Java基础</span></a><a class="item title" href="/posts/11250.html"><span class="title">目录</span></a><a class="item title" href="/posts/51729.html"><span class="title">SpringBoot 中如何使用 Caffeine 本地缓存</span></a><a class="item title" href="/posts/63404.html"><span class="title">MySQL 优化实践</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/40641.html"><span class="title">SpringCloud Alibaba 搭建过程 02</span></a><a class="item title" href="/posts/60549.html"><span class="title">自我使用说明书</span></a><a class="item title" href="/posts/51863.html"><span class="title">【面试相关】面试遇到的问题</span></a><a class="item title" href="/posts/13792.html"><span class="title">SpringCloud Alibaba 搭建过程 01</span></a><a class="item title" href="/posts/51728.html"><span class="title">Git 常用操作</span></a><a class="item title" href="/posts/18381.html"><span class="title">Ubuntu 常用操作和环境搭建</span></a><a class="item title" href="/posts/33833.html"><span class="title">【面试相关】Spring</span></a><a class="item title" href="/posts/44612.html"><span class="title">【面试相关】中间件 常见面试题总结</span></a><a class="item title" href="/posts/48002.html"><span class="title">MySQL实战 基础篇（二）</span></a><a class="item title" href="/posts/38943.html"><span class="title">【面试相关】Java基础</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -66,7 +66,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-28T16:13:50.000Z">2025-04-29</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-29T01:54:22.780Z">2025-04-29</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：594字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：2分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/Hexo/">Hexo</a>&nbsp</div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-28T16:13:50.000Z">2025-04-29</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-05-02T07:53:31.878Z">2025-05-02</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：630字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：2分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/Ubuntu/">Ubuntu</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
@@ -110,9 +110,9 @@
 
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### If turn on auth system:</span></span><br><span class="line">nacos.core.auth.enabled=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 默认用户名和密码</span></span><br><span class="line">nacos.core.auth.server.identity.key=nacos</span><br><span class="line">nacos.core.auth.server.identity.value=nacos</span><br><span class="line"></span><br><span class="line"><span class="comment">### 密钥</span></span><br><span class="line">nacos.core.auth.plugin.nacos.token.secret.key=eEo1ZlkybVIxY001b1Y1ckszZVkweFE2YVMwbkw5eFk=</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>添加命名空间</p>
+<li><p>添加命名空间（在数据库的表 <code>tenant_info</code> 中查看，测试是否正常）</p>
 </li>
-<li><p>为当前用户绑定权限</p>
+<li><p>为当前用户绑定权限<br>权限控制 → 权限管理 → 添加权限<br>此处角色名选择 <strong>ROLE_ADMIN</strong></p>
 </li>
 </ol>
 
@@ -124,7 +124,7 @@
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/40641.html">SpringCloud Alibaba 搭建过程 02</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/posts/51728.html">Git 常用操作</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/40641.html">SpringCloud Alibaba 搭建过程 02</a></div></section></div>
 
 
 
@@ -609,7 +609,35 @@ MathJax.Hub.Queue(function() {
   }
 });
 </script>
+<script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/mermaid@v9/dist/mermaid.min.js"></script>
 <script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    var mermaid_config = {
+      startOnLoad: true,
+      theme:
+        "" == "auto" &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "neutral",
+      logLevel: 3,
+      themeVariables: {
+        darkMode: true
+      },
+      flowchart: {
+        useMaxWidth: false,
+        htmlLabels: true,
+        curve: "linear"
+      },
+      gantt: {
+        axisFormat: "%Y/%m/%d"
+      },
+      sequence: {
+        actorMargin: 50
+      }
+    }
+    mermaid.initialize(mermaid_config);
+  });
+</script><script>
   document.addEventListener('DOMContentLoaded', function () {
     window.codeElements = document.querySelectorAll('.code');
     if (window.codeElements.length > 0) {
