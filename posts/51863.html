@@ -68,7 +68,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/topic">专栏</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/posts/19520.html">面试相关</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-26T02:27:57.000Z">2025-04-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-05-21T01:05:50.701Z">2025-05-21</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：3.3k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：12分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a>&nbsp</div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-26T02:27:57.000Z">2025-04-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-05-21T06:09:00.724Z">2025-05-21</time></span></div><div class="flex-row" id="page-words"><span style="padding: 4px;">本文：3.6k字</span><span class="sep updated" style="padding: 4px;"></span><span class="text updated" style="padding: 4px;">阅读时长：13分</span></div><div class="flex-row" id="tag"> <span>&nbsp标签：</span><a class="cap breadcrumb-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a>&nbsp</div></div></div>
     
     <div class="bottom only-title">
       
@@ -277,7 +277,15 @@
 <li>低侵入性，对于业务代码几乎是无侵入的，只需要使用注解即可</li>
 </ol>
 <h3 id="AOP-是什么"><a href="#AOP-是什么" class="headerlink" title="AOP 是什么"></a>AOP 是什么</h3><p>通过动态代理实现，可以将与业务无关但是公用的代码封装起来，降低模块之间的耦合度。</p>
-<h3 id="怎样把配置文件的值注入到变量"><a href="#怎样把配置文件的值注入到变量" class="headerlink" title="怎样把配置文件的值注入到变量"></a>怎样把配置文件的值注入到变量</h3><h3 id="Mybatis-的-、-有什么区别"><a href="#Mybatis-的-、-有什么区别" class="headerlink" title="Mybatis 的 #、$ 有什么区别"></a>Mybatis 的 #、$ 有什么区别</h3><h3 id="Redis-的常见数据类型和使用场景"><a href="#Redis-的常见数据类型和使用场景" class="headerlink" title="Redis 的常见数据类型和使用场景"></a>Redis 的常见数据类型和使用场景</h3><ul>
+<h3 id="怎样把配置文件的值注入到变量"><a href="#怎样把配置文件的值注入到变量" class="headerlink" title="怎样把配置文件的值注入到变量"></a>怎样把配置文件的值注入到变量</h3><h3 id="Mybatis-的-、-有什么区别"><a href="#Mybatis-的-、-有什么区别" class="headerlink" title="Mybatis 的 #、$ 有什么区别"></a>Mybatis 的 #、$ 有什么区别</h3><ul>
+<li><p>#{}</p>
+<p>预编译，会把入参作为占位符 ？ 编译到 SQL 语句中，之后会进行替换</p>
+</li>
+<li><p>${}</p>
+<p>拼接语句，会直接把 ${} 替换为入参值</p>
+</li>
+</ul>
+<h3 id="Redis-的常见数据类型和使用场景"><a href="#Redis-的常见数据类型和使用场景" class="headerlink" title="Redis 的常见数据类型和使用场景"></a>Redis 的常见数据类型和使用场景</h3><ul>
 <li><p>String：缓存简单键值（如Token）。</p>
 </li>
 <li><p>Hash：存储对象属性（如用户信息）。</p>
@@ -301,7 +309,52 @@
 <p>将元素推入列表的左侧（<code>LPUSH</code>），从右侧弹出（<code>RPOP</code>），保证栈的顺序。</p>
 </li>
 </ul>
-<h3 id="Linux-解压命令"><a href="#Linux-解压命令" class="headerlink" title="Linux 解压命令"></a>Linux 解压命令</h3><h3 id="怎样查看进程"><a href="#怎样查看进程" class="headerlink" title="怎样查看进程"></a>怎样查看进程</h3><h3 id="怎样不打开查看日志"><a href="#怎样不打开查看日志" class="headerlink" title="怎样不打开查看日志"></a>怎样不打开查看日志</h3><h3 id="cat做了什么"><a href="#cat做了什么" class="headerlink" title="cat做了什么"></a>cat做了什么</h3><h3 id="Nginx-的前端代理和后端代理（正向反向代理）"><a href="#Nginx-的前端代理和后端代理（正向反向代理）" class="headerlink" title="Nginx 的前端代理和后端代理（正向反向代理）"></a>Nginx 的前端代理和后端代理（正向反向代理）</h3><h3 id="Vue-的生命周期"><a href="#Vue-的生命周期" class="headerlink" title="Vue 的生命周期"></a>Vue 的生命周期</h3><h3 id="v-if、v-show-的区别"><a href="#v-if、v-show-的区别" class="headerlink" title="v-if、v-show 的区别"></a>v-if、v-show 的区别</h3><p>v-if：通过条件判断是否渲染元素，切换时触发组件生命周期钩子（如销毁&#x2F;重建），适用于运行时条件变化少的场景。</p>
+<h3 id="Linux-解压命令"><a href="#Linux-解压命令" class="headerlink" title="Linux 解压命令"></a>Linux 解压命令</h3><p>文件名：test</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf test.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h3 id="怎样查看进程"><a href="#怎样查看进程" class="headerlink" title="怎样查看进程"></a>怎样查看进程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看完整格式进程信息</span></span><br><span class="line">ps -ef</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实时显示进程动态</span></span><br><span class="line">top</span><br></pre></td></tr></table></figure>
+
+<h3 id="怎样不打开查看日志"><a href="#怎样不打开查看日志" class="headerlink" title="怎样不打开查看日志"></a>怎样不打开查看日志</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看</span></span><br><span class="line"><span class="built_in">tail</span> filename.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看固定行数（30行）</span></span><br><span class="line"><span class="built_in">tail</span> -n 30 filename.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看实时</span></span><br><span class="line"><span class="built_in">tail</span> -f filename.log</span><br></pre></td></tr></table></figure>
+<h3 id="cat做了什么"><a href="#cat做了什么" class="headerlink" title="cat做了什么"></a>cat做了什么</h3><h3 id="Nginx-的前端代理和后端代理（正向反向代理）"><a href="#Nginx-的前端代理和后端代理（正向反向代理）" class="headerlink" title="Nginx 的前端代理和后端代理（正向反向代理）"></a>Nginx 的前端代理和后端代理（正向反向代理）</h3><ul>
+<li><p>正向代理</p>
+<p>正向代理是客户端的代理，客户端主动设置代理服务器，由代理服务器代为访问外部资源</p>
+<p>常见场景：VPN</p>
+</li>
+<li><p>反向代理</p>
+<p>反向代理是服务器端的代理，客户端并不知道代理服务器的存在，代理服务器接收客户端请求后，将请求转发给内部服务器，并将结果返回给客户端。</p>
+<p>常见场景：负载均衡、隐藏服务器 IP</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>对比项</strong></th>
+<th><strong>正向代理</strong></th>
+<th><strong>反向代理</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>代理对象</strong></td>
+<td>代理客户端</td>
+<td>代理服务器</td>
+</tr>
+<tr>
+<td><strong>客户端是否感知</strong></td>
+<td>客户端需要主动配置代理</td>
+<td>客户端无需配置，无感知</td>
+</tr>
+<tr>
+<td><strong>常见用途</strong></td>
+<td>VPN、隐藏客户端 IP</td>
+<td>负载均衡、隐藏服务器 IP</td>
+</tr>
+<tr>
+<td><strong>部署位置</strong></td>
+<td>客户端网络</td>
+<td>服务器端网络</td>
+</tr>
+</tbody></table>
+<h3 id="Vue-的生命周期"><a href="#Vue-的生命周期" class="headerlink" title="Vue 的生命周期"></a>Vue 的生命周期</h3><h3 id="v-if、v-show-的区别"><a href="#v-if、v-show-的区别" class="headerlink" title="v-if、v-show 的区别"></a>v-if、v-show 的区别</h3><p>v-if：通过条件判断是否渲染元素，切换时触发组件生命周期钩子（如销毁&#x2F;重建），适用于运行时条件变化少的场景。</p>
 <p>v-show：通过CSS的display属性控制显示，元素始终保留在DOM中，适用于频繁切换的场景（如选项卡）。</p>
 <h3 id="预约提醒功能怎么实现"><a href="#预约提醒功能怎么实现" class="headerlink" title="预约提醒功能怎么实现"></a>预约提醒功能怎么实现</h3><h3 id="全局异常处理怎么做的"><a href="#全局异常处理怎么做的" class="headerlink" title="全局异常处理怎么做的"></a>全局异常处理怎么做的</h3><h3 id="用户拉新和返佣怎么做的"><a href="#用户拉新和返佣怎么做的" class="headerlink" title="用户拉新和返佣怎么做的"></a>用户拉新和返佣怎么做的</h3><h3 id="自测文档怎么写，什么流程"><a href="#自测文档怎么写，什么流程" class="headerlink" title="自测文档怎么写，什么流程"></a>自测文档怎么写，什么流程</h3><h3 id="什么样的编码习惯是良好的"><a href="#什么样的编码习惯是良好的" class="headerlink" title="什么样的编码习惯是良好的"></a>什么样的编码习惯是良好的</h3><h3 id="项目的难点在哪里"><a href="#项目的难点在哪里" class="headerlink" title="项目的难点在哪里"></a>项目的难点在哪里</h3><h2 id="05-09"><a href="#05-09" class="headerlink" title="05.09"></a>05.09</h2><h3 id="选择题"><a href="#选择题" class="headerlink" title="选择题"></a>选择题</h3><ol>
 <li><p><strong>Java 基本数据类型的包装类</strong>  </p>
